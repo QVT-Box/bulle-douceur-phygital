@@ -1,14 +1,15 @@
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 const Navigation = () => {
   const location = useLocation();
+  const { user } = useAuth();
   
   const navItems = [
     { name: "Accueil", path: "/" },
     { name: "Box", path: "/box" },
     { name: "SaaS", path: "/saas" },
     { name: "Boutique", path: "/boutique" },
-    { name: "Mon Espace", path: "/connexion" }
   ];
 
   return (
@@ -31,6 +32,14 @@ const Navigation = () => {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link
+                to={user ? "/dashboard" : "/connexion"}
+                className="bg-gradient-primary hover:opacity-90 text-white px-6 py-2 rounded-full font-medium transition-all"
+              >
+                {user ? "Mon Tableau de Bord" : "Mon Espace"}
+              </Link>
+            </li>
           </ul>
           
           <button className="md:hidden">
