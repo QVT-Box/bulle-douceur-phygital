@@ -1,96 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Kalam:wght@300;400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* QVT Box Design System - Univers des bulles poétiques */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Couleurs principales - Univers bulle */
+    --primary: 180 45% 65%;          /* Turquoise doux */
+    --primary-light: 180 55% 75%;    /* Turquoise clair */
+    --primary-dark: 180 35% 55%;     /* Turquoise profond */
+    --primary-foreground: 0 0% 98%;
+    
+    --secondary: 200 60% 70%;        /* Bleu clair */
+    --secondary-light: 200 70% 80%;  /* Bleu très clair */
+    --secondary-foreground: 200 25% 20%;
+    
+    --accent: 280 40% 75%;           /* Violet doux */
+    --accent-light: 280 50% 85%;     /* Violet très doux */
+    --accent-foreground: 200 25% 20%;
+    
+    --background: 0 0% 99%;          /* Blanc lumineux */
+    --background-soft: 180 20% 98%;  /* Blanc avec soupçon de turquoise */
+    --foreground: 200 25% 20%;       /* Gris-bleu profond */
+    
+    /* Gradients poétiques */
+    --gradient-bubble: linear-gradient(135deg, hsl(var(--primary-light)), hsl(var(--secondary-light)), hsl(var(--accent-light)));
+    --gradient-hero: linear-gradient(180deg, hsl(var(--background-soft)), hsl(var(--primary-light) / 0.1));
+    --gradient-card: linear-gradient(145deg, hsl(var(--background)) 0%, hsl(var(--primary-light) / 0.05) 100%);
+    
+    /* Ombres douces */
+    --shadow-bubble: 0 8px 32px hsl(var(--primary) / 0.15);
+    --shadow-card: 0 4px 20px hsl(var(--secondary) / 0.1);
+    --shadow-floating: 0 12px 40px hsl(var(--accent) / 0.2);
 
+    /* Composants shadcn adaptés */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
+    --card-foreground: 200 25% 20%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
+    --popover-foreground: 200 25% 20%;
+    --muted: 180 30% 95%;
+    --muted-foreground: 200 15% 50%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 180 20% 90%;
+    --input: 180 20% 90%;
+    --ring: 180 45% 65%;
+    --radius: 1rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: 200 25% 8%;
+    --foreground: 180 20% 95%;
+    --primary: 180 50% 70%;
+    --primary-foreground: 200 25% 8%;
+    --secondary: 200 25% 15%;
+    --secondary-foreground: 180 20% 95%;
+    --accent: 280 40% 70%;
+    --accent-foreground: 180 20% 95%;
+    --card: 200 25% 10%;
+    --card-foreground: 180 20% 95%;
+    --popover: 200 25% 10%;
+    --popover-foreground: 180 20% 95%;
+    --muted: 200 25% 15%;
+    --muted-foreground: 180 10% 65%;
+    --border: 200 25% 20%;
+    --input: 200 25% 20%;
+    --ring: 180 50% 70%;
   }
 }
 
@@ -100,6 +78,152 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-montserrat;
+    background: var(--gradient-hero);
+  }
+
+  /* Typographie poétique */
+  .font-montserrat {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .font-kalam {
+    font-family: 'Kalam', cursive;
+  }
+}
+
+@layer components {
+  /* Animation des bulles flottantes */
+  .bubble {
+    @apply absolute rounded-full opacity-20 animate-float;
+    background: var(--gradient-bubble);
+    filter: blur(1px);
+  }
+  
+  .bubble-1 {
+    @apply w-16 h-16 top-[10%] left-[5%];
+    animation-delay: 0s;
+  }
+  
+  .bubble-2 {
+    @apply w-24 h-24 top-[20%] right-[10%];
+    animation-delay: 2s;
+  }
+  
+  .bubble-3 {
+    @apply w-12 h-12 top-[60%] left-[15%];
+    animation-delay: 4s;
+  }
+  
+  .bubble-4 {
+    @apply w-20 h-20 bottom-[20%] right-[5%];
+    animation-delay: 1s;
+  }
+  
+  .bubble-5 {
+    @apply w-8 h-8 top-[80%] left-[70%];
+    animation-delay: 3s;
+  }
+
+  /* Cartes avec effet bulle */
+  .card-bubble {
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-card);
+    @apply backdrop-blur-sm border border-primary/10 rounded-2xl;
+  }
+
+  /* Boutons poétiques */
+  .btn-bubble {
+    background: var(--gradient-bubble);
+    box-shadow: var(--shadow-bubble);
+    @apply text-white border-0 rounded-full px-8 py-4 font-medium transition-all duration-300 hover:scale-105 hover:shadow-floating;
+  }
+
+  .btn-soft {
+    @apply bg-background-soft border border-primary/20 text-foreground rounded-full px-6 py-3 transition-all duration-300 hover:bg-primary/5 hover:border-primary/30;
+  }
+
+  /* Navigation douce */
+  .nav-link {
+    @apply relative text-foreground/70 hover:text-primary transition-colors duration-300 font-medium;
+  }
+  
+  .nav-link::after {
+    content: '';
+    @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300;
+  }
+  
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  /* Sections avec dégradés doux */
+  .section-gradient {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--background)) 0%,
+      hsl(var(--background-soft)) 50%,
+      hsl(var(--background)) 100%
+    );
+  }
+}
+
+@layer utilities {
+  /* Animations personnalisées */
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(0px) scale(1);
+      opacity: 0.2;
+    }
+    50% { 
+      transform: translateY(-20px) scale(1.05);
+      opacity: 0.3;
+    }
+  }
+  
+  @keyframes bubble-rise {
+    from {
+      transform: translateY(100vh) scale(0);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(-100px) scale(1);
+      opacity: 0.3;
+    }
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-bubble-rise {
+    animation: bubble-rise 8s linear infinite;
+  }
+
+  /* Utilities pour les gradients */
+  .bg-gradient-bubble {
+    background: var(--gradient-bubble);
+  }
+  
+  .bg-gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  .bg-gradient-card {
+    background: var(--gradient-card);
+  }
+
+  /* Utilities pour les ombres */
+  .shadow-bubble {
+    box-shadow: var(--shadow-bubble);
+  }
+  
+  .shadow-floating {
+    box-shadow: var(--shadow-floating);
+  }
+
+  /* Effets de transparence */
+  .glass-effect {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
   }
 }
