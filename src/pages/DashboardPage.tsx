@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import MoodBubbleModule from "@/components/MoodBubbleModule";
 
 const DashboardPage = () => {
   const { user, loading, signOut } = useAuth();
@@ -39,7 +40,7 @@ const DashboardPage = () => {
       <Navigation />
       
       <div className="relative z-10 pt-24 px-6">
-        <div className="container mx-auto">
+        <div className="container mx-auto space-y-8">
           <div className="flex justify-between items-center mb-12">
             <div>
               <h1 className="text-4xl md:text-5xl font-kalam font-bold text-foreground mb-2">
@@ -58,73 +59,38 @@ const DashboardPage = () => {
             </Button>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card className="bg-white/10 backdrop-blur-md border-white/20">
-              <CardHeader>
-                <CardTitle className="text-foreground font-kalam">
-                  🎁 Mes Box
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-foreground/70 mb-4">
-                  Gérez vos commandes et découvrez nos nouvelles box
+          <MoodBubbleModule />
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="glass-effect hover:shadow-bubble transition-all cursor-pointer">
+              <CardContent className="p-6 text-center">
+                <div className="text-3xl mb-3">📈</div>
+                <h3 className="font-kalam text-lg mb-2">Historique des humeurs</h3>
+                <p className="text-sm text-foreground/70">
+                  Visualisez vos tendances émotionnelles
                 </p>
-                <Button 
-                  onClick={() => navigate("/box")}
-                  className="w-full bg-gradient-primary hover:opacity-90 text-white"
-                >
-                  Voir les Box
-                </Button>
               </CardContent>
             </Card>
 
-            <Card className="bg-white/10 backdrop-blur-md border-white/20">
-              <CardHeader>
-                <CardTitle className="text-foreground font-kalam">
-                  📊 Mon Bien-être
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-foreground/70 mb-4">
-                  Suivez votre évolution et vos indicateurs QVT
+            <Card className="glass-effect hover:shadow-bubble transition-all cursor-pointer">
+              <CardContent className="p-6 text-center">
+                <div className="text-3xl mb-3">🎁</div>
+                <h3 className="font-kalam text-lg mb-2">Mes Box</h3>
+                <p className="text-sm text-foreground/70">
+                  Box personnalisées selon vos besoins
                 </p>
-                <Button 
-                  onClick={() => navigate("/saas")}
-                  className="w-full bg-gradient-secondary hover:opacity-90 text-white"
-                >
-                  Voir le Dashboard
-                </Button>
               </CardContent>
             </Card>
 
-            <Card className="bg-white/10 backdrop-blur-md border-white/20">
-              <CardHeader>
-                <CardTitle className="text-foreground font-kalam">
-                  🛍️ Ma Boutique
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-foreground/70 mb-4">
-                  Explorez nos produits artisanaux français
+            <Card className="glass-effect hover:shadow-bubble transition-all cursor-pointer">
+              <CardContent className="p-6 text-center">
+                <div className="text-3xl mb-3">🛍️</div>
+                <h3 className="font-kalam text-lg mb-2">Boutique</h3>
+                <p className="text-sm text-foreground/70">
+                  Découvrir nos produits bien-être
                 </p>
-                <Button 
-                  onClick={() => navigate("/boutique")}
-                  className="w-full bg-gradient-accent hover:opacity-90 text-white"
-                >
-                  Voir la Boutique
-                </Button>
               </CardContent>
             </Card>
-          </div>
-
-          <div className="mt-12 text-center">
-            <h2 className="text-2xl font-kalam font-bold text-foreground mb-4">
-              Comment ça va aujourd'hui ?
-            </h2>
-            <p className="text-foreground/70 max-w-2xl mx-auto">
-              Prenez un moment pour vous. Explorez nos solutions et 
-              laissez-nous vous accompagner dans votre bien-être au travail.
-            </p>
           </div>
         </div>
       </div>

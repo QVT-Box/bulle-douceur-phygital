@@ -10,6 +10,7 @@ import SaasPage from "./pages/SaasPage";
 import BoutiquePage from "./pages/BoutiquePage";
 import ConnexionPage from "./pages/ConnexionPage";
 import DashboardPage from "./pages/DashboardPage";
+import MoodDashboard from "./pages/MoodDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/boutique" element={<BoutiquePage />} />
             <Route path="/connexion" element={<ConnexionPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/mood" element={<MoodDashboard />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
