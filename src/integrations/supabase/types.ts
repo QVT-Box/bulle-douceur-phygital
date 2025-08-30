@@ -245,6 +245,39 @@ export type Database = {
         }
         Relationships: []
       }
+      daily_bubbles: {
+        Row: {
+          bubble_type: Database["public"]["Enums"]["bubble_type"]
+          created_at: string
+          date: string
+          id: string
+          intensity: number | null
+          message: string
+          ritual_suggestion: string | null
+          user_id: string
+        }
+        Insert: {
+          bubble_type: Database["public"]["Enums"]["bubble_type"]
+          created_at?: string
+          date?: string
+          id?: string
+          intensity?: number | null
+          message: string
+          ritual_suggestion?: string | null
+          user_id: string
+        }
+        Update: {
+          bubble_type?: Database["public"]["Enums"]["bubble_type"]
+          created_at?: string
+          date?: string
+          id?: string
+          intensity?: number | null
+          message?: string
+          ritual_suggestion?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       editable_content: {
         Row: {
           content_key: string
@@ -832,6 +865,45 @@ export type Database = {
         }
         Relationships: []
       }
+      mood_entries: {
+        Row: {
+          comment: string | null
+          created_at: string
+          date: string
+          energy_level: number | null
+          id: string
+          motivation: number | null
+          social_connection: number | null
+          stress_level: number | null
+          user_id: string
+          work_satisfaction: number | null
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          date?: string
+          energy_level?: number | null
+          id?: string
+          motivation?: number | null
+          social_connection?: number | null
+          stress_level?: number | null
+          user_id: string
+          work_satisfaction?: number | null
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          date?: string
+          energy_level?: number | null
+          id?: string
+          motivation?: number | null
+          social_connection?: number | null
+          stress_level?: number | null
+          user_id?: string
+          work_satisfaction?: number | null
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           billing_address: Json | null
@@ -935,12 +1007,16 @@ export type Database = {
           full_name: string | null
           hr_access: boolean | null
           id: string
+          last_mood_entry: string | null
           notifications_enabled: boolean | null
+          onboarding_completed: boolean | null
           privacy_anonymized: boolean | null
           role: string
           teen_access: boolean | null
           type_poste: string | null
           updated_at: string | null
+          user_journey: Database["public"]["Enums"]["user_journey"] | null
+          user_role: Database["public"]["Enums"]["user_role"] | null
         }
         Insert: {
           account_type?: string | null
@@ -958,12 +1034,16 @@ export type Database = {
           full_name?: string | null
           hr_access?: boolean | null
           id: string
+          last_mood_entry?: string | null
           notifications_enabled?: boolean | null
+          onboarding_completed?: boolean | null
           privacy_anonymized?: boolean | null
           role: string
           teen_access?: boolean | null
           type_poste?: string | null
           updated_at?: string | null
+          user_journey?: Database["public"]["Enums"]["user_journey"] | null
+          user_role?: Database["public"]["Enums"]["user_role"] | null
         }
         Update: {
           account_type?: string | null
@@ -981,12 +1061,16 @@ export type Database = {
           full_name?: string | null
           hr_access?: boolean | null
           id?: string
+          last_mood_entry?: string | null
           notifications_enabled?: boolean | null
+          onboarding_completed?: boolean | null
           privacy_anonymized?: boolean | null
           role?: string
           teen_access?: boolean | null
           type_poste?: string | null
           updated_at?: string | null
+          user_journey?: Database["public"]["Enums"]["user_journey"] | null
+          user_role?: Database["public"]["Enums"]["user_role"] | null
         }
         Relationships: [
           {
@@ -2060,6 +2144,7 @@ export type Database = {
         | "very_sad"
         | "anxious"
         | "stressed"
+      user_journey: "physique_only" | "saas_box"
       user_role:
         | "admin"
         | "user"
@@ -2227,6 +2312,7 @@ export const Constants = {
         "anxious",
         "stressed",
       ],
+      user_journey: ["physique_only", "saas_box"],
       user_role: [
         "admin",
         "user",
