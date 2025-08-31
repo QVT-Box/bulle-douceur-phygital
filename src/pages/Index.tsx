@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import FloatingBubbles from "@/components/FloatingBubbles";
+import EnhancedFloatingElements from "@/components/EnhancedFloatingElements";
 import PoeticHero from "@/components/PoeticHero";
 import BoxSection from "@/components/BoxSection";
 import SaasSection from "@/components/SaasSection";
@@ -10,6 +11,8 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
+      <FloatingBubbles />
+      <EnhancedFloatingElements />
       
       <div className="relative z-10">
         <PoeticHero />

@@ -169,61 +169,128 @@
 }
 
 @layer utilities {
-  /* Animations personnalisées */
-  @keyframes float {
-    0%, 100% { 
-      transform: translateY(0px) scale(1);
-      opacity: 0.2;
-    }
-    50% { 
-      transform: translateY(-20px) scale(1.05);
-      opacity: 0.3;
-    }
+/* Animations personnalisées */
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
   }
-  
-  @keyframes bubble-rise {
-    from {
-      transform: translateY(100vh) scale(0);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(-100px) scale(1);
-      opacity: 0.3;
-    }
+  50% { 
+    transform: translateY(-20px) rotate(180deg); 
   }
+}
+
+@keyframes bubble-rise {
+  0% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-up {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes wiggle {
+  0%, 7%, 14%, 21%, 28%, 35%, 42%, 49%, 56%, 63%, 70%, 77%, 84%, 91%, 98%, 100% {
+    transform: rotate(0deg);
+  }
+  3.5%, 10.5%, 17.5%, 24.5%, 31.5%, 38.5%, 45.5%, 52.5%, 59.5%, 66.5%, 73.5%, 80.5%, 87.5%, 94.5% {
+    transform: rotate(1deg);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px hsl(var(--primary) / 0.6);
+  }
+}
   
+  /* Classes utilitaires */
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
-  
+
   .animate-bubble-rise {
-    animation: bubble-rise 8s linear infinite;
+    animation: bubble-rise 15s linear infinite;
   }
 
-  /* Utilities pour les gradients */
+  .animate-pulse-soft {
+    animation: pulse-soft 3s ease-in-out infinite;
+  }
+
+  .animate-slide-in-up {
+    animation: slide-in-up 0.6s ease-out;
+  }
+
+  .animate-wiggle {
+    animation: wiggle 2s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite;
+  }
+
   .bg-gradient-bubble {
     background: var(--gradient-bubble);
   }
-  
+
   .bg-gradient-hero {
     background: var(--gradient-hero);
   }
-  
+
   .bg-gradient-card {
     background: var(--gradient-card);
   }
 
-  /* Utilities pour les ombres */
-  .shadow-bubble {
-    box-shadow: var(--shadow-bubble);
-  }
-  
   .shadow-floating {
     box-shadow: var(--shadow-floating);
   }
 
-  /* Effets de transparence */
+  .shadow-bubble {
+    box-shadow: var(--shadow-bubble);
+  }
+
   .glass-effect {
-    @apply bg-white/10 backdrop-blur-md border border-white/20;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }

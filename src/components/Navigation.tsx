@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import logoImage from "@/assets/qvt-box-logo.png";
 
 const Navigation = () => {
   const location = useLocation();
@@ -16,9 +17,13 @@ const Navigation = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 glass-effect">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-full bg-gradient-bubble"></div>
-            <span className="text-xl font-kalam font-bold text-primary">QVT Box</span>
+          <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-all duration-300 hover:scale-105">
+            <img 
+              src={logoImage} 
+              alt="QVT Box Logo" 
+              className="w-10 h-10 rounded-full object-cover animate-pulse-soft"
+            />
+            <span className="text-2xl font-dancing font-bold text-gradient">QVT Box</span>
           </Link>
           
           <ul className="hidden md:flex items-center space-x-8">
@@ -26,7 +31,7 @@ const Navigation = () => {
               <li key={item.name}>
                 <Link
                   to={item.path}
-                  className={`nav-link ${location.pathname === item.path ? 'text-primary' : ''}`}
+                  className={`nav-link hover:scale-105 transition-all duration-300 font-poppins ${location.pathname === item.path ? 'text-primary' : ''}`}
                 >
                   {item.name}
                 </Link>
@@ -35,7 +40,7 @@ const Navigation = () => {
             <li>
               <Link
                 to={user ? "/dashboard" : "/connexion"}
-                className="bg-gradient-primary hover:opacity-90 text-white px-6 py-2 rounded-full font-medium transition-all"
+                className="btn-bubble hover:scale-110 text-white px-6 py-2 rounded-full font-medium transition-all font-inter"
               >
                 {user ? "Mon Tableau de Bord" : "Mon Espace"}
               </Link>

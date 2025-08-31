@@ -19,8 +19,12 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				'montserrat': ['Montserrat', 'sans-serif'],
-				'kalam': ['Kalam', 'cursive'],
+				sans: ["Inter", "sans-serif"],
+				montserrat: ["Montserrat", "sans-serif"],
+				kalam: ["Kalam", "cursive"],
+				poppins: ["Poppins", "sans-serif"],
+				dancing: ["Dancing Script", "cursive"],
+				inter: ["Inter", "sans-serif"],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
