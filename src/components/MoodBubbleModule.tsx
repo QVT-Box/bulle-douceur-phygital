@@ -23,12 +23,20 @@ interface DailyBubble {
   ritual_suggestion: string;
 }
 
+interface AIInsight {
+  personalized_message: string;
+  recommendations: string[];
+  confidence: number;
+}
+
 const MoodBubbleModule = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [todaysBubbles, setTodaysBubbles] = useState<DailyBubble[]>([]);
   const [hasEntryToday, setHasEntryToday] = useState(false);
+  const [aiInsight, setAiInsight] = useState<AIInsight | null>(null);
+  const [isGeneratingInsight, setIsGeneratingInsight] = useState(false);
   
   const [moodEntry, setMoodEntry] = useState<MoodEntry>({
     energy_level: 3,
@@ -152,11 +160,9 @@ const MoodBubbleModule = () => {
 
       if (error) throw error;
 
-      toast({
-        title: "🫧 Votre bulle du jour est créée !",
-        description: "Vos bulles personnalisées vous attendent.",
-      });
-
+      // Générer immédiatement une réponse bienveillante et des recommandations
+      await generateAIInsight();
+      
       await fetchTodaysBubbles();
       setHasEntryToday(true);
       
@@ -169,6 +175,61 @@ const MoodBubbleModule = () => {
       });
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const generateAIInsight = async () => {
+    if (!user) return;
+    
+    setIsGeneratingInsight(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('mood-ai-analysis', {
+        body: { userId: user.id }
+      });
+
+      if (error) throw error;
+
+      if (data.success) {
+        setAiInsight(data.analysis);
+        toast({
+          title: "✨ Votre réponse personnalisée est prête !",
+          description: "Découvrez vos recommandations bienveillantes ci-dessous.",
+        });
+      } else {
+        // Si pas assez de données, on affiche quand même un message bienveillant
+        setAiInsight({
+          personalized_message: "Merci d'avoir partagé vos ressentis aujourd'hui. 🌱 Chaque jour où vous prenez soin de votre bien-être est un pas vers une vie plus épanouie. Continuez à cultiver cette belle habitude !",
+          recommendations: [
+            "Prenez quelques minutes pour respirer profondément",
+            "Accordez-vous un moment de bienveillance envers vous-même",
+            "Continuez à partager vos humeurs quotidiennes pour des conseils plus personnalisés"
+          ],
+          confidence: 0.8
+        });
+        toast({
+          title: "🫧 Merci pour ce partage !",
+          description: "Votre réponse bienveillante vous attend.",
+        });
+      }
+    } catch (error) {
+      console.error('Error generating AI insight:', error);
+      // Message de fallback bienveillant
+      setAiInsight({
+        personalized_message: "Merci d'avoir pris le temps de vous connecter à vos émotions aujourd'hui. 🌸 Cette attention que vous portez à votre bien-être est précieuse et courageuse.",
+        recommendations: [
+          "Félicitez-vous d'avoir pris ce moment pour vous",
+          "Observez vos ressentis sans les juger",
+          "Pensez à une chose positive de votre journée"
+        ],
+        confidence: 0.9
+      });
+      toast({
+        title: "💝 Message de bien-être",
+        description: "Nous vous accompagnons dans votre parcours.",
+      });
+    } finally {
+      setIsGeneratingInsight(false);
     }
   };
 
@@ -253,10 +314,12 @@ const MoodBubbleModule = () => {
 
               <Button
                 onClick={handleSubmit}
-                disabled={isSubmitting}
+                disabled={isSubmitting || isGeneratingInsight}
                 className="w-full btn-bubble"
               >
-                {isSubmitting ? '🫧 Création de vos bulles...' : '✨ Créer mes bulles du jour'}
+                {isSubmitting || isGeneratingInsight 
+                  ? '✨ Préparation de votre réponse personnalisée...' 
+                  : '🌟 Partager mes ressentis'}
               </Button>
             </>
           ) : (
@@ -272,6 +335,55 @@ const MoodBubbleModule = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* AI Insight - Réponse bienveillante */}
+      {aiInsight && (
+        <Card className="glass-effect border-2 border-primary/20">
+          <CardHeader>
+            <CardTitle className="font-kalam text-xl text-primary flex items-center gap-2">
+              ✨ Votre réponse personnalisée
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Message bienveillant */}
+            <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-6">
+              <p className="text-foreground/90 leading-relaxed font-medium">
+                {aiInsight.personalized_message}
+              </p>
+            </div>
+
+            {/* Recommandations intelligentes */}
+            {aiInsight.recommendations && aiInsight.recommendations.length > 0 && (
+              <div>
+                <h3 className="font-kalam text-lg text-secondary mb-4 flex items-center gap-2">
+                  🌟 Nos recommandations bienveillantes pour vous
+                </h3>
+                <div className="space-y-3">
+                  {aiInsight.recommendations.map((rec, index) => (
+                    <div key={index} className="flex items-start gap-4 p-4 bg-secondary/5 rounded-xl hover:bg-secondary/10 transition-colors">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-secondary to-primary flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                        {index + 1}
+                      </div>
+                      <p className="text-foreground/80 flex-1 leading-relaxed">{rec}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            <div className="text-center pt-4">
+              <Button 
+                onClick={generateAIInsight}
+                disabled={isGeneratingInsight}
+                variant="outline"
+                className="btn-soft"
+              >
+                {isGeneratingInsight ? '✨ Génération...' : '🔄 Actualiser mes conseils'}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Today's Bubbles */}
       {todaysBubbles.length > 0 && (
