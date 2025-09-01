@@ -1,11 +1,14 @@
 import Navigation from "@/components/Navigation";
 import FloatingBubbles from "@/components/FloatingBubbles";
 import Footer from "@/components/Footer";
+import CartSidebar from "@/components/CartSidebar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useCart } from "@/hooks/useCart";
 
 const BoutiquePage = () => {
+  const { addItem, setIsOpen } = useCart();
   const categories = [
     {
       name: "🌿 Bien-être",
@@ -109,7 +112,19 @@ const BoutiquePage = () => {
                         </div>
                       </CardHeader>
                       <CardContent>
-                        <Button className="w-full bg-gradient-accent hover:opacity-90 text-white">
+                        <Button 
+                          onClick={() => {
+                            addItem({
+                              id: `${category.name}-${i}`,
+                              name: product.name,
+                              price: product.price,
+                              origin: product.origin,
+                              category: category.name
+                            });
+                            setIsOpen(true);
+                          }}
+                          className="w-full bg-gradient-accent hover:opacity-90 text-white"
+                        >
                           Ajouter au panier
                         </Button>
                       </CardContent>
@@ -187,13 +202,17 @@ const BoutiquePage = () => {
               Livraison gratuite dès 80€ d'achat. Emballage cadeau offert. 
               Satisfaction garantie ou remboursé.
             </p>
-            <Button className="bg-gradient-accent hover:opacity-90 text-white font-medium px-8 py-3 text-lg">
-              Accéder à la Boutique Complète
+            <Button 
+              onClick={() => setIsOpen(true)}
+              className="bg-gradient-accent hover:opacity-90 text-white font-medium px-8 py-3 text-lg"
+            >
+              Voir mon panier
             </Button>
           </section>
         </div>
       </div>
       
+      <CartSidebar />
       <Footer />
     </div>
   );

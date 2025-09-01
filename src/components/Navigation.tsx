@@ -1,9 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { useCart } from "@/hooks/useCart";
+import { Badge } from "@/components/ui/badge";
 
 const Navigation = () => {
   const location = useLocation();
   const { user } = useAuth();
+  const { totalItems, setIsOpen } = useCart();
   
   const navItems = [
     { name: "Accueil", path: "/" },
@@ -43,7 +46,18 @@ const Navigation = () => {
                 </Link>
               </li>
             ))}
-            <li>
+            <li className="flex items-center gap-4">
+              <button
+                onClick={() => setIsOpen(true)}
+                className="relative btn-bubble hover:scale-110 text-white px-4 py-2 rounded-full font-medium transition-all font-inter"
+              >
+                🛒
+                {totalItems > 0 && (
+                  <Badge className="absolute -top-2 -right-2 bg-accent text-white min-w-[20px] h-5 text-xs">
+                    {totalItems}
+                  </Badge>
+                )}
+              </button>
               <Link
                 to={user ? "/dashboard" : "/connexion"}
                 className="btn-bubble hover:scale-110 text-white px-6 py-2 rounded-full font-medium transition-all font-inter"

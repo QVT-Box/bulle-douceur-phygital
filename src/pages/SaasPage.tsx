@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 
 const SaasPage = () => {
   const features = [
@@ -77,9 +78,11 @@ const SaasPage = () => {
               Prenez le pouls de vos équipes, sans intrusion, avec bienveillance. 
               Notre plateforme transforme la QVT en expérience poétique et humaine.
             </p>
-            <Button className="bg-gradient-secondary hover:opacity-90 text-white font-medium px-8 py-3 text-lg">
-              Demander une Démo Gratuite
-            </Button>
+            <Link to="/contact">
+              <Button className="bg-gradient-secondary hover:opacity-90 text-white font-medium px-8 py-3 text-lg">
+                Demander une Démo Gratuite
+              </Button>
+            </Link>
           </div>
 
           {/* Features Section */}
@@ -144,9 +147,11 @@ const SaasPage = () => {
                         </li>
                       ))}
                     </ul>
-                    <Button className={`w-full bg-gradient-${plan.color} hover:opacity-90 text-white`}>
-                      {plan.name === 'Enterprise' ? 'Nous contacter' : 'Essayer gratuitement'}
-                    </Button>
+                    <Link to="/contact">
+                      <Button className={`w-full bg-gradient-${plan.color} hover:opacity-90 text-white`}>
+                        {plan.name === 'Enterprise' ? 'Nous contacter' : 'Nous contacter'}
+                      </Button>
+                    </Link>
                   </CardContent>
                 </Card>
               ))}
@@ -163,12 +168,16 @@ const SaasPage = () => {
               Essayez notre solution pendant 30 jours, sans engagement.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="bg-gradient-secondary hover:opacity-90 text-white">
-                Démarrer l'essai gratuit
-              </Button>
-              <Button variant="outline" className="bg-white/20 border-white/30 text-foreground hover:bg-white/30">
-                Voir la démo
-              </Button>
+              <Link to="/contact">
+                <Button className="bg-gradient-secondary hover:opacity-90 text-white">
+                  Démarrer l'essai gratuit
+                </Button>
+              </Link>
+              <Link to="/contact">
+                <Button variant="outline" className="bg-white/20 border-white/30 text-foreground hover:bg-white/30">
+                  Voir la démo
+                </Button>
+              </Link>
             </div>
           </section>
         </div>
