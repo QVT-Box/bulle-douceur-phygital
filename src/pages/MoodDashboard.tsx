@@ -10,6 +10,9 @@ import FloatingBubbles from "@/components/FloatingBubbles";
 import Footer from "@/components/Footer";
 import MoodBubbleModule from "@/components/MoodBubbleModule";
 import { useMoodEntries } from "@/hooks/useMoodEntries";
+import WellbeingHeatmap from "@/components/WellbeingHeatmap";
+import RPSAlerts from "@/components/RPSAlerts";
+import DUERPExport from "@/components/DUERPExport";
 
 interface Profile {
   user_role: string;
@@ -231,6 +234,11 @@ const MoodDashboard = () => {
               )}
             </CardContent>
           </Card>
+
+          {/* New Features */}
+          <WellbeingHeatmap />
+          <RPSAlerts />
+          <DUERPExport />
 
           {/* Quick Actions */}
           <div className="grid md:grid-cols-3 gap-6">
