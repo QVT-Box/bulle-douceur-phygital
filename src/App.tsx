@@ -14,6 +14,7 @@ import ContactPage from "./pages/ContactPage";
 import ConnexionPage from "./pages/ConnexionPage";
 import DashboardPage from "./pages/DashboardPage";
 import MoodDashboard from "./pages/MoodDashboard";
+import AdminPage from "./pages/AdminPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ const App = () => (
               <Route path="/connexion" element={<ConnexionPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/mood" element={<MoodDashboard />} />
+              <Route path="/admin" element={<AdminPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

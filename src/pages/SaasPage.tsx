@@ -1,188 +1,152 @@
-import Navigation from "@/components/Navigation";
-import FloatingBubbles from "@/components/FloatingBubbles";
-import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
+import React from 'react';
+import Navigation from '@/components/Navigation';
+import FloatingBubbles from '@/components/FloatingBubbles';
+import Footer from '@/components/Footer';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Link } from 'react-router-dom';
 
 const SaasPage = () => {
-  const features = [
-    {
-      title: "Tableau de Bord Émotionnel",
-      description: "Visualisez le bien-être de vos équipes en temps réel avec des bulles colorées intuitives",
-      icon: "🫧",
-      benefits: ["Vue d'ensemble instantanée", "Indicateurs visuels", "Alertes précoces"]
-    },
-    {
-      title: "Heatmap du Bien-être",
-      description: "Identifiez les zones de stress et les équipes épanouies d'un seul coup d'œil",
-      icon: "🗺️",
-      benefits: ["Cartographie visuelle", "Zones d'attention", "Évolution temporelle"]
-    },
-    {
-      title: "Alertes RPS Intelligentes",
-      description: "Recevez des notifications bienveillantes pour prévenir les risques psychosociaux",
-      icon: "🚨",
-      benefits: ["Prévention automatique", "Accompagnement personnalisé", "Confidentialité garantie"]
-    },
-    {
-      title: "Export DUERP Simplifié",
-      description: "Générez automatiquement vos documents réglementaires avec nos données",
-      icon: "📋",
-      benefits: ["Conformité automatique", "Mise à jour continue", "Gain de temps"]
-    }
-  ];
-
-  const plans = [
-    {
-      name: "Starter",
-      price: "99€",
-      period: "/mois",
-      description: "Parfait pour les petites équipes",
-      features: ["Jusqu'à 50 collaborateurs", "Dashboard de base", "Support email", "Export mensuel"],
-      color: "primary"
-    },
-    {
-      name: "Professional",
-      price: "199€",
-      period: "/mois",
-      description: "Idéal pour les entreprises en croissance",
-      features: ["Jusqu'à 200 collaborateurs", "Dashboard avancé", "Alertes RPS", "Support prioritaire", "Export illimité"],
-      color: "secondary",
-      popular: true
-    },
-    {
-      name: "Enterprise",
-      price: "Sur mesure",
-      period: "",
-      description: "Solution complète pour les grandes organisations",
-      features: ["Collaborateurs illimités", "Fonctionnalités sur mesure", "Intégrations API", "Support dédié", "Formation incluse"],
-      color: "accent"
-    }
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-hero">
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
       <FloatingBubbles />
       <Navigation />
       
-      <div className="relative z-10 pt-24 px-6">
-        <div className="container mx-auto">
-          {/* Hero Section */}
-          <div className="text-center mb-20">
-            <h1 className="text-4xl md:text-5xl font-kalam font-bold text-foreground mb-6">
-              Le <span className="text-secondary">SaaS</span> qui prend soin
-            </h1>
-            <p className="text-xl text-foreground/70 mb-8 max-w-3xl mx-auto">
-              Prenez le pouls de vos équipes, sans intrusion, avec bienveillance. 
-              Notre plateforme transforme la QVT en expérience poétique et humaine.
-            </p>
-            <Link to="/contact">
-              <Button className="bg-gradient-secondary hover:opacity-90 text-white font-medium px-8 py-3 text-lg">
-                Demander une Démo Gratuite
-              </Button>
-            </Link>
+      {/* Hero Section */}
+      <section className="relative py-32 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="mb-8">
+            <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-6">
+              🚧 Bientôt disponible
+            </span>
           </div>
-
-          {/* Features Section */}
-          <section className="mb-20">
-            <h2 className="text-3xl font-kalam font-bold text-center text-foreground mb-12">
-              ✨ Fonctionnalités Clés
-            </h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              {features.map((feature, index) => (
-                <Card key={index} className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/15 transition-all">
-                  <CardHeader>
-                    <CardTitle className="text-foreground font-kalam flex items-center gap-3">
-                      <span className="text-2xl">{feature.icon}</span>
-                      {feature.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-foreground/70 mb-4">{feature.description}</p>
-                    <div className="space-y-2">
-                      {feature.benefits.map((benefit, i) => (
-                        <div key={i} className="flex items-center gap-2 text-sm text-foreground/80">
-                          <div className="w-2 h-2 rounded-full bg-secondary"></div>
-                          {benefit}
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
-
-          {/* Pricing Section */}
-          <section className="mb-20">
-            <h2 className="text-3xl font-kalam font-bold text-center text-foreground mb-12">
-              💎 Nos Formules
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {plans.map((plan, index) => (
-                <Card key={index} className={`relative bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/15 transition-all ${plan.popular ? 'ring-2 ring-secondary' : ''}`}>
-                  {plan.popular && (
-                    <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-secondary text-white">
-                      Le plus populaire
-                    </Badge>
-                  )}
-                  <CardHeader>
-                    <CardTitle className="text-foreground font-kalam text-xl text-center">
-                      {plan.name}
-                    </CardTitle>
-                    <div className="text-center">
-                      <span className={`text-3xl font-bold text-${plan.color}`}>{plan.price}</span>
-                      <span className="text-foreground/70">{plan.period}</span>
-                    </div>
-                    <p className="text-foreground/70 text-center text-sm">{plan.description}</p>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-3 mb-6">
-                      {plan.features.map((feature, i) => (
-                        <li key={i} className="flex items-center gap-2 text-sm text-foreground/80">
-                          <div className={`w-2 h-2 rounded-full bg-${plan.color}`}></div>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                    <Link to="/contact">
-                      <Button className={`w-full bg-gradient-${plan.color} hover:opacity-90 text-white`}>
-                        {plan.name === 'Enterprise' ? 'Nous contacter' : 'Nous contacter'}
-                      </Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
-
-          {/* CTA Section */}
-          <section className="text-center py-16 bg-white/5 rounded-3xl backdrop-blur-md">
-            <h2 className="text-3xl font-kalam font-bold text-foreground mb-4">
-              Prêt à transformer votre QVT ?
-            </h2>
-            <p className="text-foreground/70 mb-8 max-w-2xl mx-auto">
-              Rejoignez les entreprises qui ont choisi la bienveillance comme moteur de performance. 
-              Essayez notre solution pendant 30 jours, sans engagement.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/contact">
-                <Button className="bg-gradient-secondary hover:opacity-90 text-white">
-                  Démarrer l'essai gratuit
-                </Button>
-              </Link>
-              <Link to="/contact">
-                <Button variant="outline" className="bg-white/20 border-white/30 text-foreground hover:bg-white/30">
-                  Voir la démo
-                </Button>
-              </Link>
-            </div>
-          </section>
+          
+          <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            Plateforme SaaS QVT
+          </h1>
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Notre solution SaaS révolutionnaire pour mesurer et améliorer la qualité de vie au travail 
+            arrive bientôt. En attendant, découvrez notre boutique et nos box bien-être.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <Button size="lg" asChild>
+              <Link to="/contact">Me tenir informé du lancement</Link>
+            </Button>
+            <Button variant="outline" size="lg" asChild>
+              <Link to="/boutique">Découvrir la boutique</Link>
+            </Button>
+          </div>
         </div>
-      </div>
-      
+      </section>
+
+      {/* Coming Soon Features */}
+      <section className="py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-4">Ce qui vous attend</h2>
+            <p className="text-lg text-muted-foreground">
+              Un aperçu des fonctionnalités innovantes en développement
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card className="h-full opacity-75 border-dashed">
+              <CardHeader>
+                <div className="text-4xl mb-4">📊</div>
+                <CardTitle className="text-xl">Tableaux de Bord Intelligents</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-base">
+                  Visualisation en temps réel des indicateurs de bien-être de votre équipe
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="h-full opacity-75 border-dashed">
+              <CardHeader>
+                <div className="text-4xl mb-4">🧠</div>
+                <CardTitle className="text-xl">IA Prédictive</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-base">
+                  Anticipation des risques psychosociaux grâce à l'intelligence artificielle
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="h-full opacity-75 border-dashed">
+              <CardHeader>
+                <div className="text-4xl mb-4">🚨</div>
+                <CardTitle className="text-xl">Alertes Préventives</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-base">
+                  Détection automatique des signaux de mal-être avant qu'ils ne s'aggravent
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="h-full opacity-75 border-dashed">
+              <CardHeader>
+                <div className="text-4xl mb-4">📋</div>
+                <CardTitle className="text-xl">Plans d'Action</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-base">
+                  Recommandations personnalisées pour améliorer la qualité de vie au travail
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="h-full opacity-75 border-dashed">
+              <CardHeader>
+                <div className="text-4xl mb-4">🔒</div>
+                <CardTitle className="text-xl">Sécurité & Confidentialité</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-base">
+                  Conformité RGPD et protection maximale des données sensibles
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="h-full opacity-75 border-dashed">
+              <CardHeader>
+                <div className="text-4xl mb-4">🔗</div>
+                <CardTitle className="text-xl">Intégrations</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-base">
+                  Connexion avec vos outils RH et de collaboration existants
+                </CardDescription>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="py-20 px-4 bg-muted/20">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-6">
+            Soyez les premiers informés
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8">
+            Inscrivez-vous pour recevoir les dernières actualités sur le développement 
+            de notre plateforme SaaS et être prioritaire lors du lancement.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" asChild>
+              <Link to="/contact">S'inscrire à la newsletter</Link>
+            </Button>
+            <Button variant="outline" size="lg" asChild>
+              <Link to="/box">Découvrir nos Box en attendant</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );

@@ -215,6 +215,42 @@ export type Database = {
           },
         ]
       }
+      categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean | null
+          name: string
+          slug: string
+          sort_order: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          name: string
+          slug: string
+          sort_order?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          name?: string
+          slug?: string
+          sort_order?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       conversations: {
         Row: {
           created_at: string
@@ -989,6 +1025,136 @@ export type Database = {
           teen_id?: string | null
         }
         Relationships: []
+      }
+      product_images: {
+        Row: {
+          alt_text: string | null
+          created_at: string
+          id: string
+          image_url: string
+          is_primary: boolean | null
+          product_id: string | null
+          sort_order: number | null
+        }
+        Insert: {
+          alt_text?: string | null
+          created_at?: string
+          id?: string
+          image_url: string
+          is_primary?: boolean | null
+          product_id?: string | null
+          sort_order?: number | null
+        }
+        Update: {
+          alt_text?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string
+          is_primary?: boolean | null
+          product_id?: string | null
+          sort_order?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_images_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          allow_backorder: boolean | null
+          artisan_info: string | null
+          barcode: string | null
+          category_id: string | null
+          compare_at_price: number | null
+          cost_price: number | null
+          created_at: string
+          description: string | null
+          id: string
+          inventory_quantity: number | null
+          is_active: boolean | null
+          is_digital: boolean | null
+          is_featured: boolean | null
+          name: string
+          origin: string | null
+          price: number
+          requires_shipping: boolean | null
+          seo_description: string | null
+          seo_title: string | null
+          short_description: string | null
+          sku: string | null
+          slug: string
+          track_inventory: boolean | null
+          updated_at: string
+          weight: number | null
+        }
+        Insert: {
+          allow_backorder?: boolean | null
+          artisan_info?: string | null
+          barcode?: string | null
+          category_id?: string | null
+          compare_at_price?: number | null
+          cost_price?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          inventory_quantity?: number | null
+          is_active?: boolean | null
+          is_digital?: boolean | null
+          is_featured?: boolean | null
+          name: string
+          origin?: string | null
+          price: number
+          requires_shipping?: boolean | null
+          seo_description?: string | null
+          seo_title?: string | null
+          short_description?: string | null
+          sku?: string | null
+          slug: string
+          track_inventory?: boolean | null
+          updated_at?: string
+          weight?: number | null
+        }
+        Update: {
+          allow_backorder?: boolean | null
+          artisan_info?: string | null
+          barcode?: string | null
+          category_id?: string | null
+          compare_at_price?: number | null
+          cost_price?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          inventory_quantity?: number | null
+          is_active?: boolean | null
+          is_digital?: boolean | null
+          is_featured?: boolean | null
+          name?: string
+          origin?: string | null
+          price?: number
+          requires_shipping?: boolean | null
+          seo_description?: string | null
+          seo_title?: string | null
+          short_description?: string | null
+          sku?: string | null
+          slug?: string
+          track_inventory?: boolean | null
+          updated_at?: string
+          weight?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
