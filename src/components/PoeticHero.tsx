@@ -31,10 +31,17 @@ const PoeticHero = () => {
           {/* Logo Animation */}
           <div className="mb-12 animate-slide-in-up">
             <img 
-              src="/src/assets/qvt-box-logo.png" 
+              src="/logo-qvt.png" 
               alt="QVT Box Logo" 
               className="w-32 h-32 mx-auto mb-8 animate-float"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.nextElementSibling?.classList.remove('hidden');
+              }}
             />
+            <div className="hidden w-32 h-32 mx-auto mb-8 flex items-center justify-center bg-gradient-bubble rounded-full text-foreground font-dancing font-bold text-2xl animate-float">
+              QVT BOX
+            </div>
           </div>
 
           {/* Main Question */}

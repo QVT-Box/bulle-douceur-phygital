@@ -1,6 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import logoImage from "@/assets/qvt-box-logo.png";
 
 const Navigation = () => {
   const location = useLocation();
@@ -19,10 +18,17 @@ const Navigation = () => {
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-all duration-300 hover:scale-105">
             <img 
-              src={logoImage} 
+              src="/logo-qvt.png" 
               alt="QVT Box Logo" 
               className="w-10 h-10 rounded-full object-cover animate-pulse-soft"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.nextElementSibling?.classList.remove('hidden');
+              }}
             />
+            <div className="hidden w-10 h-10 rounded-full bg-gradient-bubble flex items-center justify-center text-xs font-bold text-foreground animate-pulse-soft">
+              QVT
+            </div>
             <span className="text-2xl font-dancing font-bold text-gradient">QVT Box</span>
           </Link>
           

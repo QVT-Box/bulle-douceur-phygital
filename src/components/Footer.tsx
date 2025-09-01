@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import logoImage from "@/assets/qvt-box-logo.png";
 
 const Footer = () => {
   return (
@@ -8,10 +7,17 @@ const Footer = () => {
         <div className="text-center">
           <div className="flex justify-center items-center space-x-3 mb-6 animate-slide-in-up">
             <img 
-              src={logoImage} 
+              src="/logo-qvt.png" 
               alt="QVT Box Logo" 
               className="w-10 h-10 rounded-full object-cover animate-pulse-soft"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.nextElementSibling?.classList.remove('hidden');
+              }}
             />
+            <div className="hidden w-10 h-10 rounded-full bg-gradient-bubble flex items-center justify-center text-xs font-bold text-foreground animate-pulse-soft">
+              QVT
+            </div>
             <span className="text-2xl font-dancing font-bold text-gradient">QVT Box</span>
           </div>
           
