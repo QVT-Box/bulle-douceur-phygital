@@ -1,27 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
-export interface Product {
-  id: string;
-  name: string;
-  slug: string;
-  description: string | null;
-  short_description: string | null;
-  price: number;
-  compare_at_price: number | null;
-  origin: string | null;
-  artisan_info: string | null;
-  is_featured: boolean;
-  category_id: string | null;
-  inventory_quantity: number;
-  created_at: string;
-  category?: {
-    name: string;
-    slug: string;
-  };
-  images?: ProductImage[];
-}
-
 export interface ProductImage {
   id: string;
   image_url: string;
@@ -37,6 +16,24 @@ export interface Category {
   description: string | null;
   image_url: string | null;
   sort_order: number;
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  short_description: string | null;
+  price: number;
+  compare_at_price: number | null;
+  origin: string | null;
+  artisan_info: string | null;
+  is_featured: boolean;
+  category_id: string | null;
+  inventory_quantity: number;
+  created_at: string;
+  category?: Category;
+  images?: ProductImage[];
 }
 
 export const useProducts = (categorySlug?: string) => {
@@ -66,10 +63,10 @@ export const useProducts = (categorySlug?: string) => {
 
         if (error) throw error;
 
-        const formattedProducts = data.map((product: any) => ({
+        const formattedProducts = data?.map((product: any) => ({
           ...product,
           images: product.images?.sort((a: ProductImage, b: ProductImage) => a.sort_order - b.sort_order) || []
-        }));
+        })) || [];
 
         setProducts(formattedProducts);
       } catch (err) {
@@ -113,34 +110,4 @@ export const useCategories = () => {
   }, []);
 
   return { categories, loading, error };
-};
-
-export const useSubscriptionPlans = () => {
-  const [plans, setPlans] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchPlans = async () => {
-      try {
-        setLoading(true);
-        const { data, error } = await supabase
-          .from('subscription_plans')
-          .select('*')
-          .eq('is_active', true)
-          .order('price', { ascending: true });
-
-        if (error) throw error;
-        setPlans(data || []);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Une erreur est survenue');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPlans();
-  }, []);
-
-  return { plans, loading, error };
 };
