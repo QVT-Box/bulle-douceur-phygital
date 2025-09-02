@@ -1,11 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserRole } from "@/hooks/useUserRole";
 import { useCart } from "@/hooks/useCart";
 import { Badge } from "@/components/ui/badge";
 
 const Navigation = () => {
   const location = useLocation();
   const { user } = useAuth();
+  const { isAdmin } = useUserRole();
   const { totalItems, setIsOpen } = useCart();
   
   const navItems = [
@@ -64,6 +66,14 @@ const Navigation = () => {
               >
                 {user ? "Mon Tableau de Bord" : "Mon Espace"}
               </Link>
+              {user && isAdmin && (
+                <Link
+                  to="/admin"
+                  className="btn-bubble hover:scale-110 text-white px-4 py-2 rounded-full font-medium transition-all font-inter bg-accent/80 hover:bg-accent"
+                >
+                  ⚙️ Admin
+                </Link>
+              )}
             </li>
           </ul>
           
