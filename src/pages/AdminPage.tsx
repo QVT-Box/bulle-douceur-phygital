@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { useAuth } from "@/hooks/useAuth";
+import { useUserRole } from "@/hooks/useUserRole";
+import { useProducts, useCategories } from "@/hooks/useProducts";
+import { UserManagement } from "@/components/UserManagement";
 import Navigation from '@/components/Navigation';
 import FloatingBubbles from '@/components/FloatingBubbles';
 import Footer from '@/components/Footer';
@@ -9,16 +13,16 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useProducts, useCategories } from '@/hooks/useProducts';
-import { useAuth } from '@/hooks/useAuth';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ShoppingBag, Package, Plus, Upload, Users, Shield } from "lucide-react";
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 const AdminPage = () => {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const { isAdmin, loading: roleLoading } = useUserRole();
   const { toast } = useToast();
-  const { products, loading } = useProducts();
+  const { products, loading: productsLoading } = useProducts();
   const { categories } = useCategories();
   
   const [productForm, setProductForm] = useState({
@@ -41,6 +45,64 @@ const AdminPage = () => {
     description: '',
     sort_order: '0'
   });
+
+  const loading = authLoading || roleLoading;
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
+        <FloatingBubbles />
+        <div className="w-16 h-16 rounded-full bg-gradient-bubble animate-pulse"></div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-hero">
+        <FloatingBubbles />
+        <Navigation />
+        <div className="relative z-10 pt-24 px-6">
+          <div className="container mx-auto text-center">
+            <h1 className="text-4xl font-kalam font-bold text-foreground mb-6">
+              Accès Restreint
+            </h1>
+            <p className="text-xl text-foreground/70 mb-8">
+              Vous devez être connecté pour accéder à cette page.
+            </p>
+            <Button onClick={() => window.location.href = "/connexion"}>
+              Se connecter
+            </Button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-gradient-hero">
+        <FloatingBubbles />
+        <Navigation />
+        <div className="relative z-10 pt-24 px-6">
+          <div className="container mx-auto text-center">
+            <h1 className="text-4xl font-kalam font-bold text-foreground mb-6">
+              <Shield className="inline-block mr-2 h-8 w-8" />
+              Accès Administrateur Requis
+            </h1>
+            <p className="text-xl text-foreground/70 mb-8">
+              Vous devez être administrateur pour accéder à cette page.
+            </p>
+            <Button onClick={() => window.location.href = "/"}>
+              Retour à l'accueil
+            </Button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   const handleProductSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,45 +181,41 @@ const AdminPage = () => {
     }
   };
 
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
-        <FloatingBubbles />
-        <Navigation />
-        <div className="flex items-center justify-center min-h-[50vh]">
-          <Card className="w-full max-w-md">
-            <CardHeader>
-              <CardTitle>Accès restreint</CardTitle>
-              <CardDescription>
-                Vous devez être connecté et avoir les droits administrateur pour accéder à cette page.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
+    <div className="min-h-screen bg-gradient-hero">
       <FloatingBubbles />
       <Navigation />
       
-      <div className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mb-4">Administration</h1>
-            <p className="text-lg text-muted-foreground">
-              Gestion des produits et catégories de la boutique
+      <div className="relative z-10 pt-24 px-6">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-kalam font-bold text-foreground mb-6">
+              <Shield className="inline-block mr-3 h-10 w-10" />
+              Administration
+            </h1>
+            <p className="text-xl text-foreground/70 max-w-3xl mx-auto">
+              Gérez votre boutique, vos utilisateurs et votre contenu
             </p>
           </div>
 
           <Tabs defaultValue="products" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="products">Produits</TabsTrigger>
-              <TabsTrigger value="categories">Catégories</TabsTrigger>
-              <TabsTrigger value="add-product">Ajouter un produit</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="products" className="flex items-center gap-2">
+                <ShoppingBag className="h-4 w-4" />
+                Produits
+              </TabsTrigger>
+              <TabsTrigger value="categories" className="flex items-center gap-2">
+                <Package className="h-4 w-4" />
+                Catégories
+              </TabsTrigger>
+              <TabsTrigger value="add-product" className="flex items-center gap-2">
+                <Plus className="h-4 w-4" />
+                Ajouter Produit
+              </TabsTrigger>
+              <TabsTrigger value="users" className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                Utilisateurs
+              </TabsTrigger>
             </TabsList>
 
             {/* Liste des produits */}
@@ -170,7 +228,7 @@ const AdminPage = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  {loading ? (
+                  {productsLoading ? (
                     <div className="text-center py-8">Chargement...</div>
                   ) : (
                     <div className="grid gap-4">
@@ -409,6 +467,10 @@ const AdminPage = () => {
                   </form>
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            <TabsContent value="users" className="space-y-6">
+              <UserManagement />
             </TabsContent>
           </Tabs>
         </div>
