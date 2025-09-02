@@ -30,23 +30,38 @@ const ContentEditor = ({ pageName }: ContentEditorProps) => {
 
   const handleStartEdit = (item: EditableContentItem) => {
     setEditingItem(item);
-    const displayValue = typeof item.content_value === 'object' 
-      ? JSON.stringify(item.content_value, null, 2)
-      : item.content_value?.toString() || '';
+    let displayValue = '';
+    
+    if (typeof item.content_value === 'object') {
+      if (item.content_type === 'text' && item.content_value?.text) {
+        displayValue = item.content_value.text;
+      } else {
+        displayValue = JSON.stringify(item.content_value, null, 2);
+      }
+    } else {
+      displayValue = item.content_value?.toString() || '';
+    }
+    
     setEditValue(displayValue);
   };
 
   const handleSaveEdit = async () => {
     if (!editingItem) return;
 
-    let valueToSave = editValue;
-    if (editingItem.content_type === 'json') {
+    let valueToSave: any = editValue;
+    
+    if (editingItem.content_type === 'text') {
+      // Pour le type text, on encapsule dans un objet JSON
+      valueToSave = { text: editValue };
+    } else if (editingItem.content_type === 'json') {
       try {
         valueToSave = JSON.parse(editValue);
       } catch (error) {
         alert('Format JSON invalide');
         return;
       }
+    } else if (editingItem.content_type === 'image') {
+      valueToSave = { url: editValue };
     }
 
     await updateContent(editingItem.id, valueToSave);
@@ -55,10 +70,16 @@ const ContentEditor = ({ pageName }: ContentEditorProps) => {
   };
 
   const handleCreateContent = async () => {
-    let contentValue = newContentForm.content_value;
-    let defaultValue = newContentForm.default_value;
+    let contentValue: any = newContentForm.content_value;
+    let defaultValue: any = newContentForm.default_value;
 
-    if (newContentForm.content_type === 'json') {
+    if (newContentForm.content_type === 'text') {
+      contentValue = { text: typeof contentValue === 'string' ? contentValue : '' };
+      defaultValue = { text: typeof defaultValue === 'string' ? defaultValue : '' };
+    } else if (newContentForm.content_type === 'image') {
+      contentValue = { url: typeof contentValue === 'string' ? contentValue : '' };
+      defaultValue = { url: typeof defaultValue === 'string' ? defaultValue : '' };
+    } else if (newContentForm.content_type === 'json') {
       try {
         contentValue = typeof contentValue === 'string' ? JSON.parse(contentValue) : contentValue;
         defaultValue = typeof defaultValue === 'string' ? JSON.parse(defaultValue) : defaultValue;
@@ -96,19 +117,26 @@ const ContentEditor = ({ pageName }: ContentEditorProps) => {
   };
 
   const renderContentPreview = (item: EditableContentItem) => {
-    if (item.content_type === 'image' && typeof item.content_value === 'string') {
+    if (item.content_type === 'image' && typeof item.content_value === 'object' && item.content_value?.url) {
       return (
         <img 
-          src={item.content_value} 
+          src={item.content_value.url} 
           alt={item.content_key}
           className="w-20 h-20 object-cover rounded-lg border border-border"
         />
       );
     }
 
-    const displayValue = typeof item.content_value === 'object'
-      ? JSON.stringify(item.content_value)
-      : item.content_value?.toString() || 'Vide';
+    let displayValue = '';
+    if (typeof item.content_value === 'object') {
+      if (item.content_value?.text) {
+        displayValue = item.content_value.text;
+      } else {
+        displayValue = JSON.stringify(item.content_value);
+      }
+    } else {
+      displayValue = item.content_value?.toString() || 'Vide';
+    }
 
     return (
       <div className="text-sm text-muted-foreground max-w-xs truncate">
