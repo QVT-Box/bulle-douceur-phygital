@@ -3,6 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useProducts, useCategories } from "@/hooks/useProducts";
 import { UserManagement } from "@/components/UserManagement";
+import ContentEditor from "@/components/ContentEditor";
 import Navigation from '@/components/Navigation';
 import FloatingBubbles from '@/components/FloatingBubbles';
 import Footer from '@/components/Footer';
@@ -199,7 +200,7 @@ const AdminPage = () => {
           </div>
 
           <Tabs defaultValue="products" className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="products" className="flex items-center gap-2">
                 <ShoppingBag className="h-4 w-4" />
                 Produits
@@ -211,6 +212,10 @@ const AdminPage = () => {
               <TabsTrigger value="add-product" className="flex items-center gap-2">
                 <Plus className="h-4 w-4" />
                 Ajouter Produit
+              </TabsTrigger>
+              <TabsTrigger value="cms" className="flex items-center gap-2">
+                <Upload className="h-4 w-4" />
+                CMS
               </TabsTrigger>
               <TabsTrigger value="users" className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
@@ -467,6 +472,10 @@ const AdminPage = () => {
                   </form>
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            <TabsContent value="cms" className="space-y-6">
+              <ContentEditor />
             </TabsContent>
 
             <TabsContent value="users" className="space-y-6">

@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
+import { useAutoPromotion } from './useAutoPromotion';
 
 interface AuthContextType {
   user: User | null;
@@ -28,6 +29,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  
+  // Auto-promotion du premier admin
+  useAutoPromotion();
 
   useEffect(() => {
     // Set up auth state listener
