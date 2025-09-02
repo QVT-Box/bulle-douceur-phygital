@@ -1,14 +1,43 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useEditableContent, EditableContentItem } from '@/hooks/useEditableContent';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Separator } from '@/components/ui/separator';
+import { 
+  Edit, 
+  Save, 
+  X, 
+  Plus, 
+  Type, 
+  Image as ImageIcon, 
+  Code, 
+  Loader2,
+  Upload
+} from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import { Edit3, Plus, Save, Type, Image, FileText } from 'lucide-react';
-import { EditableContentItem, useEditableContent } from '@/hooks/useEditableContent';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ImageUpload } from '@/components/ImageUpload';
+import { ImageGallery } from '@/components/ImageGallery';
+import { StorageImage } from '@/hooks/useImageStorage';
 
 interface ContentEditorProps {
   pageName?: string;
@@ -18,6 +47,7 @@ const ContentEditor = ({ pageName }: ContentEditorProps) => {
   const { contents, loading, updateContent, createContent } = useEditableContent(pageName);
   const [editingItem, setEditingItem] = useState<EditableContentItem | null>(null);
   const [editValue, setEditValue] = useState('');
+  const [selectedImageUrl, setSelectedImageUrl] = useState('');
   const [newContentForm, setNewContentForm] = useState({
     page_name: pageName || '',
     section_name: '',
@@ -35,6 +65,9 @@ const ContentEditor = ({ pageName }: ContentEditorProps) => {
     if (typeof item.content_value === 'object') {
       if (item.content_type === 'text' && item.content_value?.text) {
         displayValue = item.content_value.text;
+      } else if (item.content_type === 'image' && item.content_value?.url) {
+        displayValue = item.content_value.url;
+        setSelectedImageUrl(item.content_value.url);
       } else {
         displayValue = JSON.stringify(item.content_value, null, 2);
       }
@@ -61,12 +94,13 @@ const ContentEditor = ({ pageName }: ContentEditorProps) => {
         return;
       }
     } else if (editingItem.content_type === 'image') {
-      valueToSave = { url: editValue };
+      valueToSave = { url: selectedImageUrl || editValue };
     }
 
     await updateContent(editingItem.id, valueToSave);
     setEditingItem(null);
     setEditValue('');
+    setSelectedImageUrl('');
   };
 
   const handleCreateContent = async () => {
@@ -110,8 +144,8 @@ const ContentEditor = ({ pageName }: ContentEditorProps) => {
   const getContentTypeIcon = (type: string) => {
     switch (type) {
       case 'text': return <Type className="w-4 h-4" />;
-      case 'image': return <Image className="w-4 h-4" />;
-      case 'json': return <FileText className="w-4 h-4" />;
+      case 'image': return <ImageIcon className="w-4 h-4" />;
+      case 'json': return <Code className="w-4 h-4" />;
       default: return <Type className="w-4 h-4" />;
     }
   };
@@ -298,36 +332,97 @@ const ContentEditor = ({ pageName }: ContentEditorProps) => {
                         onClick={() => handleStartEdit(item)}
                         className="ml-2"
                       >
-                        <Edit3 className="w-4 h-4" />
+                        <Edit className="w-4 h-4" />
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-2xl">
+                    <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
                       <DialogHeader>
                         <DialogTitle>Éditer: {item.content_key}</DialogTitle>
                       </DialogHeader>
                       <div className="space-y-4">
-                        <div>
-                          <Label>Contenu actuel</Label>
-                          {item.content_type === 'text' ? (
+                        {item.content_type === 'image' ? (
+                          <Tabs defaultValue="gallery" className="space-y-4">
+                            <TabsList className="grid w-full grid-cols-3">
+                              <TabsTrigger value="gallery">Galerie</TabsTrigger>
+                              <TabsTrigger value="upload">Upload</TabsTrigger>
+                              <TabsTrigger value="url">URL Manuelle</TabsTrigger>
+                            </TabsList>
+                            
+                            <TabsContent value="gallery" className="space-y-4">
+                              <Label>Sélectionner depuis la galerie</Label>
+                              <ImageGallery 
+                                onImageSelect={(image: StorageImage) => {
+                                  setSelectedImageUrl(image.publicUrl);
+                                  setEditValue(image.publicUrl);
+                                }}
+                                selectable={true}
+                                selectedImages={selectedImageUrl ? [selectedImageUrl.split('/').pop() || ''] : []}
+                              />
+                            </TabsContent>
+                            
+                            <TabsContent value="upload" className="space-y-4">
+                              <Label>Uploader une nouvelle image</Label>
+                              <ImageUpload 
+                                onImageSelect={(imageUrl: string) => {
+                                  setSelectedImageUrl(imageUrl);
+                                  setEditValue(imageUrl);
+                                }}
+                              />
+                            </TabsContent>
+                            
+                            <TabsContent value="url" className="space-y-4">
+                              <Label>URL de l'image</Label>
+                              <Input
+                                value={editValue}
+                                onChange={(e) => {
+                                  setEditValue(e.target.value);
+                                  setSelectedImageUrl(e.target.value);
+                                }}
+                                placeholder="https://example.com/image.jpg"
+                              />
+                              {editValue && (
+                                <div className="mt-2">
+                                  <img 
+                                    src={editValue} 
+                                    alt="Preview" 
+                                    className="max-w-xs h-auto rounded border"
+                                    onError={(e) => {
+                                      e.currentTarget.style.display = 'none';
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </TabsContent>
+                          </Tabs>
+                        ) : item.content_type === 'text' ? (
+                          <div>
+                            <Label>Contenu texte</Label>
                             <Textarea
                               value={editValue}
                               onChange={(e) => setEditValue(e.target.value)}
                               rows={4}
                               className="w-full"
                             />
-                          ) : (
+                          </div>
+                        ) : (
+                          <div>
+                            <Label>Contenu JSON</Label>
                             <Textarea
                               value={editValue}
                               onChange={(e) => setEditValue(e.target.value)}
                               rows={6}
                               className="w-full font-mono text-sm"
-                              placeholder={item.content_type === 'json' ? '{"key": "value"}' : 'Valeur...'}
+                              placeholder='{"key": "value"}'
                             />
-                          )}
-                        </div>
+                          </div>
+                        )}
                         
-                        <div className="flex justify-end space-x-2">
-                          <Button variant="outline" onClick={() => setEditingItem(null)}>
+                        <div className="flex justify-end space-x-2 pt-4 border-t">
+                          <Button variant="outline" onClick={() => {
+                            setEditingItem(null);
+                            setSelectedImageUrl('');
+                          }}>
+                            <X className="w-4 h-4 mr-2" />
                             Annuler
                           </Button>
                           <Button onClick={handleSaveEdit}>
@@ -348,7 +443,7 @@ const ContentEditor = ({ pageName }: ContentEditorProps) => {
       {contents.length === 0 && (
         <Card className="card-bubble">
           <CardContent className="flex flex-col items-center justify-center py-12">
-            <FileText className="w-12 h-12 text-muted-foreground mb-4" />
+            <Code className="w-12 h-12 text-muted-foreground mb-4" />
             <h3 className="text-lg font-semibold text-foreground mb-2">
               Aucun contenu éditable
             </h3>
