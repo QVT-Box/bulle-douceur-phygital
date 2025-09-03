@@ -94,9 +94,9 @@ const Navigation = () => {
                 <Menu className="w-6 h-6 text-primary" />
               </button>
             </DrawerTrigger>
-            <DrawerContent className="h-full">
-              <div className="flex flex-col h-full p-6">
-                <div className="flex items-center justify-between mb-8">
+            <DrawerContent className="max-h-[80vh]">
+              <div className="flex flex-col p-6 max-w-sm mx-auto w-full">
+                <div className="flex items-center justify-between mb-6">
                   <span className="text-xl font-inter font-bold text-foreground">Menu</span>
                   <button
                     onClick={() => setMobileMenuOpen(false)}
@@ -106,7 +106,7 @@ const Navigation = () => {
                   </button>
                 </div>
                 
-                <div className="flex flex-col space-y-6 flex-1">
+                <div className="flex flex-col space-y-4 mb-6">
                   {navItems.map((item) => (
                     <Link
                       key={item.name}
@@ -123,7 +123,7 @@ const Navigation = () => {
                   ))}
                 </div>
                 
-                <div className="flex flex-col space-y-4 mt-8 pt-6 border-t border-border">
+                <div className="flex flex-col space-y-3 pt-4 border-t border-border">
                   <button
                     onClick={() => {
                       setIsOpen(true);
