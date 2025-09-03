@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import SpectacularHero from "@/components/SpectacularHero";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -79,58 +80,8 @@ const NewIndex = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      {/* Hero Section */}
-      <section className="pt-24 pb-16 px-6 bg-gradient-hero">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <div className="mb-8">
-              <img 
-                src="/logo-qvt.png" 
-                alt="QVT Box Logo" 
-                className="w-24 h-24 mx-auto mb-8"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                }}
-              />
-              <div className="hidden w-24 h-24 mx-auto mb-8 flex items-center justify-center bg-primary rounded-full text-white font-inter font-bold text-lg">
-                QVT BOX
-              </div>
-            </div>
-
-            <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-8 font-inter leading-tight">
-              <span className="text-primary">QVT Box</span>
-            </h1>
-            
-            <div className="card-professional p-8 md:p-12 max-w-5xl mx-auto mb-12">
-              <p className="text-xl md:text-2xl text-foreground leading-relaxed font-lato mb-4">
-                Stress, pénibilité, surcharge, manque de reconnaissance… 
-                Ces réalités sont confirmées par les dernières études sur le travail en France.
-              </p>
-              <p className="text-xl md:text-2xl text-primary font-medium font-lato">
-                QVT Box transforme ces défis en solutions professionnelles et solidaires, 
-                que les entreprises consacrent uniquement au bien-être des salariés.
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link to="/box">
-                <Button className="btn-primary text-lg px-10 py-4 font-inter">
-                  <Users className="w-5 h-5 mr-2" /> 
-                  Devenir entreprise partenaire
-                </Button>
-              </Link>
-              
-              <Link to="/boutique">
-                <Button className="btn-secondary text-lg px-8 py-4 font-inter">
-                  <Package className="w-5 h-5 mr-2" /> 
-                  Soutenir mes équipes concrètement
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Hero spectaculaire */}
+      <SpectacularHero />
 
       {/* Chiffres clés */}
       <section className="py-16 px-6 bg-background">
