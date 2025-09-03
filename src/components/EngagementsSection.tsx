@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Users, Package, Shield, Handshake } from "lucide-react";
 
 const EngagementsSection = () => {
   const engagements = [
@@ -6,25 +7,25 @@ const EngagementsSection = () => {
       title: "Écouter le terrain",
       action: "Simulateur Ma Bulle Attentionnée",
       description: "Pour comprendre les vrais besoins des équipes et donner la parole à chaque salarié",
-      icon: "👂"
+      icon: Users
     },
     {
       title: "Agir concrètement", 
       action: "Box thématiques et événementielles adaptées aux réalités",
       description: "Des moyens visibles et utiles pour répondre aux défis du quotidien professionnel",
-      icon: "🎁"
+      icon: Package
     },
     {
       title: "Prévenir les risques",
       action: "SaaS RH conforme aux obligations légales", 
       description: "Des outils professionnels pour anticiper, mesurer et agir sur les risques psychosociaux",
-      icon: "🛡️"
+      icon: Shield
     },
     {
       title: "Construire ensemble",
       action: "Partenariats avec CSE, mutuelles, institutions",
       description: "Une approche collaborative pour faire de la QVCT un levier de dialogue social",
-      icon: "🤝"
+      icon: Handshake
     }
   ];
 
@@ -41,9 +42,13 @@ const EngagementsSection = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {engagements.map((engagement, index) => (
+          {engagements.map((engagement, index) => {
+            const IconComponent = engagement.icon;
+            return (
             <div key={index} className="card-bubble p-6 text-center hover:shadow-floating transition-all duration-300 hover:scale-105">
-              <div className="text-4xl mb-4">{engagement.icon}</div>
+              <div className="flex justify-center mb-4">
+                <IconComponent className="w-12 h-12 text-primary" />
+              </div>
               <h3 className="font-kalam font-bold text-xl text-foreground mb-3">
                 {engagement.title}
               </h3>
@@ -54,7 +59,8 @@ const EngagementsSection = () => {
                 {engagement.description}
               </p>
             </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="text-center mt-12">

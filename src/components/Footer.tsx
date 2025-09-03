@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Heart } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -35,7 +36,7 @@ const Footer = () => {
           
           <div className="border-t border-primary/10 pt-6 animate-slide-in-up" style={{ animationDelay: '0.6s' }}>
             <p className="text-sm text-foreground/50 font-inter">
-              © 2024 QVT Box - Fait avec <span className="animate-pulse-soft text-red-400">❤️</span> en France pour le bien-être au travail
+              © 2024 QVT Box - Fait avec <Heart className="inline w-4 h-4 text-red-400 animate-pulse-soft" /> en France pour le bien-être au travail
             </p>
           </div>
         </div>

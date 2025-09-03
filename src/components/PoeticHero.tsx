@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { Sparkles, Circle, Package, Brain, ShoppingBag } from "lucide-react";
 import FloatingBubbles from "./FloatingBubbles";
 import OnboardingModal from "./OnboardingModal";
 
@@ -65,7 +66,7 @@ const PoeticHero = () => {
                 <span className="text-gradient font-dancing font-semibold text-2xl"> QVT Box </span>
                 est un outil que les entreprises consacrent uniquement au bien-être de leurs salariés, 
                 transformant les défis du quotidien – stress, pénibilité, surcharge, manque de reconnaissance – 
-                en <span className="text-secondary font-medium animate-pulse-soft">solutions concrètes et bienveillantes</span> ✨
+                en <span className="text-secondary font-medium animate-pulse-soft">solutions concrètes et bienveillantes</span> <Sparkles className="inline w-5 h-5 text-secondary animate-pulse-soft" />
               </p>
             </div>
           </div>
@@ -77,7 +78,7 @@ const PoeticHero = () => {
                 onClick={handleStartJourney}
                 className="btn-bubble text-lg px-10 py-4 shadow-floating hover:shadow-bubble transform hover:scale-110 transition-all duration-300 animate-pulse-soft font-poppins font-medium"
               >
-                🫧 Commencer ma bulle
+                <Circle className="w-5 h-5 mr-2" /> Commencer ma bulle
               </Button>
               
               <Button 
@@ -85,7 +86,7 @@ const PoeticHero = () => {
                 className="btn-soft text-lg px-8 py-4 hover:scale-105 transition-all duration-300 font-poppins"
                 variant="outline"
               >
-                📦 Offrir une solution de bien-être à mes équipes
+                <Package className="w-5 h-5 mr-2" /> Offrir une solution de bien-être à mes équipes
               </Button>
             </div>
             
@@ -95,7 +96,7 @@ const PoeticHero = () => {
                 className="bg-gradient-card border border-secondary/20 text-foreground px-8 py-4 rounded-full hover:bg-secondary/10 hover:scale-105 transition-all duration-300 font-inter"
                 variant="outline"
               >
-                💭 Piloter la QVCT avec simplicité
+                <Brain className="w-5 h-5 mr-2" /> Piloter la QVCT avec simplicité
               </Button>
               
               <Button 
@@ -103,7 +104,7 @@ const PoeticHero = () => {
                 className="bg-accent/20 border border-accent/30 text-foreground px-8 py-4 rounded-full hover:bg-accent/30 hover:scale-105 transition-all duration-300 font-inter"
                 variant="outline"
               >
-                🛍️ Soutenir mes collaborateurs
+                <ShoppingBag className="w-5 h-5 mr-2" /> Soutenir mes collaborateurs
               </Button>
             </div>
           </div>
