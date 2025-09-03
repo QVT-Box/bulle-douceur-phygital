@@ -46,14 +46,17 @@ const PoeticHero = () => {
 
           {/* Main Question */}
           <div className="mb-12 space-y-4 animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
-            <h1 className="text-5xl md:text-7xl font-dancing font-bold text-foreground leading-tight">
-              <span className="block opacity-90 animate-wiggle">Salut,</span>
-              <span className="block text-gradient animate-glow">ça va ?</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-foreground/70 font-poppins font-light max-w-3xl mx-auto leading-relaxed">
-              La question la plus simple,<br />
-              <span className="text-secondary font-medium animate-pulse-soft">mais la plus difficile</span>
-            </p>
+          <h1 className="font-kalam text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight">
+            <span className="text-2xl md:text-3xl lg:text-4xl font-montserrat font-light block text-white/90 mb-6">
+              La Qualité de Vie et les Conditions de Travail, ça se construit ensemble.
+            </span>
+            <span className="text-gradient block mb-2">QVT Box</span>
+            <span className="text-xl md:text-2xl lg:text-3xl font-montserrat font-light block text-white/90 mt-4">
+              vous apporte des solutions concrètes et bienveillantes pour répondre à la question :
+              <br />
+              <span className="text-accent font-medium text-3xl md:text-4xl lg:text-5xl">"Ça va ?"</span>
+            </span>
+          </h1>
           </div>
 
           {/* Poetic Description */}
@@ -83,7 +86,7 @@ const PoeticHero = () => {
                 className="btn-soft text-lg px-8 py-4 hover:scale-105 transition-all duration-300 font-poppins"
                 variant="outline"
               >
-                📦 Commander ma box
+                📦 Soutenir mes équipes avec une Box
               </Button>
             </div>
             
@@ -93,7 +96,7 @@ const PoeticHero = () => {
                 className="bg-gradient-card border border-secondary/20 text-foreground px-8 py-4 rounded-full hover:bg-secondary/10 hover:scale-105 transition-all duration-300 font-inter"
                 variant="outline"
               >
-                💭 Demander une démo SaaS
+                💭 Prévenir les risques et agir concrètement
               </Button>
               
               <Button 
@@ -101,7 +104,7 @@ const PoeticHero = () => {
                 className="bg-accent/20 border border-accent/30 text-foreground px-8 py-4 rounded-full hover:bg-accent/30 hover:scale-105 transition-all duration-300 font-inter"
                 variant="outline"
               >
-                🛍️ Découvrir la boutique
+                🛍️ Découvrir le savoir-faire local
               </Button>
             </div>
           </div>

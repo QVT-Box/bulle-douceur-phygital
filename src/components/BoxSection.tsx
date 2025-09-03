@@ -29,26 +29,49 @@ const BoxSection = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 mb-16">
-          {boxTypes.map((type, index) => (
-            <div key={index} className="card-bubble p-8 hover:shadow-floating transition-all duration-300">
-              <h3 className="text-2xl font-kalam font-bold text-primary mb-4">
-                {type.category}
-              </h3>
-              <p className="text-foreground/70 mb-6">{type.description}</p>
-              
-              <div className="grid grid-cols-2 gap-3 mb-6">
-                {type.boxes.map((box, boxIndex) => (
-                  <div key={boxIndex} className="bg-primary/5 rounded-xl p-3 text-center">
-                    <span className="text-sm font-medium text-primary">{box}</span>
-                  </div>
-                ))}
-              </div>
-              
-              <Link to="/box" className="inline-block btn-soft w-full text-center">
-                Voir tous les détails
-              </Link>
+          <div className="card-bubble p-8 hover:shadow-floating transition-all duration-300">
+            <h3 className="text-2xl font-kalam font-bold text-primary mb-4">
+              Box Thématiques
+            </h3>
+            <p className="text-primary font-medium mb-6 text-sm uppercase tracking-wide">
+              → Pour gérer le stress, la mobilité, la pénibilité et renforcer la cohésion, avec des produits utiles et accessibles.
+            </p>
+            <p className="text-foreground/70 mb-6">Des solutions ciblées pour chaque besoin de votre équipe</p>
+            
+            <div className="grid grid-cols-2 gap-3 mb-6">
+              {["Focus & Reset", "Mobilité", "Pénibilité", "Cohésion"].map((box, boxIndex) => (
+                <div key={boxIndex} className="bg-primary/5 rounded-xl p-3 text-center">
+                  <span className="text-sm font-medium text-primary">{box}</span>
+                </div>
+              ))}
             </div>
-          ))}
+            
+            <Link to="/box" className="inline-block btn-soft w-full text-center">
+              Voir tous les détails
+            </Link>
+          </div>
+
+          <div className="card-bubble p-8 hover:shadow-floating transition-all duration-300">
+            <h3 className="text-2xl font-kalam font-bold text-secondary mb-4">
+              Box Événementielles
+            </h3>
+            <p className="text-primary font-medium mb-6 text-sm uppercase tracking-wide">
+              → Pour célébrer les moments de vie, renforcer le collectif et valoriser chaque étape.
+            </p>
+            <p className="text-foreground/70 mb-6">Célébrez les moments importants avec délicatesse</p>
+            
+            <div className="grid grid-cols-2 gap-3 mb-6">
+              {["Retraite", "Naissance", "Anniversaire", "Promotion", "Mariage"].map((box, boxIndex) => (
+                <div key={boxIndex} className="bg-secondary/5 rounded-xl p-3 text-center">
+                  <span className="text-sm font-medium text-secondary">{box}</span>
+                </div>
+              ))}
+            </div>
+            
+            <Link to="/box" className="inline-block btn-soft w-full text-center">
+              Voir tous les détails
+            </Link>
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row items-center gap-12">
@@ -69,7 +92,7 @@ const BoxSection = () => {
               Chaque produit raconte une histoire, chaque box crée du lien.
             </p>
             <Link to="/box" className="btn-bubble">
-              Commander ma Box
+              Soutenir mes équipes avec une Box
             </Link>
           </div>
         </div>

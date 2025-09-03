@@ -16,6 +16,9 @@ const BoutiqueSection = () => {
           <h2 className="text-4xl md:text-5xl font-kalam font-bold text-foreground mb-6">
             La <span className="text-accent">Boutique</span> du cœur
           </h2>
+          <p className="text-primary font-medium mb-6 text-sm uppercase tracking-wide">
+            → Découvrir le savoir-faire local
+          </p>
           <p className="text-xl text-foreground/70 max-w-3xl mx-auto font-light leading-relaxed">
             Chaque produit a été sélectionné chez nos artisans partenaires. 
             Parce que prendre soin de soi et de ses équipes, 
@@ -42,7 +45,7 @@ const BoutiqueSection = () => {
               </p>
               
               <Link to="/boutique" className="btn-bubble">
-                Accéder à la Boutique
+                Découvrir le savoir-faire local
               </Link>
             </div>
           </div>

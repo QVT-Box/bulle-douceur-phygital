@@ -25,6 +25,9 @@ const SaasSection = () => {
             <h2 className="text-4xl md:text-5xl font-kalam font-bold text-foreground mb-6">
               Le <span className="text-secondary">SaaS</span> qui prend soin
             </h2>
+            <p className="text-primary font-medium mb-6 text-sm uppercase tracking-wide">
+              → Pour donner aux RH et CSE des indicateurs clairs, anonymisés et exploitables, afin de prévenir les risques et simplifier le DUERP.
+            </p>
             <p className="text-xl text-foreground/70 mb-8 leading-relaxed font-light">
               « Prenez le pouls de vos équipes, sans intrusion, avec bienveillance. »
             </p>
@@ -47,7 +50,7 @@ const SaasSection = () => {
             </div>
 
             <Link to="/saas" className="btn-bubble">
-              Demander une Démo Gratuite
+              Prévenir les risques et agir concrètement
             </Link>
           </div>
           
