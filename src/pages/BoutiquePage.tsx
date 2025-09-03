@@ -7,6 +7,9 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useScrollReveal, useStaggeredReveal } from '@/hooks/useScrollReveal';
+import { AdvancedProductFilters } from "@/components/AdvancedProductFilters";
+import { AssistantChatBot } from "@/components/AssistantChatBot";
+import { useState as useAssistantState } from 'react';
 import { 
   MapPin, 
   Leaf, 
@@ -24,6 +27,7 @@ import localProducts from "@/assets/local-products-boutique.jpg";
 const BoutiquePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [isChatBotOpen, setIsChatBotOpen] = useAssistantState(false);
   
   const [heroRef, heroVisible] = useScrollReveal();
   const [productsRef, productsVisible] = useStaggeredReveal(6, 150);
@@ -245,6 +249,16 @@ const BoutiquePage = () => {
         </div>
       </section>
 
+      {/* Filtres Avancés */}
+      <section className="py-8 px-6 bg-background-soft">
+        <div className="container mx-auto">
+          <AdvancedProductFilters 
+            onFiltersChange={(filters) => console.log('Filters:', filters)}
+            productCount={filteredProducts.length}
+          />
+        </div>
+      </section>
+
       {/* Produits */}
       <section className="py-12 px-6 bg-background" ref={productsRef}>
         <div className="container mx-auto">
@@ -432,6 +446,12 @@ const BoutiquePage = () => {
       </section>
 
       <Footer />
+      
+      {/* Assistant ChatBot */}
+      <AssistantChatBot 
+        isOpen={isChatBotOpen} 
+        onToggle={() => setIsChatBotOpen(!isChatBotOpen)} 
+      />
     </div>
   );
 };
