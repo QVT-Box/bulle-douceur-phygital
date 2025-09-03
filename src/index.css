@@ -1,40 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Kalam:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Lato:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* QVT Box Design System - Univers des bulles poétiques */
+/* QVT Box Design System - Professionnel et Institutionnel */
 
 @layer base {
   :root {
-    /* Couleurs principales - Univers bulle */
-    --primary: 180 45% 65%;          /* Turquoise doux */
-    --primary-light: 180 55% 75%;    /* Turquoise clair */
-    --primary-dark: 180 35% 55%;     /* Turquoise profond */
+    /* Couleurs principales - Palette institutionnelle */
+    --primary: 220 80% 25%;          /* Bleu nuit */
+    --primary-light: 220 60% 35%;    /* Bleu nuit clair */
+    --primary-dark: 220 90% 15%;     /* Bleu nuit profond */
     --primary-foreground: 0 0% 98%;
     
-    --secondary: 200 60% 70%;        /* Bleu clair */
-    --secondary-light: 200 70% 80%;  /* Bleu très clair */
-    --secondary-foreground: 200 25% 20%;
+    --secondary: 140 35% 45%;        /* Vert confiance */
+    --secondary-light: 140 45% 55%;  /* Vert confiance clair */
+    --secondary-foreground: 0 0% 98%;
     
-    --accent: 280 40% 75%;           /* Violet doux */
-    --accent-light: 280 50% 85%;     /* Violet très doux */
-    --accent-foreground: 200 25% 20%;
+    --accent: 210 15% 75%;           /* Gris clair */
+    --accent-light: 210 10% 85%;     /* Gris très clair */
+    --accent-foreground: 220 20% 25%;
     
-    --background: 0 0% 99%;          /* Blanc lumineux */
-    --background-soft: 180 20% 98%;  /* Blanc avec soupçon de turquoise */
-    --foreground: 200 25% 20%;       /* Gris-bleu profond */
+    --background: 0 0% 100%;         /* Blanc pur */
+    --background-soft: 210 20% 98%;  /* Blanc cassé */
+    --foreground: 220 20% 25%;       /* Gris foncé */
     
-    /* Gradients poétiques */
-    --gradient-bubble: linear-gradient(135deg, hsl(var(--primary-light)), hsl(var(--secondary-light)), hsl(var(--accent-light)));
-    --gradient-hero: linear-gradient(180deg, hsl(var(--background-soft)), hsl(var(--primary-light) / 0.1));
-    --gradient-card: linear-gradient(145deg, hsl(var(--background)) 0%, hsl(var(--primary-light) / 0.05) 100%);
+    /* Gradients professionnels */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
+    --gradient-hero: linear-gradient(180deg, hsl(var(--background)), hsl(var(--background-soft)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--background)) 0%, hsl(var(--accent-light) / 0.3) 100%);
     
-    /* Ombres douces */
-    --shadow-bubble: 0 8px 32px hsl(var(--primary) / 0.15);
-    --shadow-card: 0 4px 20px hsl(var(--secondary) / 0.1);
-    --shadow-floating: 0 12px 40px hsl(var(--accent) / 0.2);
+    /* Ombres professionnelles */
+    --shadow-primary: 0 8px 32px hsl(var(--primary) / 0.15);
+    --shadow-card: 0 4px 20px hsl(var(--accent) / 0.2);
+    --shadow-floating: 0 12px 40px hsl(var(--primary) / 0.15);
 
     /* Composants shadcn adaptés */
     --card: 0 0% 100%;
@@ -78,69 +78,45 @@
   }
 
   body {
-    @apply bg-background text-foreground font-montserrat;
+    @apply bg-background text-foreground font-inter;
     background: var(--gradient-hero);
   }
 
-  /* Typographie poétique */
+  /* Typographie professionnelle */
+  .font-inter {
+    font-family: 'Inter', sans-serif;
+  }
+  
   .font-montserrat {
     font-family: 'Montserrat', sans-serif;
   }
   
-  .font-kalam {
-    font-family: 'Kalam', cursive;
+  .font-lato {
+    font-family: 'Lato', sans-serif;
   }
 }
 
 @layer components {
-  /* Animation des bulles flottantes */
-  .bubble {
-    @apply absolute rounded-full opacity-20 animate-float;
-    background: var(--gradient-bubble);
-    filter: blur(1px);
-  }
-  
-  .bubble-1 {
-    @apply w-16 h-16 top-[10%] left-[5%];
-    animation-delay: 0s;
-  }
-  
-  .bubble-2 {
-    @apply w-24 h-24 top-[20%] right-[10%];
-    animation-delay: 2s;
-  }
-  
-  .bubble-3 {
-    @apply w-12 h-12 top-[60%] left-[15%];
-    animation-delay: 4s;
-  }
-  
-  .bubble-4 {
-    @apply w-20 h-20 bottom-[20%] right-[5%];
-    animation-delay: 1s;
-  }
-  
-  .bubble-5 {
-    @apply w-8 h-8 top-[80%] left-[70%];
-    animation-delay: 3s;
-  }
-
-  /* Cartes avec effet bulle */
-  .card-bubble {
+  /* Cartes professionnelles */
+  .card-professional {
     background: var(--gradient-card);
     box-shadow: var(--shadow-card);
-    @apply backdrop-blur-sm border border-primary/10 rounded-2xl;
+    @apply border border-accent/20 rounded-lg;
   }
 
-  /* Boutons poétiques */
-  .btn-bubble {
-    background: var(--gradient-bubble);
-    box-shadow: var(--shadow-bubble);
-    @apply text-white border-0 rounded-full px-8 py-4 font-medium transition-all duration-300 hover:scale-105 hover:shadow-floating;
+  /* Boutons professionnels */
+  .btn-primary {
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-primary);
+    @apply text-white border-0 rounded-md px-8 py-4 font-medium transition-all duration-300 hover:opacity-90;
   }
 
-  .btn-soft {
-    @apply bg-background-soft border border-primary/20 text-foreground rounded-full px-6 py-3 transition-all duration-300 hover:bg-primary/5 hover:border-primary/30;
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground rounded-md px-6 py-3 font-medium transition-all duration-300 hover:bg-secondary-light;
+  }
+
+  .btn-outline {
+    @apply bg-transparent border border-primary text-primary rounded-md px-6 py-3 font-medium transition-all duration-300 hover:bg-primary hover:text-primary-foreground;
   }
 
   /* Navigation douce */
@@ -157,13 +133,12 @@
     @apply w-full;
   }
 
-  /* Sections avec dégradés doux */
-  .section-gradient {
+  /* Sections professionnelles */
+  .section-professional {
     background: linear-gradient(
       180deg,
       hsl(var(--background)) 0%,
-      hsl(var(--background-soft)) 50%,
-      hsl(var(--background)) 100%
+      hsl(var(--background-soft)) 100%
     );
   }
 }

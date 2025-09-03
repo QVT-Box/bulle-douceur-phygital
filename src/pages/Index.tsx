@@ -1,9 +1,8 @@
 import Navigation from "@/components/Navigation";
-import FloatingBubbles from "@/components/FloatingBubbles";
-import EnhancedFloatingElements from "@/components/EnhancedFloatingElements";
-import PoeticHero from "@/components/PoeticHero";
-import WhyQVTBoxSection from "@/components/WhyQVTBoxSection";
-import EngagementsSection from "@/components/EngagementsSection";
+import ProfessionalHero from "@/components/ProfessionalHero";
+import EngagementsProfessionnels from "@/components/EngagementsProfessionnels";
+import OutilSolidaire from "@/components/OutilSolidaire";
+import ProcessusParticipation from "@/components/ProcessusParticipation";
 import BoxSection from "@/components/BoxSection";
 import SaasSection from "@/components/SaasSection";
 import BoutiqueSection from "@/components/BoutiqueSection";
@@ -13,13 +12,12 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
-      <FloatingBubbles />
-      <EnhancedFloatingElements />
       
       <div className="relative z-10">
-        <PoeticHero />
-        <WhyQVTBoxSection />
-        <EngagementsSection />
+        <ProfessionalHero />
+        <EngagementsProfessionnels />
+        <OutilSolidaire />
+        <ProcessusParticipation />
         <BoxSection />
         <SaasSection />
         <BoutiqueSection />

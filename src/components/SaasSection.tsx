@@ -2,65 +2,73 @@ import { Link } from "react-router-dom";
 import saasImage from "@/assets/saas-dashboard.jpg";
 
 const SaasSection = () => {
-  const features = [
-    {
-      title: "Tableaux de bord en bulles",
-      description: "Visualisez l'humeur de vos équipes de façon intuitive et poétique"
-    },
-    {
-      title: "Alertes RPS bienveillantes", 
-      description: "Prévenez les risques psychosociaux avec délicatesse"
-    },
-    {
-      title: "Export DUERP simplifié",
-      description: "Générez vos documents réglementaires sans stress"
-    }
-  ];
-
   return (
     <section className="py-20 px-6 bg-background">
       <div className="container mx-auto">
-        <div className="flex flex-col lg:flex-row items-center gap-12">
-          <div className="lg:w-1/2">
-            <h2 className="text-4xl md:text-5xl font-kalam font-bold text-foreground mb-6">
-              Le <span className="text-secondary">SaaS</span> qui prend soin
-            </h2>
-            <p className="text-xl text-foreground/70 mb-8 leading-relaxed font-light">
-              « Prévenir les risques psychosociaux n'est pas qu'une option, c'est une obligation légale (DUERP). »
-            </p>
-            <div className="card-bubble p-6 mb-8">
-              <p className="text-lg text-foreground/80 leading-relaxed font-light">
-                QVT Box accompagne les RH, CSE et managers de proximité avec des outils fiables : dashboards intuitifs, alertes précoces, indicateurs anonymisés et exports réglementaires. Une solution simple et professionnelle pour piloter la QVCT avec sérieux et humanité.
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="space-y-8">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-inter font-bold text-foreground mb-6">
+                SaaS <span className="text-primary">Prévention des Risques</span>
+              </h2>
+              <p className="text-xl text-primary font-medium mb-8 leading-relaxed font-lato">
+                Prévenir les risques, ce n'est pas une option mais une obligation.
+              </p>
+              <p className="text-lg text-foreground/70 leading-relaxed font-lato">
+                QVT Box donne aux RH, CSE et managers des outils fiables : 
+                tableaux de bord anonymisés, alertes précoces, export DUERP. 
+                Simples à déployer, pensés pour agir.
               </p>
             </div>
-            
-            <div className="space-y-6 mb-8">
-              {features.map((feature, index) => (
-                <div key={index} className="flex items-start space-x-4">
-                  <div className="w-3 h-3 rounded-full bg-secondary mt-2 flex-shrink-0"></div>
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-2">{feature.title}</h4>
-                    <p className="text-foreground/70">{feature.description}</p>
-                  </div>
+
+            <div className="space-y-6">
+              <div className="flex items-start space-x-4">
+                <div className="w-3 h-3 bg-primary rounded-full mt-2"></div>
+                <div>
+                  <h3 className="font-inter font-semibold text-lg text-foreground mb-2">Tableaux de bord anonymisés</h3>
+                  <p className="text-foreground/70 font-lato">Surveillance collective respectueuse de la confidentialité</p>
                 </div>
-              ))}
+              </div>
+              
+              <div className="flex items-start space-x-4">
+                <div className="w-3 h-3 bg-secondary rounded-full mt-2"></div>
+                <div>
+                  <h3 className="font-inter font-semibold text-lg text-foreground mb-2">Alertes précoces</h3>
+                  <p className="text-foreground/70 font-lato">Détection des signaux de risques psychosociaux</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-4">
+                <div className="w-3 h-3 bg-accent-foreground rounded-full mt-2"></div>
+                <div>
+                  <h3 className="font-inter font-semibold text-lg text-foreground mb-2">Export DUERP</h3>
+                  <p className="text-foreground/70 font-lato">Conformité automatisée avec les obligations légales</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-4">
+                <div className="w-3 h-3 bg-primary rounded-full mt-2"></div>
+                <div>
+                  <h3 className="font-inter font-semibold text-lg text-foreground mb-2">Déploiement simple</h3>
+                  <p className="text-foreground/70 font-lato">Interface intuitive, formation minimum requise</p>
+                </div>
+              </div>
             </div>
 
-            <Link to="/saas" className="btn-bubble">
-              Prévenir les risques et agir concrètement
+            <Link to="/saas" className="btn-primary inline-block font-inter">
+              Découvrir nos outils de prévention
             </Link>
           </div>
-          
-          <div className="lg:w-1/2">
-            <div className="relative">
-              <img 
-                src={saasImage} 
-                alt="Dashboard SaaS avec visualisation des émotions en bulles colorées" 
-                className="w-full rounded-2xl shadow-floating"
-              />
-              <div className="absolute -top-4 -right-4 w-16 h-16 bg-gradient-bubble rounded-full animate-float opacity-30"></div>
-              <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-accent/30 rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
-            </div>
+
+          <div className="relative">
+            <img 
+              src={saasImage} 
+              alt="Interface SaaS QVT Box - Prévention des risques" 
+              className="rounded-lg shadow-floating w-full"
+              onError={(e) => {
+                e.currentTarget.src = "https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80";
+              }}
+            />
           </div>
         </div>
       </div>
