@@ -61,7 +61,7 @@ const Navigation = () => {
                 )}
               </button>
               <Link
-                to={user ? "/dashboard" : "/connexion"}
+                to={user ? "/dashboard" : "/auth"}
                 className="btn-bubble hover:scale-110 text-white px-6 py-2 rounded-full font-medium transition-all font-inter"
               >
                 {user ? "Mon Tableau de Bord" : "Mon Espace"}
