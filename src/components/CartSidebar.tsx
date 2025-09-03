@@ -87,7 +87,7 @@ const CartSidebar = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Link to="/contact" onClick={() => setIsOpen(false)}>
+                  <Link to="/checkout" onClick={() => setIsOpen(false)}>
                     <Button className="w-full bg-gradient-accent hover:opacity-90 text-white">
                       Finaliser la commande
                     </Button>

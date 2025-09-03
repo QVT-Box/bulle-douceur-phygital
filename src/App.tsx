@@ -10,6 +10,9 @@ import Index from "./pages/Index";
 import BoxPage from "./pages/BoxPage";
 import SaasPage from "./pages/SaasPage";
 import BoutiquePage from "./pages/BoutiquePage";
+import CheckoutPage from "./pages/CheckoutPage";
+import CheckoutSuccessPage from "./pages/CheckoutSuccessPage";
+import CheckoutCancelPage from "./pages/CheckoutCancelPage";
 import ContactPage from "./pages/ContactPage";
 import ConnexionPage from "./pages/ConnexionPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -32,6 +35,9 @@ const App = () => (
               <Route path="/box" element={<BoxPage />} />
               <Route path="/saas" element={<SaasPage />} />
               <Route path="/boutique" element={<BoutiquePage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
+              <Route path="/checkout/cancel" element={<CheckoutCancelPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/connexion" element={<ConnexionPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
