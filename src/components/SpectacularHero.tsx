@@ -72,19 +72,20 @@ const SpectacularHero = () => {
           
           {/* Contenu textuel avec effets */}
           <div className="space-y-8 animate-fade-in">
-            {/* Logo avec effet glow */}
-            <div className="relative mb-8">
-              <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse-soft"></div>
+            {/* Logo avec effet spectaculaire */}
+            <div className="relative mb-8 group">
+              <div className="absolute inset-0 bg-primary/30 rounded-full blur-2xl animate-pulse-soft group-hover:blur-3xl transition-all duration-700"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 to-accent/20 rounded-full blur-xl animate-glow"></div>
               <img 
                 src="/logo-qvt.png" 
                 alt="QVT Box Logo" 
-                className="relative w-24 h-24 mx-auto lg:mx-0 mb-8 drop-shadow-2xl animate-glow"
+                className="relative w-28 h-28 mx-auto lg:mx-0 mb-8 drop-shadow-2xl hover:drop-shadow-[0_0_30px_rgba(139,92,246,0.5)] transition-all duration-700 group-hover:scale-110 animate-float shadow-floating"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.nextElementSibling?.classList.remove('hidden');
                 }}
               />
-              <div className="hidden w-24 h-24 mx-auto lg:mx-0 mb-8 flex items-center justify-center bg-primary rounded-full text-white font-inter font-bold text-lg shadow-floating animate-glow">
+              <div className="hidden w-28 h-28 mx-auto lg:mx-0 mb-8 flex items-center justify-center bg-gradient-to-br from-primary via-secondary to-accent rounded-full text-white font-inter font-bold text-xl shadow-floating hover:shadow-bubble transition-all duration-700 group-hover:scale-110 animate-float">
                 QVT BOX
               </div>
             </div>

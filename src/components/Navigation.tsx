@@ -23,20 +23,23 @@ const Navigation = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 glass-effect">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-all duration-300">
-            <img 
-              src="/logo-qvt.png" 
-              alt="QVT Box Logo" 
-              className="w-10 h-10 rounded-full object-cover"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-                e.currentTarget.nextElementSibling?.classList.remove('hidden');
-              }}
-            />
-            <div className="hidden w-10 h-10 rounded-full bg-primary flex items-center justify-center text-xs font-bold text-white">
-              QVT
+          <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-all duration-300 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-primary/20 rounded-full blur-md group-hover:blur-lg transition-all duration-300"></div>
+              <img 
+                src="/logo-qvt.png" 
+                alt="QVT Box Logo" 
+                className="relative w-12 h-12 rounded-full object-cover shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-110"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                }}
+              />
+              <div className="hidden relative w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-xs font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-110">
+                QVT
+              </div>
             </div>
-            <span className="text-2xl font-inter font-bold text-foreground">QVT Box</span>
+            <span className="text-2xl font-inter font-bold text-foreground group-hover:text-primary transition-colors duration-300">QVT Box</span>
           </Link>
           
           <ul className="hidden md:flex items-center space-x-8">

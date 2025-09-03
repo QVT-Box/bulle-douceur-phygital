@@ -6,20 +6,23 @@ const Footer = () => {
     <footer className="bg-foreground/5 border-t border-primary/10 py-12 px-6">
       <div className="container mx-auto">
         <div className="text-center">
-          <div className="flex justify-center items-center space-x-3 mb-6 animate-slide-in-up">
-            <img 
-              src="/logo-qvt.png" 
-              alt="QVT Box Logo" 
-              className="w-10 h-10 rounded-full object-cover animate-pulse-soft"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-                e.currentTarget.nextElementSibling?.classList.remove('hidden');
-              }}
-            />
-            <div className="hidden w-10 h-10 rounded-full bg-gradient-bubble flex items-center justify-center text-xs font-bold text-foreground animate-pulse-soft">
-              QVT
+          <div className="flex justify-center items-center space-x-4 mb-6 animate-slide-in-up">
+            <div className="relative group">
+              <div className="absolute inset-0 bg-primary/30 rounded-full blur-lg animate-pulse-soft group-hover:blur-xl transition-all duration-500"></div>
+              <img 
+                src="/logo-qvt.png" 
+                alt="QVT Box Logo" 
+                className="relative w-14 h-14 rounded-full object-cover shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:scale-110 animate-glow"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                }}
+              />
+              <div className="hidden relative w-14 h-14 rounded-full bg-gradient-to-br from-primary via-secondary to-accent flex items-center justify-center text-sm font-bold text-white shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:scale-110 animate-glow">
+                QVT
+              </div>
             </div>
-            <span className="text-2xl font-dancing font-bold text-gradient">QVT Box</span>
+            <span className="text-3xl font-dancing font-bold text-gradient">QVT Box</span>
           </div>
           
           <p className="text-foreground/70 mb-8 font-poppins font-light max-w-2xl mx-auto animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
