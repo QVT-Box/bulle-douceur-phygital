@@ -5,16 +5,21 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
+import { useScrollReveal, useStaggeredReveal } from '@/hooks/useScrollReveal';
 
 const SaasPage = () => {
+  const [heroRef, heroVisible] = useScrollReveal();
+  const [featuresRef, featuresVisible] = useStaggeredReveal(6, 200);
+  const [ctaRef, ctaVisible] = useScrollReveal();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
       <FloatingBubbles />
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative py-32 px-4">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="relative py-32 px-4" ref={heroRef}>
+        <div className={`max-w-4xl mx-auto text-center scroll-reveal ${heroVisible ? 'visible' : ''}`}>
           <div className="mb-8">
             <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-6">
               🚧 Bientôt disponible
@@ -41,9 +46,9 @@ const SaasPage = () => {
       </section>
 
       {/* Coming Soon Features */}
-      <section className="py-20 px-4">
+      <section className="py-20 px-4" ref={featuresRef}>
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
+          <div className={`text-center mb-16 scroll-reveal ${featuresVisible.has(0) ? 'visible' : ''}`}>
             <h2 className="text-3xl font-bold mb-4">Ce qui vous attend</h2>
             <p className="text-lg text-muted-foreground">
               Un aperçu des fonctionnalités innovantes en développement
@@ -51,7 +56,7 @@ const SaasPage = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="h-full opacity-75 border-dashed">
+            <Card className={`h-full opacity-75 border-dashed card-hover stagger-item ${featuresVisible.has(1) ? 'visible' : ''}`}>
               <CardHeader>
                 <div className="text-4xl mb-4">📊</div>
                 <CardTitle className="text-xl">Tableaux de Bord Intelligents</CardTitle>
@@ -63,7 +68,7 @@ const SaasPage = () => {
               </CardContent>
             </Card>
 
-            <Card className="h-full opacity-75 border-dashed">
+            <Card className={`h-full opacity-75 border-dashed card-hover stagger-item ${featuresVisible.has(2) ? 'visible' : ''}`}>
               <CardHeader>
                 <div className="text-4xl mb-4">🧠</div>
                 <CardTitle className="text-xl">IA Prédictive</CardTitle>
@@ -75,7 +80,7 @@ const SaasPage = () => {
               </CardContent>
             </Card>
 
-            <Card className="h-full opacity-75 border-dashed">
+            <Card className={`h-full opacity-75 border-dashed card-hover stagger-item ${featuresVisible.has(3) ? 'visible' : ''}`}>
               <CardHeader>
                 <div className="text-4xl mb-4">🚨</div>
                 <CardTitle className="text-xl">Alertes Préventives</CardTitle>
@@ -87,7 +92,7 @@ const SaasPage = () => {
               </CardContent>
             </Card>
 
-            <Card className="h-full opacity-75 border-dashed">
+            <Card className={`h-full opacity-75 border-dashed card-hover stagger-item ${featuresVisible.has(4) ? 'visible' : ''}`}>
               <CardHeader>
                 <div className="text-4xl mb-4">📋</div>
                 <CardTitle className="text-xl">Plans d'Action</CardTitle>
@@ -99,7 +104,7 @@ const SaasPage = () => {
               </CardContent>
             </Card>
 
-            <Card className="h-full opacity-75 border-dashed">
+            <Card className={`h-full opacity-75 border-dashed card-hover stagger-item ${featuresVisible.has(5) ? 'visible' : ''}`}>
               <CardHeader>
                 <div className="text-4xl mb-4">🔒</div>
                 <CardTitle className="text-xl">Sécurité & Confidentialité</CardTitle>
@@ -127,8 +132,8 @@ const SaasPage = () => {
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-20 px-4 bg-muted/20">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="py-20 px-4 bg-muted/20" ref={ctaRef}>
+        <div className={`max-w-4xl mx-auto text-center scroll-reveal-scale ${ctaVisible ? 'visible' : ''}`}>
           <h2 className="text-3xl font-bold mb-6">
             Soyez les premiers informés
           </h2>
@@ -137,10 +142,10 @@ const SaasPage = () => {
             de notre plateforme SaaS et être prioritaire lors du lancement.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" asChild>
+            <Button size="lg" className="button-hover" asChild>
               <Link to="/contact">S'inscrire à la newsletter</Link>
             </Button>
-            <Button variant="outline" size="lg" asChild>
+            <Button variant="outline" size="lg" className="button-hover" asChild>
               <Link to="/box">Découvrir nos Box en attendant</Link>
             </Button>
           </div>

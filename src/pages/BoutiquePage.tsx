@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useScrollReveal, useStaggeredReveal } from '@/hooks/useScrollReveal';
 import { 
   MapPin, 
   Leaf, 
@@ -23,6 +24,10 @@ import localProducts from "@/assets/local-products-boutique.jpg";
 const BoutiquePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  
+  const [heroRef, heroVisible] = useScrollReveal();
+  const [productsRef, productsVisible] = useStaggeredReveal(6, 150);
+  const [ctaRef, ctaVisible] = useScrollReveal();
 
   const categories = [
     { id: "all", name: "Tous les produits", icon: ShoppingBag },
@@ -132,9 +137,9 @@ const BoutiquePage = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-24 pb-16 px-6 bg-gradient-hero">
+      <section className="pt-24 pb-16 px-6 bg-gradient-hero" ref={heroRef}>
         <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className={`grid lg:grid-cols-2 gap-12 items-center scroll-reveal ${heroVisible ? 'visible' : ''}`}>
             <div>
               <div className="flex items-center gap-2 mb-6">
                 <MapPin className="w-8 h-8 text-secondary" />
@@ -241,11 +246,11 @@ const BoutiquePage = () => {
       </section>
 
       {/* Produits */}
-      <section className="py-12 px-6 bg-background">
+      <section className="py-12 px-6 bg-background" ref={productsRef}>
         <div className="container mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProducts.map((product) => (
-              <Card key={product.id} className="card-professional overflow-hidden group hover:shadow-floating transition-all duration-300">
+              <Card key={product.id} className={`card-professional overflow-hidden group hover:shadow-floating transition-all duration-300 card-hover stagger-item ${productsVisible.has(product.id - 1) ? 'visible' : ''}`}>
                 <div className="relative">
                   <img 
                     src={product.image} 
@@ -296,7 +301,7 @@ const BoutiquePage = () => {
                       Par {product.producer}
                     </p>
                     
-                    <Button className="w-full btn-outline group-hover:btn-primary transition-all">
+                    <Button className="w-full btn-outline group-hover:btn-primary transition-all button-hover">
                       <ShoppingBag className="w-4 h-4 mr-2" />
                       Ajouter au panier
                     </Button>
@@ -402,8 +407,8 @@ const BoutiquePage = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-6 bg-secondary">
-        <div className="container mx-auto text-center">
+      <section className="py-20 px-6 bg-secondary" ref={ctaRef}>
+        <div className={`container mx-auto text-center scroll-reveal-scale ${ctaVisible ? 'visible' : ''}`}>
           <h2 className="text-4xl font-bold text-white mb-6 font-inter">
             Soutenons ensemble l'économie locale
           </h2>
@@ -412,12 +417,12 @@ const BoutiquePage = () => {
             et au maintien des savoir-faire artisanaux.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-secondary hover:bg-white/90 font-inter">
+            <Button size="lg" className="bg-white text-secondary hover:bg-white/90 font-inter button-hover">
               <ShoppingBag className="w-5 h-5 mr-2" />
               Commencer mes achats
             </Button>
             <Link to="/box">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-secondary font-inter">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-secondary font-inter button-hover">
                 Découvrir nos Box
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>

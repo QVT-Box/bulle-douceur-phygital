@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import { useScrollReveal, useStaggeredReveal } from '@/hooks/useScrollReveal';
 import { 
   Users, 
   Package, 
@@ -20,6 +21,12 @@ import {
 } from "lucide-react";
 
 const NewIndex = () => {
+  const [statsRef, statsVisible] = useStaggeredReveal(4, 200);
+  const [piersRef, piersVisible] = useStaggeredReveal(4, 150);
+  const [testimonialsRef, testimonialsVisible] = useStaggeredReveal(3, 200);
+  const [solutionsRef, solutionsVisible] = useStaggeredReveal(3, 250);
+  const [ctaRef, ctaVisible] = useScrollReveal();
+
   const stats = [
     { value: "40%", label: "des salariés déclarent une pénibilité physique", source: "DARES 2023" },
     { value: "33%", label: "des salariés exposés aux RPS", source: "INRS" },
@@ -84,9 +91,9 @@ const NewIndex = () => {
       <SpectacularHero />
 
       {/* Chiffres clés */}
-      <section className="py-16 px-6 bg-background">
+      <section className="py-16 px-6 bg-background" ref={statsRef}>
         <div className="container mx-auto">
-          <div className="text-center mb-12">
+          <div className={`text-center mb-12 scroll-reveal ${statsVisible.has(0) ? 'visible' : ''}`}>
             <h2 className="text-3xl font-bold text-foreground mb-4 font-inter">
               Les réalités du <span className="text-primary">travail en France</span>
             </h2>
@@ -97,7 +104,7 @@ const NewIndex = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {stats.map((stat, index) => (
-              <Card key={index} className="card-professional text-center p-6">
+              <Card key={index} className={`card-professional text-center p-6 card-hover stagger-item ${statsVisible.has(index + 1) ? 'visible' : ''}`}>
                 <CardContent className="space-y-4">
                   <div className="text-4xl font-bold text-primary font-inter">
                     {stat.value}
@@ -116,9 +123,9 @@ const NewIndex = () => {
       </section>
 
       {/* 4 piliers avec visuels */}
-      <section className="py-20 px-6 section-professional">
+      <section className="py-20 px-6 section-professional" ref={piersRef}>
         <div className="container mx-auto">
-          <div className="text-center mb-16">
+          <div className={`text-center mb-16 scroll-reveal ${piersVisible.has(0) ? 'visible' : ''}`}>
             <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
               Nos 4 <span className="text-secondary">Piliers</span>
             </h2>
@@ -131,7 +138,7 @@ const NewIndex = () => {
             {engagements.map((engagement, index) => {
               const IconComponent = engagement.icon;
               return (
-                <Card key={index} className="card-professional p-6 text-center hover:shadow-floating transition-all duration-300">
+                <Card key={index} className={`card-professional p-6 text-center hover:shadow-floating transition-all duration-300 card-hover stagger-item ${piersVisible.has(index + 1) ? 'visible' : ''}`}>
                   <CardContent className="space-y-4">
                     <div className="flex justify-center mb-4">
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
@@ -156,9 +163,9 @@ const NewIndex = () => {
       </section>
 
       {/* Témoignages */}
-      <section className="py-20 px-6 bg-background">
+      <section className="py-20 px-6 bg-background" ref={testimonialsRef}>
         <div className="container mx-auto">
-          <div className="text-center mb-16">
+          <div className={`text-center mb-16 scroll-reveal ${testimonialsVisible.has(0) ? 'visible' : ''}`}>
             <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
               Ils nous font <span className="text-primary">confiance</span>
             </h2>
@@ -166,7 +173,7 @@ const NewIndex = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="card-professional p-6">
+              <Card key={index} className={`card-professional p-6 card-hover stagger-item ${testimonialsVisible.has(index + 1) ? 'visible' : ''}`}>
                 <CardContent className="space-y-4">
                   <p className="text-foreground/80 italic font-lato leading-relaxed">
                     "{testimonial.quote}"
@@ -187,16 +194,16 @@ const NewIndex = () => {
       </section>
 
       {/* Solutions */}
-      <section className="py-20 px-6 section-professional">
+      <section className="py-20 px-6 section-professional" ref={solutionsRef}>
         <div className="container mx-auto">
-          <div className="text-center mb-16">
+          <div className={`text-center mb-16 scroll-reveal ${solutionsVisible.has(0) ? 'visible' : ''}`}>
             <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
               Nos <span className="text-secondary">Solutions</span>
             </h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="card-professional p-8 text-center">
+            <Card className={`card-professional p-8 text-center card-hover stagger-item ${solutionsVisible.has(1) ? 'visible' : ''}`}>
               <CardContent className="space-y-6">
                 <Package className="w-16 h-16 text-primary mx-auto" />
                 <h3 className="text-2xl font-bold font-inter">Box QVT</h3>
@@ -204,14 +211,14 @@ const NewIndex = () => {
                   Box thématiques et événementielles co-construites avec vos équipes
                 </p>
                 <Link to="/box">
-                  <Button className="btn-outline w-full">
+                  <Button className="btn-outline w-full button-hover">
                     En savoir plus <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>
               </CardContent>
             </Card>
 
-            <Card className="card-professional p-8 text-center">
+            <Card className={`card-professional p-8 text-center card-hover stagger-item ${solutionsVisible.has(2) ? 'visible' : ''}`}>
               <CardContent className="space-y-6">
                 <BarChart3 className="w-16 h-16 text-primary mx-auto" />
                 <h3 className="text-2xl font-bold font-inter">SaaS RH</h3>
@@ -219,14 +226,14 @@ const NewIndex = () => {
                   Prévention RPS, tableaux de bord anonymisés, export DUERP
                 </p>
                 <Link to="/saas">
-                  <Button className="btn-outline w-full">
+                  <Button className="btn-outline w-full button-hover">
                     Demander une démo <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>
               </CardContent>
             </Card>
 
-            <Card className="card-professional p-8 text-center">
+            <Card className={`card-professional p-8 text-center card-hover stagger-item ${solutionsVisible.has(3) ? 'visible' : ''}`}>
               <CardContent className="space-y-6">
                 <MapPin className="w-16 h-16 text-primary mx-auto" />
                 <h3 className="text-2xl font-bold font-inter">Boutique Locale</h3>
@@ -234,7 +241,7 @@ const NewIndex = () => {
                   Produits 100% français pour soutenir l'économie locale
                 </p>
                 <Link to="/boutique">
-                  <Button className="btn-outline w-full">
+                  <Button className="btn-outline w-full button-hover">
                     Découvrir <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>
@@ -245,8 +252,8 @@ const NewIndex = () => {
       </section>
 
       {/* CTA final */}
-      <section className="py-20 px-6 bg-primary">
-        <div className="container mx-auto text-center">
+      <section className="py-20 px-6 bg-primary" ref={ctaRef}>
+        <div className={`container mx-auto text-center scroll-reveal-scale ${ctaVisible ? 'visible' : ''}`}>
           <h2 className="text-4xl font-bold text-white mb-6 font-inter">
             Transformons ensemble les défis en solutions
           </h2>
@@ -256,13 +263,13 @@ const NewIndex = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/box">
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90 font-inter">
+              <Button size="lg" className="bg-white text-primary hover:bg-white/90 font-inter button-hover">
                 <Handshake className="w-5 h-5 mr-2" />
                 Devenir entreprise partenaire
               </Button>
             </Link>
             <Link to="/engagements">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary font-inter">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary font-inter button-hover">
                 Découvrir nos engagements
               </Button>
             </Link>

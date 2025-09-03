@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import { useScrollReveal, useStaggeredReveal } from '@/hooks/useScrollReveal';
 import { 
   Package, 
   Users, 
@@ -20,6 +21,11 @@ import qvtBoxImage from "@/assets/qvt-box-products.jpg";
 import professionalTeam from "@/assets/professional-team-meeting.jpg";
 
 const BoxPage = () => {
+  const [heroRef, heroVisible] = useScrollReveal();
+  const [boxesRef, boxesVisible] = useStaggeredReveal(4, 200);
+  const [processRef, processVisible] = useScrollReveal();
+  const [ctaRef, ctaVisible] = useScrollReveal();
+
   const thematicBoxes = [
     {
       name: "Box Focus & Performance",
@@ -109,9 +115,9 @@ const BoxPage = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-24 pb-16 px-6 bg-gradient-hero">
+      <section className="pt-24 pb-16 px-6 bg-gradient-hero" ref={heroRef}>
         <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className={`grid lg:grid-cols-2 gap-12 items-center scroll-reveal ${heroVisible ? 'visible' : ''}`}>
             <div>
               <div className="flex items-center gap-2 mb-6">
                 <Package className="w-8 h-8 text-primary" />
@@ -161,9 +167,9 @@ const BoxPage = () => {
       </section>
 
       {/* Box Thématiques */}
-      <section className="py-20 px-6 section-professional">
+      <section className="py-20 px-6 section-professional" ref={boxesRef}>
         <div className="container mx-auto">
-          <div className="text-center mb-16">
+          <div className={`text-center mb-16 scroll-reveal ${boxesVisible.has(0) ? 'visible' : ''}`}>
             <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
               Box <span className="text-secondary">Thématiques</span>
             </h2>
@@ -176,7 +182,7 @@ const BoxPage = () => {
             {thematicBoxes.map((box, index) => {
               const IconComponent = box.icon;
               return (
-                <Card key={index} className="card-professional overflow-hidden">
+                <Card key={index} className={`card-professional overflow-hidden card-hover stagger-item ${boxesVisible.has(index + 1) ? 'visible' : ''}`}>
                   <CardHeader className="pb-4">
                     <div className="flex items-start justify-between mb-4">
                       <IconComponent className="w-10 h-10 text-primary" />
@@ -210,7 +216,7 @@ const BoxPage = () => {
                         </ul>
                       </div>
                       
-                      <Button className="w-full btn-outline">
+                      <Button className="w-full btn-outline button-hover">
                         Personnaliser cette box
                       </Button>
                     </div>
@@ -263,9 +269,9 @@ const BoxPage = () => {
       </section>
 
       {/* Processus participatif */}
-      <section className="py-20 px-6 section-professional">
+      <section className="py-20 px-6 section-professional" ref={processRef}>
         <div className="container mx-auto">
-          <div className="text-center mb-16">
+          <div className={`text-center mb-16 scroll-reveal ${processVisible ? 'visible' : ''}`}>
             <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
               Un processus <span className="text-secondary">clair et participatif</span>
             </h2>
@@ -328,8 +334,8 @@ const BoxPage = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-6 bg-primary">
-        <div className="container mx-auto text-center">
+      <section className="py-20 px-6 bg-primary" ref={ctaRef}>
+        <div className={`container mx-auto text-center scroll-reveal-scale ${ctaVisible ? 'visible' : ''}`}>
           <h2 className="text-4xl font-bold text-white mb-6 font-inter">
             Prêt à co-construire avec vos équipes ?
           </h2>
@@ -339,13 +345,13 @@ const BoxPage = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/auth">
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90 font-inter">
+              <Button size="lg" className="bg-white text-primary hover:bg-white/90 font-inter button-hover">
                 <Users className="w-5 h-5 mr-2" />
                 Commencer l'évaluation
               </Button>
             </Link>
             <Link to="/contact">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary font-inter">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary font-inter button-hover">
                 Demander une présentation
               </Button>
             </Link>

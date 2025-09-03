@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { useScrollReveal, useStaggeredReveal } from '@/hooks/useScrollReveal';
 import { 
   Shield, 
   BarChart3, 
@@ -27,6 +28,11 @@ import workplaceWellness from "@/assets/workplace-wellness.jpg";
 
 const ProfessionalSaasPage = () => {
   const { user } = useAuth();
+  
+  const [heroRef, heroVisible] = useScrollReveal();
+  const [featuresRef, featuresVisible] = useStaggeredReveal(4, 200);
+  const [useCasesRef, useCasesVisible] = useStaggeredReveal(3, 250);
+  const [ctaRef, ctaVisible] = useScrollReveal();
 
   const features = [
     {
@@ -157,9 +163,9 @@ const ProfessionalSaasPage = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-24 pb-16 px-6 bg-gradient-hero">
+      <section className="pt-24 pb-16 px-6 bg-gradient-hero" ref={heroRef}>
         <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className={`grid lg:grid-cols-2 gap-12 items-center scroll-reveal ${heroVisible ? 'visible' : ''}`}>
             <div>
               <div className="flex items-center gap-2 mb-6">
                 <Shield className="w-8 h-8 text-primary" />
@@ -182,13 +188,13 @@ const ProfessionalSaasPage = () => {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to={user ? "/dashboard" : "/auth"}>
-                  <Button className="btn-primary text-lg px-8 py-4 font-inter">
+                  <Button className="btn-primary text-lg px-8 py-4 font-inter button-hover">
                     <BarChart3 className="w-5 h-5 mr-2" />
                     Demander une démo SaaS
                   </Button>
                 </Link>
                 <Link to="/engagements">
-                  <Button variant="outline" className="text-lg px-8 py-4 font-inter">
+                  <Button variant="outline" className="text-lg px-8 py-4 font-inter button-hover">
                     Voir les références légales
                   </Button>
                 </Link>
@@ -240,9 +246,9 @@ const ProfessionalSaasPage = () => {
       </section>
 
       {/* Fonctionnalités */}
-      <section className="py-20 px-6 section-professional">
+      <section className="py-20 px-6 section-professional" ref={featuresRef}>
         <div className="container mx-auto">
-          <div className="text-center mb-16">
+          <div className={`text-center mb-16 scroll-reveal ${featuresVisible.has(0) ? 'visible' : ''}`}>
             <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
               Fonctionnalités <span className="text-secondary">Professionnelles</span>
             </h2>
@@ -255,7 +261,7 @@ const ProfessionalSaasPage = () => {
             {features.map((feature, index) => {
               const IconComponent = feature.icon;
               return (
-                <Card key={index} className="card-professional overflow-hidden">
+                <Card key={index} className={`card-professional overflow-hidden card-hover stagger-item ${featuresVisible.has(index + 1) ? 'visible' : ''}`}>
                   <CardHeader className="pb-4">
                     <div className="flex items-start justify-between mb-4">
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
@@ -291,9 +297,9 @@ const ProfessionalSaasPage = () => {
       </section>
 
       {/* Cas d'usage par rôle */}
-      <section className="py-20 px-6 bg-background">
+      <section className="py-20 px-6 bg-background" ref={useCasesRef}>
         <div className="container mx-auto">
-          <div className="text-center mb-16">
+          <div className={`text-center mb-16 scroll-reveal ${useCasesVisible.has(0) ? 'visible' : ''}`}>
             <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
               Pour chaque <span className="text-secondary">acteur de l'entreprise</span>
             </h2>
@@ -301,7 +307,7 @@ const ProfessionalSaasPage = () => {
           
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             {useCases.map((useCase, index) => (
-              <Card key={index} className="card-professional overflow-hidden">
+              <Card key={index} className={`card-professional overflow-hidden card-hover stagger-item ${useCasesVisible.has(index + 1) ? 'visible' : ''}`}>
                 <CardHeader className="text-center pb-4">
                   <div className="text-6xl mb-4">{useCase.avatar}</div>
                   <CardTitle className="text-xl font-inter text-primary">
