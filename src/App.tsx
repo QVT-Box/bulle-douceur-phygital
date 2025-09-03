@@ -13,6 +13,7 @@ import BoutiquePage from "./pages/BoutiquePage";
 import CheckoutPage from "./pages/CheckoutPage";
 import CheckoutSuccessPage from "./pages/CheckoutSuccessPage";
 import CheckoutCancelPage from "./pages/CheckoutCancelPage";
+import ProductDetailPage from "./pages/ProductDetailPage";
 import ContactPage from "./pages/ContactPage";
 import ConnexionPage from "./pages/ConnexionPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -38,6 +39,7 @@ const App = () => (
               <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
               <Route path="/checkout/cancel" element={<CheckoutCancelPage />} />
+              <Route path="/boutique/produit/:slug" element={<ProductDetailPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/connexion" element={<ConnexionPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />

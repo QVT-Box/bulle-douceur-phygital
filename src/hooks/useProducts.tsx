@@ -18,6 +18,40 @@ export interface Category {
   sort_order: number;
 }
 
+export interface ProductVariant {
+  id: string;
+  product_id: string;
+  name: string;
+  value: string;
+  variant_type: string;
+  price_modifier: number;
+  sku: string | null;
+  inventory_quantity: number;
+  is_active: boolean;
+  sort_order: number;
+}
+
+export interface ProductReview {
+  id: string;
+  product_id: string;
+  user_id: string;
+  rating: number;
+  title: string | null;
+  comment: string | null;
+  is_verified_purchase: boolean;
+  is_approved: boolean;
+  helpful_count: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ProductTag {
+  id: string;
+  product_id: string;
+  tag: string;
+  tag_type: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -31,9 +65,17 @@ export interface Product {
   is_featured: boolean;
   category_id: string | null;
   inventory_quantity: number;
+  average_rating: number;
+  review_count: number;
+  seo_title: string | null;
+  seo_description: string | null;
+  seo_keywords: string[] | null;
   created_at: string;
   category?: Category;
   images?: ProductImage[];
+  variants?: ProductVariant[];
+  reviews?: ProductReview[];
+  tags?: ProductTag[];
 }
 
 export const useProducts = (categorySlug?: string) => {
@@ -50,7 +92,10 @@ export const useProducts = (categorySlug?: string) => {
           .select(`
             *,
             category:categories(name, slug),
-            images:product_images(*)
+            images:product_images(*),
+            variants:product_variants(*),
+            reviews:product_reviews(*),
+            tags:product_tags(*)
           `)
           .eq('is_active', true)
           .order('created_at', { ascending: false });
@@ -65,7 +110,12 @@ export const useProducts = (categorySlug?: string) => {
 
         const formattedProducts = data?.map((product: any) => ({
           ...product,
-          images: product.images?.sort((a: ProductImage, b: ProductImage) => a.sort_order - b.sort_order) || []
+          images: product.images?.sort((a: ProductImage, b: ProductImage) => a.sort_order - b.sort_order) || [],
+          variants: product.variants?.sort((a: ProductVariant, b: ProductVariant) => a.sort_order - b.sort_order) || [],
+          reviews: product.reviews?.filter((r: ProductReview) => r.is_approved).sort((a: ProductReview, b: ProductReview) => 
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          ) || [],
+          tags: product.tags || []
         })) || [];
 
         setProducts(formattedProducts);

@@ -966,10 +966,188 @@ export type Database = {
           },
         ]
       }
+      product_recommendations: {
+        Row: {
+          created_at: string | null
+          id: string
+          priority: number | null
+          product_id: string | null
+          recommendation_type: string | null
+          recommended_product_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          priority?: number | null
+          product_id?: string | null
+          recommendation_type?: string | null
+          recommended_product_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          priority?: number | null
+          product_id?: string | null
+          recommendation_type?: string | null
+          recommended_product_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_recommendations_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_recommendations_recommended_product_id_fkey"
+            columns: ["recommended_product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_reviews: {
+        Row: {
+          comment: string | null
+          created_at: string | null
+          helpful_count: number | null
+          id: string
+          is_approved: boolean | null
+          is_verified_purchase: boolean | null
+          product_id: string | null
+          rating: number
+          title: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string | null
+          helpful_count?: number | null
+          id?: string
+          is_approved?: boolean | null
+          is_verified_purchase?: boolean | null
+          product_id?: string | null
+          rating: number
+          title?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string | null
+          helpful_count?: number | null
+          id?: string
+          is_approved?: boolean | null
+          is_verified_purchase?: boolean | null
+          product_id?: string | null
+          rating?: number
+          title?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_reviews_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_tags: {
+        Row: {
+          created_at: string | null
+          id: string
+          product_id: string | null
+          tag: string
+          tag_type: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          product_id?: string | null
+          tag: string
+          tag_type?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          product_id?: string | null
+          tag?: string
+          tag_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_tags_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_variants: {
+        Row: {
+          created_at: string | null
+          id: string
+          inventory_quantity: number | null
+          is_active: boolean | null
+          name: string
+          price_modifier: number | null
+          product_id: string | null
+          sku: string | null
+          sort_order: number | null
+          updated_at: string | null
+          value: string
+          variant_type: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          inventory_quantity?: number | null
+          is_active?: boolean | null
+          name: string
+          price_modifier?: number | null
+          product_id?: string | null
+          sku?: string | null
+          sort_order?: number | null
+          updated_at?: string | null
+          value: string
+          variant_type: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          inventory_quantity?: number | null
+          is_active?: boolean | null
+          name?: string
+          price_modifier?: number | null
+          product_id?: string | null
+          sku?: string | null
+          sort_order?: number | null
+          updated_at?: string | null
+          value?: string
+          variant_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_variants_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       products: {
         Row: {
           allow_backorder: boolean | null
           artisan_info: string | null
+          average_rating: number | null
           barcode: string | null
           category_id: string | null
           compare_at_price: number | null
@@ -985,7 +1163,10 @@ export type Database = {
           origin: string | null
           price: number
           requires_shipping: boolean | null
+          review_count: number | null
+          search_vector: unknown | null
           seo_description: string | null
+          seo_keywords: string[] | null
           seo_title: string | null
           short_description: string | null
           sku: string | null
@@ -997,6 +1178,7 @@ export type Database = {
         Insert: {
           allow_backorder?: boolean | null
           artisan_info?: string | null
+          average_rating?: number | null
           barcode?: string | null
           category_id?: string | null
           compare_at_price?: number | null
@@ -1012,7 +1194,10 @@ export type Database = {
           origin?: string | null
           price: number
           requires_shipping?: boolean | null
+          review_count?: number | null
+          search_vector?: unknown | null
           seo_description?: string | null
+          seo_keywords?: string[] | null
           seo_title?: string | null
           short_description?: string | null
           sku?: string | null
@@ -1024,6 +1209,7 @@ export type Database = {
         Update: {
           allow_backorder?: boolean | null
           artisan_info?: string | null
+          average_rating?: number | null
           barcode?: string | null
           category_id?: string | null
           compare_at_price?: number | null
@@ -1039,7 +1225,10 @@ export type Database = {
           origin?: string | null
           price?: number
           requires_shipping?: boolean | null
+          review_count?: number | null
+          search_vector?: unknown | null
           seo_description?: string | null
+          seo_keywords?: string[] | null
           seo_title?: string | null
           short_description?: string | null
           sku?: string | null
@@ -1818,6 +2007,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      calculate_product_rating: {
+        Args: { product_uuid: string }
+        Returns: number
+      }
       can_manager_access_team: {
         Args: { manager_id: string; target_team_id: string }
         Returns: boolean
