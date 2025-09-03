@@ -104,7 +104,7 @@ const NewIndex = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {stats.map((stat, index) => (
-              <Card key={index} className={`card-professional text-center p-6 card-hover stagger-item ${statsVisible.has(index + 1) ? 'visible' : ''}`}>
+              <Card key={index} className={`card-professional text-center p-6 card-hover stagger-item ${statsVisible.has(index) ? 'visible' : ''}`}>
                 <CardContent className="space-y-4">
                   <div className="text-4xl font-bold text-primary font-inter">
                     {stat.value}
@@ -138,7 +138,7 @@ const NewIndex = () => {
             {engagements.map((engagement, index) => {
               const IconComponent = engagement.icon;
               return (
-                <Card key={index} className={`card-professional p-6 text-center hover:shadow-floating transition-all duration-300 card-hover stagger-item ${piersVisible.has(index + 1) ? 'visible' : ''}`}>
+                <Card key={index} className={`card-professional p-6 text-center hover:shadow-floating transition-all duration-300 card-hover stagger-item ${piersVisible.has(index) ? 'visible' : ''}`}>
                   <CardContent className="space-y-4">
                     <div className="flex justify-center mb-4">
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
@@ -173,7 +173,7 @@ const NewIndex = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className={`card-professional p-6 card-hover stagger-item ${testimonialsVisible.has(index + 1) ? 'visible' : ''}`}>
+              <Card key={index} className={`card-professional p-6 card-hover stagger-item ${testimonialsVisible.has(index) ? 'visible' : ''}`}>
                 <CardContent className="space-y-4">
                   <p className="text-foreground/80 italic font-lato leading-relaxed">
                     "{testimonial.quote}"
@@ -203,7 +203,7 @@ const NewIndex = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className={`card-professional p-8 text-center card-hover stagger-item ${solutionsVisible.has(1) ? 'visible' : ''}`}>
+            <Card className={`card-professional p-8 text-center card-hover stagger-item ${solutionsVisible.has(0) ? 'visible' : ''}`}>
               <CardContent className="space-y-6">
                 <Package className="w-16 h-16 text-primary mx-auto" />
                 <h3 className="text-2xl font-bold font-inter">Box QVT</h3>
@@ -218,7 +218,7 @@ const NewIndex = () => {
               </CardContent>
             </Card>
 
-            <Card className={`card-professional p-8 text-center card-hover stagger-item ${solutionsVisible.has(2) ? 'visible' : ''}`}>
+            <Card className={`card-professional p-8 text-center card-hover stagger-item ${solutionsVisible.has(1) ? 'visible' : ''}`}>
               <CardContent className="space-y-6">
                 <BarChart3 className="w-16 h-16 text-primary mx-auto" />
                 <h3 className="text-2xl font-bold font-inter">SaaS RH</h3>
@@ -233,7 +233,7 @@ const NewIndex = () => {
               </CardContent>
             </Card>
 
-            <Card className={`card-professional p-8 text-center card-hover stagger-item ${solutionsVisible.has(3) ? 'visible' : ''}`}>
+            <Card className={`card-professional p-8 text-center card-hover stagger-item ${solutionsVisible.has(2) ? 'visible' : ''}`}>
               <CardContent className="space-y-6">
                 <MapPin className="w-16 h-16 text-primary mx-auto" />
                 <h3 className="text-2xl font-bold font-inter">Boutique Locale</h3>
