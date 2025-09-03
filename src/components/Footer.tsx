@@ -22,8 +22,8 @@ const Footer = () => {
           </div>
           
           <p className="text-foreground/70 mb-8 font-poppins font-light max-w-2xl mx-auto animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
-            Sortez de votre bulle avec bienveillance. 
-            Prenez soin de vos équipes, ils prennent soin de votre entreprise.
+            QVT Box est un compagnon professionnel du quotidien, conçu pour les salariés, les managers, les RH et les représentants du personnel. 
+            Ensemble, faisons de la question "Ça va ?" un vrai levier de dialogue social et de bien-être durable.
           </p>
           
           <div className="flex flex-wrap justify-center gap-8 mb-8 animate-slide-in-up" style={{ animationDelay: '0.4s' }}>

@@ -18,15 +18,20 @@ const BoxSection = () => {
   return (
     <section className="section-gradient py-20 px-6">
       <div className="container mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-kalam font-bold text-foreground mb-6">
-            Nos <span className="text-primary">Box Magiques</span>
-          </h2>
-          <p className="text-xl text-foreground/70 max-w-3xl mx-auto font-light">
-            Chaque box est pensée comme un cadeau bienveillant, 
-            remplie de produits français artisanaux choisis avec cœur.
-          </p>
-        </div>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-kalam font-bold text-foreground mb-6">
+              Nos <span className="text-primary">Box Magiques</span>
+            </h2>
+            <p className="text-xl text-foreground/70 max-w-3xl mx-auto font-light mb-6">
+              Chaque box est pensée comme un cadeau bienveillant, 
+              remplie de produits français artisanaux choisis avec cœur.
+            </p>
+            <div className="card-bubble p-6 max-w-4xl mx-auto">
+              <p className="text-lg text-foreground/80 leading-relaxed font-light">
+                Parce que les salariés ont besoin de moyens visibles et utiles, nos box apportent des réponses concrètes aux réalités du travail : fatigue, charge, cohésion, reconnaissance. Elles sont conçues pour être offertes par l'entreprise à ses collaborateurs comme preuves tangibles d'attention et de soutien.
+              </p>
+            </div>
+          </div>
 
         <div className="grid md:grid-cols-2 gap-12 mb-16">
           <div className="card-bubble p-8 hover:shadow-floating transition-all duration-300">

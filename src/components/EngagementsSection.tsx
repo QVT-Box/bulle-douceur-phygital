@@ -5,25 +5,25 @@ const EngagementsSection = () => {
     {
       title: "Écouter le terrain",
       action: "Simulateur Ma Bulle Attentionnée",
-      description: "Donnons la parole aux équipes pour comprendre leurs vrais besoins",
+      description: "Pour comprendre les vrais besoins des équipes et donner la parole à chaque salarié",
       icon: "👂"
     },
     {
-      title: "Donner des moyens concrets", 
-      action: "Box thématiques et événementielles",
-      description: "Des solutions tangibles pour soutenir et reconnaître",
+      title: "Agir concrètement", 
+      action: "Box thématiques et événementielles adaptées aux réalités",
+      description: "Des moyens visibles et utiles pour répondre aux défis du quotidien professionnel",
       icon: "🎁"
     },
     {
       title: "Prévenir les risques",
-      action: "Dashboards RH et alertes RPS", 
-      description: "Anticipons pour protéger, analysons pour améliorer",
+      action: "SaaS RH conforme aux obligations légales", 
+      description: "Des outils professionnels pour anticiper, mesurer et agir sur les risques psychosociaux",
       icon: "🛡️"
     },
     {
       title: "Construire ensemble",
-      action: "Partenariats avec CSE, mutuelles et institutions",
-      description: "L'union fait la force, surtout quand il s'agit de bien-être",
+      action: "Partenariats avec CSE, mutuelles, institutions",
+      description: "Une approche collaborative pour faire de la QVCT un levier de dialogue social",
       icon: "🤝"
     }
   ];

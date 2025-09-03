@@ -25,17 +25,14 @@ const SaasSection = () => {
             <h2 className="text-4xl md:text-5xl font-kalam font-bold text-foreground mb-6">
               Le <span className="text-secondary">SaaS</span> qui prend soin
             </h2>
-            <p className="text-primary font-medium mb-6 text-sm uppercase tracking-wide">
-              → Pour donner aux RH et CSE des indicateurs clairs, anonymisés et exploitables, afin de prévenir les risques et simplifier le DUERP.
-            </p>
             <p className="text-xl text-foreground/70 mb-8 leading-relaxed font-light">
-              « Prenez le pouls de vos équipes, sans intrusion, avec bienveillance. »
+              « Prévenir les risques psychosociaux n'est pas qu'une option, c'est une obligation légale (DUERP). »
             </p>
-            <p className="text-lg text-foreground/70 mb-8 leading-relaxed">
-              Notre plateforme transforme les données RH en insights humains. 
-              Des dashboards colorés comme des bulles d'émotion, 
-              pour comprendre sans juger, accompagner sans forcer.
-            </p>
+            <div className="card-bubble p-6 mb-8">
+              <p className="text-lg text-foreground/80 leading-relaxed font-light">
+                QVT Box accompagne les RH, CSE et managers de proximité avec des outils fiables : dashboards intuitifs, alertes précoces, indicateurs anonymisés et exports réglementaires. Une solution simple et professionnelle pour piloter la QVCT avec sérieux et humanité.
+              </p>
+            </div>
             
             <div className="space-y-6 mb-8">
               {features.map((feature, index) => (

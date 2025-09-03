@@ -48,25 +48,24 @@ const PoeticHero = () => {
           <div className="mb-12 space-y-4 animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
           <h1 className="font-kalam text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight">
             <span className="text-2xl md:text-3xl lg:text-4xl font-montserrat font-light block text-white/90 mb-6">
-              La Qualité de Vie et les Conditions de Travail, ça se construit ensemble.
+              Salut, ça va ?
             </span>
             <span className="text-gradient block mb-2">QVT Box</span>
             <span className="text-xl md:text-2xl lg:text-3xl font-montserrat font-light block text-white/90 mt-4">
-              vous apporte des solutions concrètes et bienveillantes pour répondre à la question :
-              <br />
-              <span className="text-accent font-medium text-3xl md:text-4xl lg:text-5xl">"Ça va ?"</span>
+              La question qui change tout au travail
             </span>
           </h1>
           </div>
 
-          {/* Poetic Description */}
+          {/* Professional Description */}
           <div className="mb-16 space-y-6 animate-slide-in-up" style={{ animationDelay: '0.4s' }}>
             <div className="glass-effect rounded-3xl p-8 md:p-12 max-w-4xl mx-auto hover:scale-105 transition-all duration-500">
               <p className="text-lg md:text-xl text-foreground/80 leading-relaxed font-inter font-light">
-                Dans le tourbillon du quotidien, nous oublions de nous poser cette question essentielle. 
+                La Qualité de Vie et les Conditions de Travail, ça se construit ensemble. 
                 <span className="text-gradient font-dancing font-semibold text-2xl"> QVT Box </span>
-                vous invite à retrouver ce dialogue intérieur, à travers des bulles de douceur qui transforment 
-                votre bien-être en <span className="text-secondary font-medium animate-pulse-soft">poésie du quotidien</span> ✨
+                est un outil que les entreprises consacrent uniquement au bien-être de leurs salariés, 
+                transformant les défis du quotidien – stress, pénibilité, surcharge, manque de reconnaissance – 
+                en <span className="text-secondary font-medium animate-pulse-soft">solutions concrètes et bienveillantes</span> ✨
               </p>
             </div>
           </div>
@@ -86,7 +85,7 @@ const PoeticHero = () => {
                 className="btn-soft text-lg px-8 py-4 hover:scale-105 transition-all duration-300 font-poppins"
                 variant="outline"
               >
-                📦 Soutenir mes équipes avec une Box
+                📦 Offrir une solution de bien-être à mes équipes
               </Button>
             </div>
             
@@ -96,7 +95,7 @@ const PoeticHero = () => {
                 className="bg-gradient-card border border-secondary/20 text-foreground px-8 py-4 rounded-full hover:bg-secondary/10 hover:scale-105 transition-all duration-300 font-inter"
                 variant="outline"
               >
-                💭 Prévenir les risques et agir concrètement
+                💭 Piloter la QVCT avec simplicité
               </Button>
               
               <Button 
@@ -104,7 +103,7 @@ const PoeticHero = () => {
                 className="bg-accent/20 border border-accent/30 text-foreground px-8 py-4 rounded-full hover:bg-accent/30 hover:scale-105 transition-all duration-300 font-inter"
                 variant="outline"
               >
-                🛍️ Découvrir le savoir-faire local
+                🛍️ Soutenir mes collaborateurs
               </Button>
             </div>
           </div>
