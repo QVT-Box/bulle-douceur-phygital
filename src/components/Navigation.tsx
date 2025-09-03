@@ -1,15 +1,20 @@
 import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useCart } from "@/hooks/useCart";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingBag, Settings } from "lucide-react";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import { ShoppingBag, Settings, Menu, X } from "lucide-react";
 
 const Navigation = () => {
   const location = useLocation();
   const { user } = useAuth();
   const { isAdmin } = useUserRole();
   const { totalItems, setIsOpen } = useCart();
+  const isMobile = useIsMobile();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const navItems = [
     { name: "Accueil", path: "/" },
@@ -82,14 +87,81 @@ const Navigation = () => {
             </li>
           </ul>
           
-          <button className="md:hidden">
-            <span className="sr-only">Menu</span>
-            <div className="w-6 h-6 flex flex-col justify-center items-center space-y-1">
-              <div className="w-4 h-0.5 bg-primary rounded"></div>
-              <div className="w-4 h-0.5 bg-primary rounded"></div>
-              <div className="w-4 h-0.5 bg-primary rounded"></div>
-            </div>
-          </button>
+          <Drawer open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <DrawerTrigger asChild>
+              <button className="md:hidden p-2">
+                <span className="sr-only">Menu</span>
+                <Menu className="w-6 h-6 text-primary" />
+              </button>
+            </DrawerTrigger>
+            <DrawerContent className="h-full">
+              <div className="flex flex-col h-full p-6">
+                <div className="flex items-center justify-between mb-8">
+                  <span className="text-xl font-inter font-bold text-foreground">Menu</span>
+                  <button
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="p-2"
+                  >
+                    <X className="w-6 h-6 text-foreground" />
+                  </button>
+                </div>
+                
+                <div className="flex flex-col space-y-6 flex-1">
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.path}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`text-lg font-poppins py-3 px-4 rounded-lg transition-all duration-300 ${
+                        location.pathname === item.path 
+                          ? 'bg-primary/10 text-primary font-semibold' 
+                          : 'text-foreground hover:bg-muted'
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+                
+                <div className="flex flex-col space-y-4 mt-8 pt-6 border-t border-border">
+                  <button
+                    onClick={() => {
+                      setIsOpen(true);
+                      setMobileMenuOpen(false);
+                    }}
+                    className="relative bg-primary text-white px-6 py-3 rounded-lg font-medium transition-all hover:bg-primary/90 font-inter flex items-center justify-center gap-2"
+                  >
+                    <ShoppingBag className="w-5 h-5" />
+                    Panier
+                    {totalItems > 0 && (
+                      <Badge className="bg-secondary text-white min-w-[20px] h-5 text-xs">
+                        {totalItems}
+                      </Badge>
+                    )}
+                  </button>
+                  
+                  <Link
+                    to={user ? "/dashboard" : "/auth"}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="bg-secondary text-white px-6 py-3 rounded-lg font-medium transition-all hover:bg-secondary/90 font-inter text-center"
+                  >
+                    {user ? "Mon Tableau de Bord" : "Mon Espace"}
+                  </Link>
+                  
+                  {user && isAdmin && (
+                    <Link
+                      to="/admin"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="bg-accent text-white px-6 py-3 rounded-lg font-medium transition-all hover:bg-accent/90 font-inter flex items-center justify-center gap-2"
+                    >
+                      <Settings className="w-5 h-5" />
+                      Administration
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </DrawerContent>
+          </Drawer>
         </div>
       </div>
     </nav>
