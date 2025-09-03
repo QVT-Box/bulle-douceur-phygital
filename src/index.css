@@ -236,6 +236,35 @@
     animation: glow 2s ease-in-out infinite;
   }
 
+  /* Alert system styles */
+  .alert-green {
+    @apply bg-green-50 border-green-200 text-green-800;
+  }
+
+  .alert-amber {
+    @apply bg-amber-50 border-amber-200 text-amber-800;
+  }
+
+  .alert-red {
+    @apply bg-red-50 border-red-200 text-red-800;
+  }
+
+  .score-indicator {
+    @apply inline-flex items-center justify-center w-8 h-8 rounded-full text-xs font-medium;
+  }
+
+  .score-green {
+    @apply bg-green-500 text-white;
+  }
+
+  .score-amber {
+    @apply bg-amber-500 text-white;
+  }
+
+  .score-red {
+    @apply bg-red-500 text-white;
+  }
+
   .bg-gradient-bubble {
     background: var(--gradient-bubble);
   }

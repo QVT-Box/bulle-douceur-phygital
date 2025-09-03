@@ -139,6 +139,48 @@ export type Database = {
         }
         Relationships: []
       }
+      alerts: {
+        Row: {
+          anonymized_message: boolean | null
+          created_at: string | null
+          id: string
+          notes: string | null
+          primary_axis: string
+          resolved_at: string | null
+          risk_level: string
+          status: string | null
+          target_role: string | null
+          user_consent: boolean | null
+          user_id: string
+        }
+        Insert: {
+          anonymized_message?: boolean | null
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          primary_axis: string
+          resolved_at?: string | null
+          risk_level: string
+          status?: string | null
+          target_role?: string | null
+          user_consent?: boolean | null
+          user_id: string
+        }
+        Update: {
+          anonymized_message?: boolean | null
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          primary_axis?: string
+          resolved_at?: string | null
+          risk_level?: string
+          status?: string | null
+          target_role?: string | null
+          user_consent?: boolean | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       bubble_rewards: {
         Row: {
           bubble_type: Database["public"]["Enums"]["bubble_type"]
@@ -839,6 +881,75 @@ export type Database = {
         }
         Relationships: []
       }
+      mood_answers: {
+        Row: {
+          check_id: string
+          created_at: string | null
+          id: string
+          question_id: string
+          text_value: string | null
+          value: number | null
+        }
+        Insert: {
+          check_id: string
+          created_at?: string | null
+          id?: string
+          question_id: string
+          text_value?: string | null
+          value?: number | null
+        }
+        Update: {
+          check_id?: string
+          created_at?: string | null
+          id?: string
+          question_id?: string
+          text_value?: string | null
+          value?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mood_answers_check_id_fkey"
+            columns: ["check_id"]
+            isOneToOne: false
+            referencedRelation: "mood_checks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mood_answers_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "question_bank"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mood_checks: {
+        Row: {
+          completed_at: string | null
+          created_at: string | null
+          id: string
+          period_end: string
+          period_start: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          period_end: string
+          period_start: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          period_end?: string
+          period_start?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       mood_entries: {
         Row: {
           comment: string | null
@@ -927,6 +1038,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      org_settings: {
+        Row: {
+          amber_threshold: number | null
+          created_at: string | null
+          evaluation_frequency_days: number | null
+          id: string
+          min_sample_size: number | null
+          organization_id: string | null
+          red_threshold: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          amber_threshold?: number | null
+          created_at?: string | null
+          evaluation_frequency_days?: number | null
+          id?: string
+          min_sample_size?: number | null
+          organization_id?: string | null
+          red_threshold?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          amber_threshold?: number | null
+          created_at?: string | null
+          evaluation_frequency_days?: number | null
+          id?: string
+          min_sample_size?: number | null
+          organization_id?: string | null
+          red_threshold?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       product_images: {
         Row: {
@@ -1345,6 +1489,123 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      question_bank: {
+        Row: {
+          axis: string
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          question_type: string
+          text: string
+          weight: number | null
+        }
+        Insert: {
+          axis: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          question_type: string
+          text: string
+          weight?: number | null
+        }
+        Update: {
+          axis?: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          question_type?: string
+          text?: string
+          weight?: number | null
+        }
+        Relationships: []
+      }
+      resources: {
+        Row: {
+          audience: string | null
+          axis: string
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          resource_type: string | null
+          title: string
+          url: string | null
+        }
+        Insert: {
+          audience?: string | null
+          axis: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          resource_type?: string | null
+          title: string
+          url?: string | null
+        }
+        Update: {
+          audience?: string | null
+          axis?: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          resource_type?: string | null
+          title?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      risk_scores: {
+        Row: {
+          charge_rythme_score: number | null
+          climat_reconnaissance_score: number | null
+          created_at: string | null
+          deconnexion_tension_score: number | null
+          humeur_energie_score: number | null
+          id: string
+          overall_score: number
+          penibilite_ergonomie_score: number | null
+          period_end: string
+          period_start: string
+          top_risk_axis: string | null
+          trend_direction: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          charge_rythme_score?: number | null
+          climat_reconnaissance_score?: number | null
+          created_at?: string | null
+          deconnexion_tension_score?: number | null
+          humeur_energie_score?: number | null
+          id?: string
+          overall_score: number
+          penibilite_ergonomie_score?: number | null
+          period_end: string
+          period_start: string
+          top_risk_axis?: string | null
+          trend_direction?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          charge_rythme_score?: number | null
+          climat_reconnaissance_score?: number | null
+          created_at?: string | null
+          deconnexion_tension_score?: number | null
+          humeur_energie_score?: number | null
+          id?: string
+          overall_score?: number
+          penibilite_ergonomie_score?: number | null
+          period_end?: string
+          period_start?: string
+          top_risk_axis?: string | null
+          trend_direction?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
       }
       security_audit_log: {
         Row: {

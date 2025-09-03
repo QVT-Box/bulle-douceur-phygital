@@ -21,6 +21,7 @@ import MoodDashboard from "./pages/MoodDashboard";
 import AdminPage from "./pages/AdminPage";
 import AuthPage from "./pages/AuthPage";
 import UserDashboard from "./pages/UserDashboard";
+import EngagementsPage from "./pages/EngagementsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -49,6 +50,7 @@ const App = () => (
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/auth" element={<AuthPage />} />
               <Route path="/dashboard" element={<UserDashboard />} />
+              <Route path="/engagements" element={<EngagementsPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
