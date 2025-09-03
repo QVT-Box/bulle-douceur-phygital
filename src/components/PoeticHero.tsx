@@ -21,7 +21,7 @@ const PoeticHero = () => {
 
   return (
     <>
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         <FloatingBubbles />
         
         {/* Gradient Background */}
@@ -29,19 +29,19 @@ const PoeticHero = () => {
         
         {/* Content */}
         <div className="relative z-10 text-center px-6 max-w-6xl mx-auto">
-          {/* Logo Animation optimisé */}
+          {/* Logo Animation - Design original préservé */}
           <div className="mb-12 animate-slide-in-up relative group">
-            <div className="absolute inset-0 bg-primary/30 rounded-full blur-xl animate-pulse-soft group-hover:blur-2xl transition-all duration-500 scale-110"></div>
+            <div className="absolute inset-0 bg-primary/30 blur-xl animate-pulse-soft group-hover:blur-2xl transition-all duration-500 scale-110"></div>
             <img 
               src="/logo-qvt.png" 
               alt="QVT Box - Logo professionnel" 
-              className="relative w-36 h-36 mx-auto mb-8 animate-float drop-shadow-2xl hover:drop-shadow-[0_0_30px_rgba(139,92,246,0.5)] transition-all duration-500 group-hover:scale-105 rounded-full object-cover border-2 border-white/20"
+              className="relative w-40 h-40 mx-auto mb-8 animate-float drop-shadow-2xl hover:drop-shadow-[0_0_30px_rgba(139,92,246,0.5)] transition-all duration-500 group-hover:scale-105 object-contain"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
                 e.currentTarget.nextElementSibling?.classList.remove('hidden');
               }}
             />
-            <div className="hidden relative w-36 h-36 mx-auto mb-8 flex items-center justify-center bg-gradient-bubble rounded-full text-foreground font-dancing font-bold text-2xl animate-float border-2 border-white/20 shadow-floating">
+            <div className="hidden relative w-40 h-40 mx-auto mb-8 flex items-center justify-center bg-gradient-bubble rounded-full text-foreground font-dancing font-bold text-2xl animate-float shadow-floating">
               QVT BOX
             </div>
           </div>

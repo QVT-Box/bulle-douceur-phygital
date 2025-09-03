@@ -20,21 +20,21 @@ const ProfessionalHero = () => {
 
   return (
     <>
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-hero">
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-hero pt-20">
         {/* Content */}
         <div className="relative z-10 text-center px-6 max-w-7xl mx-auto">
-          {/* Logo */}
+          {/* Logo - Design original préservé */}
           <div className="mb-12">
             <img 
               src="/logo-qvt.png" 
               alt="QVT Box Logo" 
-              className="w-24 h-24 mx-auto mb-8"
+              className="w-32 h-32 mx-auto mb-8 object-contain drop-shadow-lg"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
                 e.currentTarget.nextElementSibling?.classList.remove('hidden');
               }}
             />
-            <div className="hidden w-24 h-24 mx-auto mb-8 flex items-center justify-center bg-primary rounded-full text-white font-inter font-bold text-lg">
+            <div className="hidden w-32 h-32 mx-auto mb-8 flex items-center justify-center bg-primary rounded-full text-white font-inter font-bold text-lg">
               QVT BOX
             </div>
           </div>

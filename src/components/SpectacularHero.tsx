@@ -26,7 +26,7 @@ const SpectacularHero = () => {
   return (
     <section 
       ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero pt-20"
       style={{
         background: `
           radial-gradient(circle at calc(var(--mouse-x, 0.5) * 100%) calc(var(--mouse-y, 0.5) * 100%), 
@@ -72,20 +72,20 @@ const SpectacularHero = () => {
           
           {/* Contenu textuel avec effets */}
           <div className="space-y-8 animate-fade-in">
-            {/* Logo avec effet spectaculaire optimisé */}
+            {/* Logo avec effet spectaculaire - Design original préservé */}
             <div className="relative mb-8 group">
-              <div className="absolute inset-0 bg-primary/40 rounded-full blur-2xl animate-pulse-soft group-hover:blur-3xl transition-all duration-700 scale-110"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-secondary/30 to-accent/30 rounded-full blur-xl animate-glow scale-105"></div>
+              <div className="absolute inset-0 bg-primary/40 blur-2xl animate-pulse-soft group-hover:blur-3xl transition-all duration-700 scale-110"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-secondary/30 to-accent/30 blur-xl animate-glow scale-105"></div>
               <img 
                 src="/logo-qvt.png" 
                 alt="QVT Box - Logo professionnel" 
-                className="relative w-32 h-32 mx-auto lg:mx-0 mb-8 drop-shadow-2xl hover:drop-shadow-[0_0_40px_rgba(139,92,246,0.6)] transition-all duration-700 group-hover:scale-110 animate-float shadow-floating rounded-full object-cover border-2 border-white/20"
+                className="relative w-36 h-36 mx-auto lg:mx-0 mb-8 drop-shadow-2xl hover:drop-shadow-[0_0_40px_rgba(139,92,246,0.6)] transition-all duration-700 group-hover:scale-110 animate-float shadow-floating object-contain"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.nextElementSibling?.classList.remove('hidden');
                 }}
               />
-              <div className="hidden w-32 h-32 mx-auto lg:mx-0 mb-8 flex items-center justify-center bg-gradient-to-br from-primary via-secondary to-accent rounded-full text-white font-inter font-bold text-xl shadow-floating hover:shadow-bubble transition-all duration-700 group-hover:scale-110 animate-float border-2 border-white/20">
+              <div className="hidden w-36 h-36 mx-auto lg:mx-0 mb-8 flex items-center justify-center bg-gradient-to-br from-primary via-secondary to-accent rounded-full text-white font-inter font-bold text-xl shadow-floating hover:shadow-bubble transition-all duration-700 group-hover:scale-110 animate-float">
                 QVT BOX
               </div>
             </div>
