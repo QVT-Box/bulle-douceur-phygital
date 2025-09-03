@@ -38,6 +38,20 @@ const Footer = () => {
           </div>
           
           <div className="border-t border-primary/10 pt-6 animate-slide-in-up" style={{ animationDelay: '0.6s' }}>
+            <div className="flex flex-wrap justify-center gap-6 mb-4 text-sm">
+              <Link to="/cgv" className="text-foreground/60 hover:text-primary transition-colors font-inter">
+                CGV
+              </Link>
+              <Link to="/mentions-legales" className="text-foreground/60 hover:text-primary transition-colors font-inter">
+                Mentions Légales
+              </Link>
+              <Link to="/politique-confidentialite" className="text-foreground/60 hover:text-primary transition-colors font-inter">
+                Politique de Confidentialité
+              </Link>
+              <Link to="/contact" className="text-foreground/60 hover:text-primary transition-colors font-inter">
+                Contact
+              </Link>
+            </div>
             <p className="text-sm text-foreground/50 font-inter">
               © 2024 QVT Box - Fait avec <Heart className="inline w-4 h-4 text-red-400 animate-pulse-soft" /> en France pour le bien-être au travail
             </p>

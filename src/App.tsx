@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./hooks/useAuth";
 import { CartProvider } from "./hooks/useCart";
 import AppInitializer from "./components/AppInitializer";
+import GlobalSEO from "./components/GlobalSEO";
 import Index from "./pages/Index";
 import BoxPage from "./pages/BoxPage";
 import ProfessionalSaasPage from "./pages/ProfessionalSaasPage";
@@ -24,6 +25,9 @@ import AuthPage from "./pages/AuthPage";
 import UserDashboard from "./pages/UserDashboard";
 import EngagementsPage from "./pages/EngagementsPage";
 import NotFound from "./pages/NotFound";
+import MentionsLegalesPage from "./pages/MentionsLegalesPage";
+import PolitiqueConfidentialitePage from "./pages/PolitiqueConfidentialitePage";
+import CGVPage from "./pages/CGVPage";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +37,7 @@ const App = () => (
       <AuthProvider>
         <CartProvider>
           <AppInitializer>
+            <GlobalSEO />
             <Toaster />
             <Sonner />
             <BrowserRouter>
@@ -53,6 +58,9 @@ const App = () => (
                 <Route path="/auth" element={<AuthPage />} />
                 <Route path="/dashboard" element={<UserDashboard />} />
                 <Route path="/engagements" element={<EngagementsPage />} />
+                <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
+                <Route path="/politique-confidentialite" element={<PolitiqueConfidentialitePage />} />
+                <Route path="/cgv" element={<CGVPage />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

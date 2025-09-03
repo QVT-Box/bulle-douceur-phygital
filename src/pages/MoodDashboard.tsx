@@ -61,10 +61,10 @@ const MoodDashboard = () => {
     if (!user) return;
 
     try {
-      // Pas d'analytics pour l'instant - sera implémenté après que les types soient générés
-      console.log('Analytics will be implemented after database types are generated');
+      // Analytics sera implémenté dans une future version
+      // Placeholder pour les fonctionnalités d'analyse avancées
     } catch (error) {
-      console.error('Analytics fetch error:', error);
+      // Gestion silencieuse des erreurs d'analytics
     }
   };
 

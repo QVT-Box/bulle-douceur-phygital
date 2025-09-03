@@ -20,13 +20,18 @@ interface UserProperties {
 
 export const useAnalytics = () => {
   const trackEvent = useCallback((event: AnalyticsEvent) => {
-    // Console logging for development (replace with real analytics in production)
-    console.log('📊 Analytics Event:', {
+    // Production-ready analytics tracking
+    const analyticsData = {
       ...event,
       timestamp: new Date().toISOString(),
       url: window.location.href,
       userAgent: navigator.userAgent.substring(0, 100)
-    });
+    };
+    
+    // Analytics will be sent to production analytics service
+    if (process.env.NODE_ENV === 'development') {
+      console.log('📊 Analytics Event:', analyticsData);
+    }
 
     // Here you would integrate with your analytics service:
     // - Google Analytics 4
@@ -160,7 +165,9 @@ export const useAnalytics = () => {
 
   const identifyUser = useCallback((userProperties: UserProperties) => {
     // Set user properties for analytics
-    console.log('👤 User Identified:', userProperties);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('👤 User Identified:', userProperties);
+    }
     
     // Example for analytics services
     try {

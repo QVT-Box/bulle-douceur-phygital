@@ -12,6 +12,7 @@ import { useCart } from '@/hooks/useCart';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 import { Loader2, ShoppingBag, MapPin, CreditCard } from 'lucide-react';
+import DemoMode from '@/components/DemoMode';
 
 const CheckoutPage = () => {
   const { items, totalItems, clearCart } = useCart();
@@ -149,6 +150,8 @@ const CheckoutPage = () => {
               Quelques informations pour livrer vos produits artisanaux
             </p>
           </div>
+
+          <DemoMode />
 
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Formulaire de commande */}

@@ -33,8 +33,7 @@ const SafeAutoPromotion: React.FC = () => {
 
           if (insertError) throw insertError;
 
-          // Utilisation directe d'une notification simple au lieu de useToast
-          console.log('Premier administrateur promu:', user.email);
+          // Premier administrateur promu avec succès
         }
       } catch (error) {
         console.error('Erreur lors de l\'auto-promotion:', error);

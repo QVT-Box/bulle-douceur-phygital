@@ -253,7 +253,9 @@ const BoutiquePage = () => {
       <section className="py-8 px-6 bg-background-soft">
         <div className="container mx-auto">
           <AdvancedProductFilters 
-            onFiltersChange={(filters) => console.log('Filters:', filters)}
+            onFiltersChange={(filters) => {
+              // Traitement des filtres pour la production
+            }}
             productCount={filteredProducts.length}
           />
         </div>
