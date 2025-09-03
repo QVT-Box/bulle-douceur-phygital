@@ -1,16 +1,13 @@
-import React, { useEffect } from 'react';
-import { useAutoPromotion } from '@/hooks/useAutoPromotion';
+import React from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import SafeAutoPromotion from './SafeAutoPromotion';
 
 interface AppInitializerProps {
   children: React.ReactNode;
 }
 
 const AppInitializer: React.FC<AppInitializerProps> = ({ children }) => {
-  const { user, loading } = useAuth();
-  
-  // Auto-promotion du premier admin - appelé après l'initialisation complète
-  useAutoPromotion();
+  const { loading } = useAuth();
 
   // S'assurer que tous les contextes sont chargés avant de rendre les enfants
   if (loading) {
@@ -21,7 +18,12 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ children }) => {
     );
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <SafeAutoPromotion />
+      {children}
+    </>
+  );
 };
 
 export default AppInitializer;
