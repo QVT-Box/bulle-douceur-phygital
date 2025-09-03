@@ -29,18 +29,19 @@ const PoeticHero = () => {
         
         {/* Content */}
         <div className="relative z-10 text-center px-6 max-w-6xl mx-auto">
-          {/* Logo Animation */}
-          <div className="mb-12 animate-slide-in-up">
+          {/* Logo Animation optimisé */}
+          <div className="mb-12 animate-slide-in-up relative group">
+            <div className="absolute inset-0 bg-primary/30 rounded-full blur-xl animate-pulse-soft group-hover:blur-2xl transition-all duration-500 scale-110"></div>
             <img 
               src="/logo-qvt.png" 
-              alt="QVT Box Logo" 
-              className="w-32 h-32 mx-auto mb-8 animate-float"
+              alt="QVT Box - Logo professionnel" 
+              className="relative w-36 h-36 mx-auto mb-8 animate-float drop-shadow-2xl hover:drop-shadow-[0_0_30px_rgba(139,92,246,0.5)] transition-all duration-500 group-hover:scale-105 rounded-full object-cover border-2 border-white/20"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
                 e.currentTarget.nextElementSibling?.classList.remove('hidden');
               }}
             />
-            <div className="hidden w-32 h-32 mx-auto mb-8 flex items-center justify-center bg-gradient-bubble rounded-full text-foreground font-dancing font-bold text-2xl animate-float">
+            <div className="hidden relative w-36 h-36 mx-auto mb-8 flex items-center justify-center bg-gradient-bubble rounded-full text-foreground font-dancing font-bold text-2xl animate-float border-2 border-white/20 shadow-floating">
               QVT BOX
             </div>
           </div>

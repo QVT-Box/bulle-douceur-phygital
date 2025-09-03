@@ -72,20 +72,20 @@ const SpectacularHero = () => {
           
           {/* Contenu textuel avec effets */}
           <div className="space-y-8 animate-fade-in">
-            {/* Logo avec effet spectaculaire */}
+            {/* Logo avec effet spectaculaire optimisé */}
             <div className="relative mb-8 group">
-              <div className="absolute inset-0 bg-primary/30 rounded-full blur-2xl animate-pulse-soft group-hover:blur-3xl transition-all duration-700"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 to-accent/20 rounded-full blur-xl animate-glow"></div>
+              <div className="absolute inset-0 bg-primary/40 rounded-full blur-2xl animate-pulse-soft group-hover:blur-3xl transition-all duration-700 scale-110"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-secondary/30 to-accent/30 rounded-full blur-xl animate-glow scale-105"></div>
               <img 
                 src="/logo-qvt.png" 
-                alt="QVT Box Logo" 
-                className="relative w-28 h-28 mx-auto lg:mx-0 mb-8 drop-shadow-2xl hover:drop-shadow-[0_0_30px_rgba(139,92,246,0.5)] transition-all duration-700 group-hover:scale-110 animate-float shadow-floating"
+                alt="QVT Box - Logo professionnel" 
+                className="relative w-32 h-32 mx-auto lg:mx-0 mb-8 drop-shadow-2xl hover:drop-shadow-[0_0_40px_rgba(139,92,246,0.6)] transition-all duration-700 group-hover:scale-110 animate-float shadow-floating rounded-full object-cover border-2 border-white/20"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.nextElementSibling?.classList.remove('hidden');
                 }}
               />
-              <div className="hidden w-28 h-28 mx-auto lg:mx-0 mb-8 flex items-center justify-center bg-gradient-to-br from-primary via-secondary to-accent rounded-full text-white font-inter font-bold text-xl shadow-floating hover:shadow-bubble transition-all duration-700 group-hover:scale-110 animate-float">
+              <div className="hidden w-32 h-32 mx-auto lg:mx-0 mb-8 flex items-center justify-center bg-gradient-to-br from-primary via-secondary to-accent rounded-full text-white font-inter font-bold text-xl shadow-floating hover:shadow-bubble transition-all duration-700 group-hover:scale-110 animate-float border-2 border-white/20">
                 QVT BOX
               </div>
             </div>
