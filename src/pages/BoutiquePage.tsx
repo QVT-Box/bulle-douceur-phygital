@@ -1,270 +1,431 @@
-import React from 'react';
-import Navigation from '@/components/Navigation';
-import FloatingBubbles from '@/components/FloatingBubbles';
-import Footer from '@/components/Footer';
-import CartSidebar from '@/components/CartSidebar';
-import ProductCard from '@/components/ProductCard';
-import ProductSearch from '@/components/ProductSearch';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { useCart } from '@/hooks/useCart';
-import { useProducts, useCategories } from '@/hooks/useProducts';
-import { useProductSearch, SearchFilters } from '@/hooks/useProductSearch';
-import { useState } from 'react';
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { 
+  MapPin, 
+  Leaf, 
+  Award, 
+  ShoppingBag,
+  Search,
+  Filter,
+  Star,
+  CheckCircle,
+  Truck,
+  ArrowRight
+} from "lucide-react";
+import localProducts from "@/assets/local-products-boutique.jpg";
 
 const BoutiquePage = () => {
-  const { setIsOpen } = useCart();
-  const { products, loading: productsLoading, error: productsError } = useProducts();
-  const { categories, loading: categoriesLoading, error: categoriesError } = useCategories();
-  const [searchFilters, setSearchFilters] = useState<SearchFilters>({});
-  const { products: searchResults, loading: searchLoading } = useProductSearch(searchFilters);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
-  // Use search results if filters are applied, otherwise use all products
-  const isSearching = Object.keys(searchFilters).length > 0 && 
-    Object.values(searchFilters).some(v => v !== undefined && v !== '' && (Array.isArray(v) ? v.length > 0 : true));
-  const displayProducts = isSearching ? searchResults : products;
+  const categories = [
+    { id: "all", name: "Tous les produits", icon: ShoppingBag },
+    { id: "bien-etre", name: "Bien-être", icon: Leaf },
+    { id: "ergonomie", name: "Ergonomie", icon: CheckCircle },
+    { id: "energie", name: "Énergie", icon: Star },
+    { id: "local", name: "Terroir Local", icon: MapPin }
+  ];
 
+  const products = [
+    {
+      id: 1,
+      name: "Huile Essentielle Lavande Bio",
+      price: "24€",
+      category: "bien-etre",
+      origin: "Provence, France",
+      producer: "Distillerie des Alpilles",
+      rating: 4.8,
+      reviews: 127,
+      image: "/api/placeholder/300/200",
+      labels: ["Bio", "Made in France", "Artisanal"],
+      description: "Huile essentielle pure de lavande fine AOP, récoltée à la main dans les champs de Provence."
+    },
+    {
+      id: 2,
+      name: "Coussin Ergonomique Lombaire",
+      price: "45€",
+      category: "ergonomie",
+      origin: "Normandie, France",
+      producer: "Ergofrance",
+      rating: 4.6,
+      reviews: 89,
+      image: "/api/placeholder/300/200",
+      labels: ["Ergonomique", "Testé cliniquement", "Garantie 2 ans"],
+      description: "Support lombaire conçu par des kinésithérapeutes français, mousse à mémoire de forme."
+    },
+    {
+      id: 3,
+      name: "Tisane Énergisante Bio",
+      price: "18€",
+      category: "energie",
+      origin: "Auvergne, France",
+      producer: "Herboristerie du Puy",
+      rating: 4.7,
+      reviews: 203,
+      image: "/api/placeholder/300/200",
+      labels: ["Bio", "Plantes françaises", "Commerce équitable"],
+      description: "Mélange de plantes tonifiantes cultivées dans le Massif Central, sans théine."
+    },
+    {
+      id: 4,
+      name: "Miel de Tilleul Artisanal",
+      price: "16€",
+      category: "local",
+      origin: "Bourgogne, France",
+      producer: "Rucher des Coteaux",
+      rating: 4.9,
+      reviews: 156,
+      image: "/api/placeholder/300/200",
+      labels: ["Artisanal", "Récolte 2024", "Apiculteur local"],
+      description: "Miel crémeux aux notes florales délicates, récolté dans les forêts bourguignonnes."
+    },
+    {
+      id: 5,
+      name: "Balle Anti-stress Naturelle",
+      price: "12€",
+      category: "bien-etre",
+      origin: "Nouvelle-Aquitaine, France",
+      producer: "Ateliers Solidaires",
+      rating: 4.4,
+      reviews: 74,
+      image: "/api/placeholder/300/200",
+      labels: ["Éco-conçu", "Insertion sociale", "Matériaux naturels"],
+      description: "Balle de relaxation en graines de lin bio, fabriquée par des ateliers d'insertion."
+    },
+    {
+      id: 6,
+      name: "Repose-pieds Ajustable",
+      price: "38€",
+      category: "ergonomie",
+      origin: "Bretagne, France",
+      producer: "Mobilier Pro Bretagne",
+      rating: 4.5,
+      reviews: 92,
+      image: "/api/placeholder/300/200",
+      labels: ["Ergonomique", "Bois français", "Réglable"],
+      description: "Repose-pieds en hêtre massif français, hauteur et inclinaison ajustables."
+    }
+  ];
 
-  if (productsLoading || categoriesLoading || searchLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
-        <FloatingBubbles />
-        <Navigation />
-        <div className="flex items-center justify-center min-h-[50vh]">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
+  const stats = [
+    { value: "70%", label: "des Français veulent des entreprises locales", source: "ADEME 2023" },
+    { value: "150+", label: "artisans partenaires", source: "Réseau QVT Box" },
+    { value: "100%", label: "produits français", source: "Charte qualité" },
+    { value: "48h", label: "livraison moyenne", source: "Circuits courts" }
+  ];
 
-  if (productsError || categoriesError) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
-        <FloatingBubbles />
-        <Navigation />
-        <div className="flex items-center justify-center min-h-[50vh]">
-          <p className="text-red-500">Erreur lors du chargement des produits</p>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
+  const filteredProducts = products.filter(product => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         product.producer.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
-      <FloatingBubbles />
+    <div className="min-h-screen bg-background">
       <Navigation />
       
-      <div className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          {/* Hero Section */}
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              La Boutique du bien-être
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Produits artisanaux français sélectionnés avec amour pour votre bien-être. 
-              Chaque achat soutient nos artisans locaux et leur savoir-faire authentique.
-            </p>
-            <Badge className="bg-primary/20 text-primary text-lg px-6 py-2">
-              🇫🇷 100% Made in France
-            </Badge>
-          </div>
-
-          {/* Search and Filters */}
-          <div className="mb-12">
-            <ProductSearch 
-              onFiltersChange={setSearchFilters}
-              initialFilters={searchFilters}
-              showAdvancedFilters={true}
-            />
-          </div>
-
-          {/* Products Display */}
-          {isSearching ? (
-            /* Search Results */
-            <section className="py-8">
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold mb-2">
-                  Résultats de recherche
-                </h2>
-                <p className="text-muted-foreground">
-                  {displayProducts.length} produit{displayProducts.length > 1 ? 's' : ''} trouvé{displayProducts.length > 1 ? 's' : ''}
+      {/* Hero Section */}
+      <section className="pt-24 pb-16 px-6 bg-gradient-hero">
+        <div className="container mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="flex items-center gap-2 mb-6">
+                <MapPin className="w-8 h-8 text-secondary" />
+                <Badge variant="outline">70% des Français favorables - ADEME</Badge>
+              </div>
+              
+              <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 font-inter">
+                Boutique <span className="text-secondary">Locale</span>
+              </h1>
+              
+              <div className="card-professional p-6 mb-8">
+                <p className="text-lg text-foreground leading-relaxed font-lato mb-4">
+                  <span className="text-secondary font-medium">Selon l'ADEME, 70% des Français veulent que leurs entreprises 
+                  s'approvisionnent localement.</span>
+                </p>
+                <p className="text-foreground/70 font-lato">
+                  Notre boutique sélectionne exclusivement des produits français, 
+                  créés par des artisans de nos régions pour soutenir l'économie solidaire.
                 </p>
               </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {displayProducts.map((product) => (
-                  <ProductCard 
-                    key={product.id} 
-                    product={product} 
-                    showQuickView={true}
-                    showWishlist={true}
-                  />
-                ))}
-              </div>
-              
-              {displayProducts.length === 0 && (
-                <div className="text-center py-12">
-                  <p className="text-muted-foreground mb-4">
-                    Aucun produit ne correspond à vos critères de recherche.
-                  </p>
-                  <Button onClick={() => setSearchFilters({})}>
-                    Voir tous les produits
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button className="btn-secondary text-lg px-8 py-4 font-inter">
+                  <ShoppingBag className="w-5 h-5 mr-2" />
+                  Découvrir le savoir-faire local
+                </Button>
+                <Link to="/engagements">
+                  <Button variant="outline" className="text-lg px-8 py-4 font-inter">
+                    Nos engagements éthiques
                   </Button>
+                </Link>
+              </div>
+            </div>
+
+            <div className="relative">
+              <img 
+                src={localProducts} 
+                alt="Produits artisanaux français"
+                className="rounded-lg shadow-floating w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Statistiques */}
+      <section className="py-16 px-6 bg-background">
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {stats.map((stat, index) => (
+              <Card key={index} className="card-professional text-center p-6">
+                <CardContent className="space-y-4">
+                  <div className="text-4xl font-bold text-secondary font-inter">
+                    {stat.value}
+                  </div>
+                  <p className="text-sm text-foreground font-lato leading-tight">
+                    {stat.label}
+                  </p>
+                  <Badge variant="outline" className="text-xs">
+                    {stat.source}
+                  </Badge>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Filtres et Recherche */}
+      <section className="py-8 px-6 section-professional">
+        <div className="container mx-auto">
+          <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
+            <div className="flex-1 max-w-md">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                <Input
+                  placeholder="Rechercher un produit ou artisan..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </div>
+            
+            <div className="flex gap-2 flex-wrap">
+              {categories.map((category) => {
+                const IconComponent = category.icon;
+                return (
+                  <Button
+                    key={category.id}
+                    variant={selectedCategory === category.id ? "default" : "outline"}
+                    onClick={() => setSelectedCategory(category.id)}
+                    className="flex items-center gap-2"
+                  >
+                    <IconComponent className="w-4 h-4" />
+                    {category.name}
+                  </Button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Produits */}
+      <section className="py-12 px-6 bg-background">
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredProducts.map((product) => (
+              <Card key={product.id} className="card-professional overflow-hidden group hover:shadow-floating transition-all duration-300">
+                <div className="relative">
+                  <img 
+                    src={product.image} 
+                    alt={product.name}
+                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute top-4 left-4 flex gap-2">
+                    {product.labels.slice(0, 2).map((label, i) => (
+                      <Badge key={i} variant="secondary" className="text-xs">
+                        {label}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
-              )}
-            </section>
-          ) : (
-            /* Products by Category */
-            categories.map((category) => {
-              const categoryProducts = displayProducts.filter(p => p.category_id === category.id);
-              
-              if (categoryProducts.length === 0) return null;
-              
-              return (
-                <section key={category.id} className="py-16 px-4">
-                  <div className="max-w-6xl mx-auto">
-                    <div className="text-center mb-12">
-                      <h2 className="text-3xl font-bold mb-4">{category.name}</h2>
-                      <p className="text-lg text-muted-foreground">{category.description}</p>
+                
+                <CardContent className="p-6 space-y-4">
+                  <div>
+                    <h3 className="text-lg font-bold text-foreground mb-2 font-inter">
+                      {product.name}
+                    </h3>
+                    <p className="text-sm text-foreground/70 font-lato">
+                      {product.description}
+                    </p>
+                  </div>
+                  
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
+                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                      <span className="text-sm font-medium">{product.rating}</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground">
+                      ({product.reviews} avis)
+                    </span>
+                  </div>
+                  
+                  <div className="border-t pt-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-2xl font-bold text-primary font-inter">
+                        {product.price}
+                      </span>
+                      <div className="flex items-center gap-1 text-xs text-secondary">
+                        <MapPin className="w-3 h-3" />
+                        {product.origin}
+                      </div>
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                      {categoryProducts.map((product) => (
-                        <ProductCard 
-                          key={product.id} 
-                          product={product} 
-                          showQuickView={true}
-                          showWishlist={true}
-                        />
-                      ))}
-                    </div>
+                    <p className="text-xs text-muted-foreground mb-3 font-lato">
+                      Par {product.producer}
+                    </p>
+                    
+                    <Button className="w-full btn-outline group-hover:btn-primary transition-all">
+                      <ShoppingBag className="w-4 h-4 mr-2" />
+                      Ajouter au panier
+                    </Button>
                   </div>
-                </section>
-              );
-            })
-          )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          {/* Artisans Section - Only show when not searching */}
-          {!isSearching && (
-            <section className="py-20">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold mb-4">👨‍🎨 Nos Artisans Partenaires</h2>
-                <p className="text-lg text-muted-foreground">
-                  Découvrez les créateurs passionnés derrière nos produits
+      {/* Nos engagements */}
+      <section className="py-20 px-6 section-professional">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
+              Nos <span className="text-secondary">Engagements Éthiques</span>
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="card-professional p-8 text-center">
+              <CardContent className="space-y-4">
+                <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
+                  <MapPin className="w-8 h-8 text-secondary" />
+                </div>
+                <h3 className="text-xl font-bold font-inter">100% Local</h3>
+                <p className="text-foreground/70 font-lato">
+                  Tous nos produits sont fabriqués en France par des artisans sélectionnés 
+                  pour leur savoir-faire et leurs pratiques éthiques.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="card-professional p-8 text-center">
+              <CardContent className="space-y-4">
+                <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
+                  <Leaf className="w-8 h-8 text-secondary" />
+                </div>
+                <h3 className="text-xl font-bold font-inter">Éco-responsable</h3>
+                <p className="text-foreground/70 font-lato">
+                  Priorité aux circuits courts, emballages recyclables et producteurs 
+                  engagés dans des démarches environnementales.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="card-professional p-8 text-center">
+              <CardContent className="space-y-4">
+                <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
+                  <Award className="w-8 h-8 text-secondary" />
+                </div>
+                <h3 className="text-xl font-bold font-inter">Qualité Garantie</h3>
+                <p className="text-foreground/70 font-lato">
+                  Sélection rigoureuse, certifications officielles et engagement 
+                  qualité sur tous nos produits partenaires.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Livraison */}
+      <section className="py-16 px-6 bg-background">
+        <div className="container mx-auto">
+          <Card className="card-professional p-8">
+            <div className="grid lg:grid-cols-2 gap-8 items-center">
+              <div>
+                <h3 className="text-2xl font-bold text-foreground mb-4 font-inter">
+                  <Truck className="inline w-6 h-6 mr-2 text-secondary" />
+                  Livraison Responsable
+                </h3>
+                <p className="text-foreground/70 font-lato mb-4">
+                  Nos partenaires logistiques privilégient les circuits courts et les modes 
+                  de transport décarbonés pour réduire l'impact environnemental.
+                </p>
+                <ul className="space-y-2">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-secondary" />
+                    <span className="text-sm font-lato">Livraison 48h en moyenne</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-secondary" />
+                    <span className="text-sm font-lato">Emballages recyclables</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-secondary" />
+                    <span className="text-sm font-lato">Transporteurs engagés</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div className="text-center">
+                <div className="text-4xl font-bold text-secondary mb-2">Gratuit</div>
+                <p className="text-foreground/70 font-lato">
+                  Livraison offerte dès 50€ d'achat
                 </p>
               </div>
-              <div className="grid md:grid-cols-3 gap-8">
-                <Card className="hover:shadow-lg transition-all">
-                  <CardHeader>
-                    <CardTitle className="text-xl">Marie & Jean Dubois</CardTitle>
-                    <div className="flex justify-between items-center">
-                      <Badge className="bg-primary/20 text-primary">
-                        Maîtres savonniers
-                      </Badge>
-                      <span className="text-muted-foreground text-sm">Périgord</span>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground text-sm">
-                      Fabrication traditionnelle de savons au lait d'ânesse depuis 3 générations
-                    </p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="hover:shadow-lg transition-all">
-                  <CardHeader>
-                    <CardTitle className="text-xl">Atelier des Senteurs</CardTitle>
-                    <div className="flex justify-between items-center">
-                      <Badge className="bg-primary/20 text-primary">
-                        Distillateurs d'huiles
-                      </Badge>
-                      <span className="text-muted-foreground text-sm">Grasse</span>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground text-sm">
-                      Distillation artisanale d'huiles essentielles depuis 1952
-                    </p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="hover:shadow-lg transition-all">
-                  <CardHeader>
-                    <CardTitle className="text-xl">Les Tisanes de Léa</CardTitle>
-                    <div className="flex justify-between items-center">
-                      <Badge className="bg-primary/20 text-primary">
-                        Herboriste
-                      </Badge>
-                      <span className="text-muted-foreground text-sm">Loire</span>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground text-sm">
-                      Cueillette sauvage et mélanges sur mesure pour le bien-être
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-            </section>
-          )}
-
-          {/* Values Section - Only show when not searching */}
-          {!isSearching && (
-            <section className="py-20">
-              <div className="text-center py-16 bg-muted/20 rounded-3xl">
-                <h2 className="text-3xl font-bold mb-6">Nos Valeurs</h2>
-                <div className="grid md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-                  <div className="text-center">
-                    <div className="text-4xl mb-3">🌱</div>
-                    <h3 className="font-semibold mb-2">Écologique</h3>
-                    <p className="text-sm text-muted-foreground">Produits bio et respectueux</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-4xl mb-3">🤝</div>
-                    <h3 className="font-semibold mb-2">Équitable</h3>
-                    <p className="text-sm text-muted-foreground">Commerce juste et local</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-4xl mb-3">🎨</div>
-                    <h3 className="font-semibold mb-2">Authentique</h3>
-                    <p className="text-sm text-muted-foreground">Savoir-faire artisanal</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-4xl mb-3">💝</div>
-                    <h3 className="font-semibold mb-2">Bienveillant</h3>
-                    <p className="text-sm text-muted-foreground">Sélection avec amour</p>
-                  </div>
-                </div>
-              </div>
-            </section>
-          )}
-
-          {/* CTA Section - Only show when not searching */}
-          {!isSearching && (
-            <section className="text-center py-16">
-              <h2 className="text-3xl font-bold mb-4">
-                Prêt à découvrir nos trésors ?
-              </h2>
-              <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Livraison gratuite dès 80€ d'achat. Emballage cadeau offert. 
-                Satisfaction garantie ou remboursé.
-              </p>
-              <Button 
-                onClick={() => setIsOpen(true)}
-                className="font-medium px-8 py-3 text-lg"
-              >
-                Voir mon panier
-              </Button>
-            </section>
-          )}
+            </div>
+          </Card>
         </div>
-      </div>
-      
-      <CartSidebar />
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 px-6 bg-secondary">
+        <div className="container mx-auto text-center">
+          <h2 className="text-4xl font-bold text-white mb-6 font-inter">
+            Soutenons ensemble l'économie locale
+          </h2>
+          <p className="text-white/90 text-lg mb-8 max-w-3xl mx-auto font-lato">
+            Chaque achat contribue au développement des territoires français 
+            et au maintien des savoir-faire artisanaux.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="bg-white text-secondary hover:bg-white/90 font-inter">
+              <ShoppingBag className="w-5 h-5 mr-2" />
+              Commencer mes achats
+            </Button>
+            <Link to="/box">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-secondary font-inter">
+                Découvrir nos Box
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
