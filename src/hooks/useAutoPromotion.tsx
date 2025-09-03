@@ -4,13 +4,13 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 export const useAutoPromotion = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const { toast } = useToast();
   const [isPromoting, setIsPromoting] = useState(false);
 
   useEffect(() => {
     const checkAndPromoteFirstAdmin = async () => {
-      if (!user || isPromoting) return;
+      if (!user || isPromoting || loading || !toast) return;
 
       try {
         setIsPromoting(true);
@@ -47,8 +47,10 @@ export const useAutoPromotion = () => {
       }
     };
 
-    checkAndPromoteFirstAdmin();
-  }, [user, isPromoting, toast]);
+    // Délayer l'exécution pour s'assurer que tous les contextes sont initialisés
+    const timeout = setTimeout(checkAndPromoteFirstAdmin, 1000);
+    return () => clearTimeout(timeout);
+  }, [user, isPromoting, loading, toast]);
 
   return { isPromoting };
 };
