@@ -9,7 +9,6 @@ import { CartProvider } from "./hooks/useCart";
 import AppInitializer from "./components/AppInitializer";
 import GlobalSEO from "./components/GlobalSEO";
 import Index from "./pages/Index";
-import BoxPage from "./pages/BoxPage";
 import NewBoxPage from "./pages/NewBoxPage";
 import ProfessionalSaasPage from "./pages/ProfessionalSaasPage";
 import BoutiquePage from "./pages/BoutiquePage";
@@ -58,7 +57,7 @@ const App = () => (
                 <Route path="/mood" element={<MoodDashboard />} />
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="/auth" element={<AuthPage />} />
-                <Route path="/dashboard" element={<UserDashboard />} />
+                <Route path="/user-dashboard" element={<UserDashboard />} />
                 <Route path="/engagements" element={<EngagementsPage />} />
                 <Route path="/partenaires" element={<PartnersPage />} />
                 <Route path="/mentions-legales" element={<MentionsLegalesPage />} />

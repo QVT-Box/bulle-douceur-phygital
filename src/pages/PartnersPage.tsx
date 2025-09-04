@@ -339,9 +339,9 @@ const PartnersPage = () => {
                               <SelectValue placeholder="Volume de production" />
                             </SelectTrigger>
                             <SelectContent>
-                          <SelectItem value="small">Artisanal (&lt; 1000 unités/an)</SelectItem>
+                          <SelectItem value="small">Artisanal ({"<"} 1000 unités/an)</SelectItem>
                           <SelectItem value="medium">PME (1000-10000 unités/an)</SelectItem>
-                          <SelectItem value="large">Grande production (&gt; 10000 unités/an)</SelectItem>
+                          <SelectItem value="large">Grande production ({">"} 10000 unités/an)</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
