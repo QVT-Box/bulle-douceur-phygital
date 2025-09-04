@@ -2,15 +2,19 @@ import { useState, useEffect } from 'react';
 import { useAuth } from './useAuth';
 import { supabase } from '@/integrations/supabase/client';
 
-export type UserRole = 'admin' | 'user' | null;
+export type UserRole = 'admin' | 'user' | 'salarié' | 'responsable_qvt' | 'rh' | null;
 
 interface UserRoleHook {
   role: UserRole;
   loading: boolean;
   isAdmin: boolean;
   isModerator: boolean;
+  isSalarié: boolean;
+  isResponsableQVT: boolean;
+  isRH: boolean;
   checkRole: (requiredRole: UserRole) => boolean;
   refreshRole: () => Promise<void>;
+  hasAnyRole: (roles: UserRole[]) => boolean;
 }
 
 export const useUserRole = (): UserRoleHook => {
@@ -53,7 +57,10 @@ export const useUserRole = (): UserRoleHook => {
     if (!requiredRole || !role) return false;
     
     const roleHierarchy: Record<string, number> = {
-      admin: 2,
+      admin: 5,
+      rh: 4,
+      responsable_qvt: 3,
+      salarié: 2,
       user: 1
     };
     
@@ -65,12 +72,20 @@ export const useUserRole = (): UserRoleHook => {
     await fetchUserRole();
   };
 
+  const hasAnyRole = (roles: UserRole[]): boolean => {
+    return roles.some(requiredRole => checkRole(requiredRole));
+  };
+
   return {
     role,
     loading,
     isAdmin: role === 'admin',
-    isModerator: role === 'admin', // Only admin for now
+    isModerator: role === 'admin' || role === 'rh' || role === 'responsable_qvt',
+    isSalarié: role === 'salarié' || role === 'responsable_qvt' || role === 'rh' || role === 'admin',
+    isResponsableQVT: role === 'responsable_qvt' || role === 'admin',
+    isRH: role === 'rh' || role === 'admin',
     checkRole,
-    refreshRole
+    refreshRole,
+    hasAnyRole
   };
 };
