@@ -25,20 +25,29 @@ export const useCMSAuth = (): CMSAuthHook => {
 
   useEffect(() => {
     const checkAccess = async () => {
+      console.log('CMS Auth Check - User:', user);
+      console.log('CMS Auth Check - Auth Loading:', authLoading);
+      
       if (!user) {
+        console.log('CMS Auth Check - No user, setting role to null');
         setRole(null);
         setLoading(false);
         return;
       }
 
       try {
+        console.log('CMS Auth Check - User email:', user.email);
+        
         // Check if user is lamia.brechet@outlook.fr (auto admin)
         if (user.email === 'lamia.brechet@outlook.fr') {
+          console.log('CMS Auth Check - Auto admin detected for lamia.brechet@outlook.fr');
           setRole('admin');
           setLoading(false);
           return;
         }
 
+        console.log('CMS Auth Check - Checking database for user ID:', user.id);
+        
         // Check CMS roles in database
         const { data, error } = await supabase
           .from('cms_user_roles')
@@ -46,11 +55,15 @@ export const useCMSAuth = (): CMSAuthHook => {
           .eq('user_id', user.id)
           .single();
 
+        console.log('CMS Auth Check - Database response:', { data, error });
+
         if (error && error.code !== 'PGRST116') { // PGRST116 = no rows returned
           console.error('Error checking CMS role:', error);
         }
 
-        setRole(data?.role as CMSRole || null);
+        const finalRole = data?.role as CMSRole || null;
+        console.log('CMS Auth Check - Final role:', finalRole);
+        setRole(finalRole);
       } catch (error) {
         console.error('Error in CMS auth check:', error);
         setRole(null);
