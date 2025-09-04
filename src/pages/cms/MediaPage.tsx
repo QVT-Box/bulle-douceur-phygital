@@ -93,7 +93,7 @@ const MediaPage = () => {
         let width = null;
         let height = null;
         if (file.type.startsWith('image/')) {
-          const img = new Image();
+          const img = document.createElement('img');
           img.src = URL.createObjectURL(file);
           await new Promise((resolve) => {
             img.onload = () => {
