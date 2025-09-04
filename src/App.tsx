@@ -10,6 +10,7 @@ import AppInitializer from "./components/AppInitializer";
 import GlobalSEO from "./components/GlobalSEO";
 import Index from "./pages/Index";
 import BoxPage from "./pages/BoxPage";
+import NewBoxPage from "./pages/NewBoxPage";
 import ProfessionalSaasPage from "./pages/ProfessionalSaasPage";
 import BoutiquePage from "./pages/BoutiquePage";
 import CheckoutPage from "./pages/CheckoutPage";
@@ -24,6 +25,7 @@ import AdminPage from "./pages/AdminPage";
 import AuthPage from "./pages/AuthPage";
 import UserDashboard from "./pages/UserDashboard";
 import EngagementsPage from "./pages/EngagementsPage";
+import PartnersPage from "./pages/PartnersPage";
 import NotFound from "./pages/NotFound";
 import MentionsLegalesPage from "./pages/MentionsLegalesPage";
 import PolitiqueConfidentialitePage from "./pages/PolitiqueConfidentialitePage";
@@ -43,7 +45,7 @@ const App = () => (
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Index />} />
-                <Route path="/box" element={<BoxPage />} />
+                <Route path="/box" element={<NewBoxPage />} />
                 <Route path="/saas" element={<ProfessionalSaasPage />} />
                 <Route path="/boutique" element={<BoutiquePage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
@@ -58,6 +60,7 @@ const App = () => (
                 <Route path="/auth" element={<AuthPage />} />
                 <Route path="/dashboard" element={<UserDashboard />} />
                 <Route path="/engagements" element={<EngagementsPage />} />
+                <Route path="/partenaires" element={<PartnersPage />} />
                 <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
                 <Route path="/politique-confidentialite" element={<PolitiqueConfidentialitePage />} />
                 <Route path="/cgv" element={<CGVPage />} />
