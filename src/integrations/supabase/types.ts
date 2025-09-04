@@ -845,42 +845,6 @@ export type Database = {
         }
         Relationships: []
       }
-      monthly_boxes: {
-        Row: {
-          box_theme: string
-          created_at: string | null
-          customization_notes: string | null
-          id: string
-          products: Json
-          rating: number | null
-          received_at: string | null
-          shipped_at: string | null
-          teen_id: string | null
-        }
-        Insert: {
-          box_theme: string
-          created_at?: string | null
-          customization_notes?: string | null
-          id?: string
-          products?: Json
-          rating?: number | null
-          received_at?: string | null
-          shipped_at?: string | null
-          teen_id?: string | null
-        }
-        Update: {
-          box_theme?: string
-          created_at?: string | null
-          customization_notes?: string | null
-          id?: string
-          products?: Json
-          rating?: number | null
-          received_at?: string | null
-          shipped_at?: string | null
-          teen_id?: string | null
-        }
-        Relationships: []
-      }
       mood_answers: {
         Row: {
           check_id: string
@@ -2311,10 +2275,6 @@ export type Database = {
         Args: { user_id?: string }
         Returns: boolean
       }
-      is_user_famille: {
-        Args: { user_uuid: string }
-        Returns: boolean
-      }
       is_user_hr: {
         Args: { target_user_id: string }
         Returns: boolean
@@ -2359,16 +2319,7 @@ export type Database = {
         | "need_help"
       bubble_type: "soin" | "inspiration" | "transformation" | "connexion"
       enterprise_role_enum: "employee" | "manager" | "hr" | "admin"
-      family_role: "parent" | "teen" | "sibling"
       subscription_plan: "basic" | "premium" | "family"
-      teen_mood:
-        | "very_happy"
-        | "happy"
-        | "neutral"
-        | "sad"
-        | "very_sad"
-        | "anxious"
-        | "stressed"
       user_journey: "physique_only" | "saas_box"
       user_role:
         | "admin"
@@ -2526,17 +2477,7 @@ export const Constants = {
       ],
       bubble_type: ["soin", "inspiration", "transformation", "connexion"],
       enterprise_role_enum: ["employee", "manager", "hr", "admin"],
-      family_role: ["parent", "teen", "sibling"],
       subscription_plan: ["basic", "premium", "family"],
-      teen_mood: [
-        "very_happy",
-        "happy",
-        "neutral",
-        "sad",
-        "very_sad",
-        "anxious",
-        "stressed",
-      ],
       user_journey: ["physique_only", "saas_box"],
       user_role: [
         "admin",
