@@ -11,10 +11,16 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { Crown, Package, Globe, Award, CheckCircle, Flag, Heart, Leaf } from "lucide-react";
+import { Crown, Package, Globe, Award, CheckCircle, Flag, Heart, Leaf, Send } from "lucide-react";
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from '@/hooks/use-toast';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 const PartnersPage = () => {
   const [partnerType, setPartnerType] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const { trackFormSubmission } = useAnalytics();
   const [formData, setFormData] = useState({
     companyName: "",
     contactName: "",
@@ -27,17 +33,72 @@ const PartnersPage = () => {
     ethicalCharter: false,
     qualityCertifications: "",
     annualProduction: "",
-    currentClients: ""
+    currentClients: "",
+    certifications: "",
+    moq: "",
+    prixB2B: "",
+    delais: "",
+    logistiqueEchantillons: ""
   });
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Partner application:", { partnerType, ...formData });
-    // Handle form submission
+    
+    if (!formData.ethicalCharter) {
+      toast({
+        title: "Charte éthique requise",
+        description: "Veuillez accepter la charte éthique QVT Box pour continuer.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const { error } = await supabase
+        .from('partners_applications')
+        .insert([{
+          societe: formData.companyName,
+          contact_nom: formData.contactName,
+          contact_email: formData.email,
+          contact_tel: formData.phone,
+          site_web: formData.website,
+          categorie: formData.productType,
+          origine: formData.origin,
+          type_offre: partnerType,
+          certifications: formData.certifications,
+          moq: formData.moq,
+          prix_b2b: formData.prixB2B,
+          delais: formData.delais,
+          logistique_echantillons: formData.logistiqueEchantillons,
+          description_courte: formData.description,
+          charte_acceptee: formData.ethicalCharter
+        }]);
+
+      if (error) throw error;
+
+      trackFormSubmission('partner_application', true);
+      setSubmitted(true);
+      toast({
+        title: "Candidature envoyée !",
+        description: "Merci pour votre intérêt. Nous étudions votre candidature et revenons vers vous rapidement.",
+      });
+
+    } catch (error) {
+      console.error('Error submitting partner application:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur s'est produite. Veuillez réessayer.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -324,27 +385,61 @@ const PartnersPage = () => {
                             Certifications qualité
                           </Label>
                           <Input
-                            value={formData.qualityCertifications}
-                            onChange={(e) => handleInputChange("qualityCertifications", e.target.value)}
+                            value={formData.certifications}
+                            onChange={(e) => handleInputChange("certifications", e.target.value)}
                             placeholder="Bio, Label Rouge, Made in France..."
                             className="bg-white/5 border-white/20 text-foreground placeholder:text-foreground/50"
                           />
                         </div>
                         <div>
                           <Label className="text-foreground font-medium">
-                            Production annuelle
+                            MOQ (Quantité min.)
                           </Label>
-                          <Select value={formData.annualProduction} onValueChange={(value) => handleInputChange("annualProduction", value)}>
-                            <SelectTrigger className="bg-white/5 border-white/20 text-foreground">
-                              <SelectValue placeholder="Volume de production" />
-                            </SelectTrigger>
-                            <SelectContent>
-                          <SelectItem value="small">Artisanal ({"<"} 1000 unités/an)</SelectItem>
-                          <SelectItem value="medium">PME (1000-10000 unités/an)</SelectItem>
-                          <SelectItem value="large">Grande production ({">"} 10000 unités/an)</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <Input
+                            value={formData.moq}
+                            onChange={(e) => handleInputChange("moq", e.target.value)}
+                            placeholder="ex: 100 unités minimum"
+                            className="bg-white/5 border-white/20 text-foreground placeholder:text-foreground/50"
+                          />
                         </div>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <Label className="text-foreground font-medium">
+                            Prix B2B indicatif
+                          </Label>
+                          <Input
+                            value={formData.prixB2B}
+                            onChange={(e) => handleInputChange("prixB2B", e.target.value)}
+                            placeholder="ex: 15-25€ HT/unité"
+                            className="bg-white/5 border-white/20 text-foreground placeholder:text-foreground/50"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-foreground font-medium">
+                            Délais de production
+                          </Label>
+                          <Input
+                            value={formData.delais}
+                            onChange={(e) => handleInputChange("delais", e.target.value)}
+                            placeholder="ex: 2-3 semaines"
+                            className="bg-white/5 border-white/20 text-foreground placeholder:text-foreground/50"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <Label className="text-foreground font-medium">
+                          Adresse pour envoi d'échantillons
+                        </Label>
+                        <Textarea
+                          value={formData.logistiqueEchantillons}
+                          onChange={(e) => handleInputChange("logistiqueEchantillons", e.target.value)}
+                          placeholder="Adresse complète pour l'envoi d'échantillons de vos produits"
+                          rows={3}
+                          className="bg-white/5 border-white/20 text-foreground placeholder:text-foreground/50 resize-none"
+                        />
                       </div>
 
                       <div>
@@ -403,11 +498,48 @@ const PartnersPage = () => {
                   <Button 
                     type="submit" 
                     className="w-full bg-gradient-accent hover:opacity-90 text-white text-lg py-3"
-                    disabled={!formData.ethicalCharter}
+                    disabled={loading || !formData.ethicalCharter}
                   >
-                    {partnerType === "premium" ? "Candidater en Premium" : "Soumettre ma candidature"}
+                    {loading ? (
+                      <div className="flex items-center">
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Envoi en cours...
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center">
+                        <Send className="w-4 h-4 mr-2" />
+                        {partnerType === "premium" ? "Candidater en Premium" : "Soumettre ma candidature"}
+                      </div>
+                    )}
                   </Button>
                 </form>
+              </CardContent>
+            </Card>
+            )}
+
+          {/* Success Message */}
+          {submitted && (
+            <Card className="bg-green-500/10 backdrop-blur-md border-green-500/20">
+              <CardContent className="p-6 text-center">
+                <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                <h3 className="text-2xl font-kalam font-bold text-foreground mb-4">
+                  Candidature envoyée avec succès !
+                </h3>
+                <p className="text-foreground/80 mb-6">
+                  Merci pour votre intérêt ! Notre équipe étudie votre candidature et reviendra vers vous rapidement.
+                </p>
+                <div className="flex justify-center gap-4">
+                  <Button 
+                    variant="outline"
+                    onClick={() => window.open('/charte-qvt-box.pdf', '_blank')}
+                    className="text-foreground border-white/20"
+                  >
+                    📄 Télécharger la charte QVT Box
+                  </Button>
+                  <Button onClick={() => window.location.href = '/'}>
+                    Retour à l'accueil
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           )}

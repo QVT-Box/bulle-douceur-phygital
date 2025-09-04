@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import { Link } from "react-router-dom";
 import { 
   Sparkles, 
@@ -29,6 +30,20 @@ const NewBoxPage = () => {
   const [showEvaluation, setShowEvaluation] = useState(false);
   const [heroRef, heroVisible] = useScrollReveal();
   const [ctaRef, ctaVisible] = useScrollReveal();
+  const { trackCTAClick } = useAnalytics();
+
+  const handleEvaluateNeeds = () => {
+    trackCTAClick('evaluer_besoins', '/box');
+    setShowEvaluation(true);
+  };
+
+  const handleDemoClick = () => {
+    trackCTAClick('demander_demo', '/box');
+  };
+
+  const handlePartnerClick = () => {
+    trackCTAClick('devenir_partenaire', '/box');
+  };
 
   return (
     <div className="min-h-screen bg-gradient-hero">
@@ -46,8 +61,8 @@ const NewBoxPage = () => {
               }`}
             >
               <h1 className="text-5xl md:text-7xl font-kalam font-bold text-foreground mb-8">
-                Découvrez votre <br />
-                <span className="text-primary">Box QVT</span> personnalisée ✨
+                Trouvez votre <br />
+                <span className="text-primary">Box QVT</span> en 2 minutes ✨
               </h1>
               
               <p className="text-2xl text-foreground/70 max-w-4xl mx-auto mb-8 leading-relaxed">
@@ -58,7 +73,7 @@ const NewBoxPage = () => {
               <div className="flex flex-wrap justify-center gap-4 mb-12">
                 <Button 
                   size="lg"
-                  onClick={() => setShowEvaluation(true)}
+                  onClick={handleEvaluateNeeds}
                   className="bg-gradient-accent hover:opacity-90 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 >
                   <Sparkles className="w-5 h-5 mr-2" />
@@ -71,7 +86,7 @@ const NewBoxPage = () => {
                   asChild
                   className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300"
                 >
-                  <Link to="/contact">
+                  <Link to="/contact" onClick={handleDemoClick}>
                     <MessageCircle className="w-5 h-5 mr-2" />
                     Demander une démo
                   </Link>
@@ -83,7 +98,7 @@ const NewBoxPage = () => {
                   asChild
                   className="border-2 border-secondary text-secondary hover:bg-secondary hover:text-white px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300"
                 >
-                  <Link to="/partenaires">
+                  <Link to="/partenaires" onClick={handlePartnerClick}>
                     <Crown className="w-5 h-5 mr-2" />
                     Devenir partenaire
                   </Link>
@@ -225,7 +240,7 @@ const NewBoxPage = () => {
                     variant="outline"
                     className="border-2 border-primary text-primary hover:bg-primary hover:text-white"
                   >
-                    <Link to="/partenaires">
+                    <Link to="/partenaires" onClick={handlePartnerClick}>
                       <Crown className="w-4 h-4 mr-2" />
                       Rejoindre notre réseau de partenaires
                     </Link>
@@ -311,7 +326,7 @@ const NewBoxPage = () => {
                 <div className="flex flex-wrap justify-center gap-4">
                   <Button 
                     size="lg"
-                    onClick={() => setShowEvaluation(true)}
+                    onClick={handleEvaluateNeeds}
                     className="bg-gradient-accent hover:opacity-90 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                   >
                     <Sparkles className="w-5 h-5 mr-2" />
@@ -325,7 +340,7 @@ const NewBoxPage = () => {
                     asChild
                     className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-4 text-lg font-semibold rounded-xl"
                   >
-                    <Link to="/contact">
+                    <Link to="/contact" onClick={handleDemoClick}>
                       <MessageCircle className="w-5 h-5 mr-2" />
                       Demander une présentation
                     </Link>

@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Heart, Settings, Users, Star, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from '@/integrations/supabase/client';
 
 interface BoxEvaluationModalProps {
   isOpen: boolean;
@@ -142,11 +143,48 @@ const BoxEvaluationModal = ({ isOpen, onClose }: BoxEvaluationModalProps) => {
     return recommendations[maxKeys[0] as keyof typeof recommendations];
   };
 
-  const handleGoToDashboard = () => {
-    toast({
-      title: "Évaluation sauvegardée",
-      description: "Vos résultats ont été ajoutés à votre profil.",
-    });
+  const handleGoToDashboard = async () => {
+    const recommendation = getRecommendedBox();
+    
+    // Calculate scores based on answers
+    const scores = {
+      stress: answers.stress === 'very-high' ? 4 : answers.stress === 'high' ? 3 : answers.stress === 'medium' ? 2 : 1,
+      organization: answers.organization === 'poor' ? 4 : answers.organization === 'average' ? 3 : answers.organization === 'good' ? 2 : 1,
+      team: answers.team === 'poor' ? 4 : answers.team === 'average' ? 3 : answers.team === 'good' ? 2 : 1,
+      development: answers.development === 'stuck' ? 4 : answers.development === 'neutral' ? 3 : answers.development === 'interested' ? 2 : 1
+    };
+
+    const globalScore = Math.round(Object.values(scores).reduce((a, b) => a + b, 0) * 25 / 4);
+
+    try {
+      const { error } = await supabase
+        .from('needs_assessments')
+        .insert([{
+          scores_sante: scores.stress * 25,
+          scores_orga: scores.organization * 25,
+          scores_cohesion: scores.team * 25,
+          scores_devperso: scores.development * 25,
+          box_recommandee: recommendation.name,
+          note_globale: globalScore,
+          source: 'simulateur_box'
+        }]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Évaluation sauvegardée",
+        description: "Vos résultats ont été ajoutés à votre profil.",
+      });
+    } catch (error) {
+      console.error('Error saving assessment:', error);
+      toast({
+        title: "Erreur de sauvegarde",
+        description: "Impossible de sauvegarder vos résultats. Veuillez réessayer.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     onClose();
     navigate("/dashboard");
   };

@@ -1,13 +1,116 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navigation from "@/components/Navigation";
 import FloatingBubbles from "@/components/FloatingBubbles";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from '@/hooks/use-toast';
+import { Send, CheckCircle } from 'lucide-react';
 
 const ContactPage = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    nom: '',
+    email: '',
+    entreprise: '',
+    message: '',
+    consentement: false
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleConsentChange = (checked: boolean) => {
+    setFormData(prev => ({ ...prev, consentement: checked }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.consentement) {
+      toast({
+        title: "Consentement requis",
+        description: "Veuillez accepter le traitement de vos données pour continuer.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const { error } = await supabase
+        .from('leads_demo')
+        .insert([{
+          nom: formData.nom,
+          email: formData.email,
+          entreprise: formData.entreprise,
+          message: formData.message,
+          source_page: '/contact'
+        }]);
+
+      if (error) throw error;
+
+      setSubmitted(true);
+      toast({
+        title: "Message envoyé !",
+        description: "Merci ! Nous revenons vers vous sous 24-48h.",
+      });
+
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur s'est produite. Veuillez réessayer.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (submitted) {
+    return (
+      <div className="min-h-screen bg-gradient-hero">
+        <FloatingBubbles />
+        <Navigation />
+        
+        <main className="container mx-auto px-4 pt-24 pb-12">
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="mb-8">
+              <CheckCircle className="w-24 h-24 text-primary mx-auto mb-6" />
+              <h1 className="text-4xl font-bold text-foreground mb-4">
+                Merci pour votre message !
+              </h1>
+              <p className="text-xl text-foreground/70 mb-8">
+                Nous avons bien reçu votre demande et revenons vers vous sous 24-48h.
+              </p>
+              <Button 
+                onClick={() => navigate('/')}
+                className="bg-primary hover:bg-primary-glow text-white"
+              >
+                Retour à l'accueil
+              </Button>
+            </div>
+          </div>
+        </main>
+
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-hero">
       <FloatingBubbles />
@@ -18,11 +121,11 @@ const ContactPage = () => {
           {/* Hero Section */}
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-kalam font-bold text-foreground mb-6">
-              Contactez-<span className="text-accent">nous</span>
+              Demander une <span className="text-accent">démo</span>
             </h1>
             <p className="text-xl text-foreground/70 max-w-3xl mx-auto">
-              Notre équipe est là pour vous accompagner dans votre démarche QVT. 
-              N'hésitez pas à nous contacter pour discuter de vos besoins.
+              Découvrez comment QVT Box peut transformer la qualité de vie au travail dans votre entreprise. 
+              Nos experts vous présenteront une solution personnalisée.
             </p>
           </div>
 
@@ -31,76 +134,99 @@ const ContactPage = () => {
             <Card className="bg-white/10 backdrop-blur-md border-white/20">
               <CardHeader>
                 <CardTitle className="text-foreground font-kalam text-2xl">
-                  Envoyez-nous un message
+                  Contactez nos experts
                 </CardTitle>
+                <CardDescription className="text-foreground/70">
+                  Remplissez ce formulaire et nous vous recontactons sous 24-48h
+                </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Prénom *
-                    </label>
-                    <Input 
-                      placeholder="Votre prénom"
+                    <Label htmlFor="nom" className="text-foreground">Nom complet *</Label>
+                    <Input
+                      id="nom"
+                      name="nom"
+                      type="text"
+                      required
+                      value={formData.nom}
+                      onChange={handleInputChange}
+                      placeholder="Votre nom et prénom"
                       className="bg-white/5 border-white/20 text-foreground placeholder:text-foreground/50"
                     />
                   </div>
+                  
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Nom *
-                    </label>
-                    <Input 
-                      placeholder="Votre nom"
+                    <Label htmlFor="email" className="text-foreground">Email professionnel *</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="votre.email@entreprise.com"
                       className="bg-white/5 border-white/20 text-foreground placeholder:text-foreground/50"
                     />
                   </div>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Email *
-                  </label>
-                  <Input 
-                    type="email"
-                    placeholder="votre@email.com"
-                    className="bg-white/5 border-white/20 text-foreground placeholder:text-foreground/50"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Entreprise
-                  </label>
-                  <Input 
-                    placeholder="Nom de votre entreprise"
-                    className="bg-white/5 border-white/20 text-foreground placeholder:text-foreground/50"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Téléphone
-                  </label>
-                  <Input 
-                    placeholder="Votre numéro de téléphone"
-                    className="bg-white/5 border-white/20 text-foreground placeholder:text-foreground/50"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Message *
-                  </label>
-                  <Textarea 
-                    placeholder="Décrivez-nous votre projet, vos besoins ou vos questions..."
-                    rows={5}
-                    className="bg-white/5 border-white/20 text-foreground placeholder:text-foreground/50 resize-none"
-                  />
-                </div>
-                
-                <Button className="w-full bg-gradient-accent hover:opacity-90 text-white">
-                  Envoyer le message
-                </Button>
+
+                  <div>
+                    <Label htmlFor="entreprise" className="text-foreground">Entreprise</Label>
+                    <Input
+                      id="entreprise"
+                      name="entreprise"
+                      type="text"
+                      value={formData.entreprise}
+                      onChange={handleInputChange}
+                      placeholder="Nom de votre entreprise"
+                      className="bg-white/5 border-white/20 text-foreground placeholder:text-foreground/50"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="message" className="text-foreground">Message *</Label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      required
+                      rows={5}
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      placeholder="Décrivez-nous votre contexte, vos besoins et vos objectifs en matière de QVT..."
+                      className="bg-white/5 border-white/20 text-foreground placeholder:text-foreground/50 resize-none"
+                    />
+                  </div>
+
+                  <div className="flex items-start space-x-2">
+                    <Checkbox
+                      id="consentement"
+                      checked={formData.consentement}
+                      onCheckedChange={handleConsentChange}
+                    />
+                    <Label htmlFor="consentement" className="text-sm leading-relaxed text-foreground/70">
+                      J'accepte que mes données soient traitées par QVT Box pour répondre à ma demande 
+                      de démonstration conformément à notre politique de confidentialité. *
+                    </Label>
+                  </div>
+
+                  <Button 
+                    type="submit" 
+                    disabled={loading || !formData.consentement}
+                    className="w-full bg-gradient-accent hover:opacity-90 text-white py-3"
+                  >
+                    {loading ? (
+                      <div className="flex items-center">
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Envoi en cours...
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center">
+                        <Send className="w-4 h-4 mr-2" />
+                        Demander une démo
+                      </div>
+                    )}
+                  </Button>
+                </form>
               </CardContent>
             </Card>
 

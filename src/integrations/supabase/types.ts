@@ -723,6 +723,36 @@ export type Database = {
           },
         ]
       }
+      leads_demo: {
+        Row: {
+          created_at: string
+          email: string
+          entreprise: string | null
+          id: string
+          message: string
+          nom: string
+          source_page: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          entreprise?: string | null
+          id?: string
+          message: string
+          nom: string
+          source_page?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          entreprise?: string | null
+          id?: string
+          message?: string
+          nom?: string
+          source_page?: string
+        }
+        Relationships: []
+      }
       market_research_submissions: {
         Row: {
           budget_range: string | null
@@ -953,6 +983,48 @@ export type Database = {
         }
         Relationships: []
       }
+      needs_assessments: {
+        Row: {
+          box_recommandee: string
+          created_at: string
+          email: string | null
+          entreprise: string | null
+          id: string
+          note_globale: number | null
+          scores_cohesion: number | null
+          scores_devperso: number | null
+          scores_orga: number | null
+          scores_sante: number | null
+          source: string
+        }
+        Insert: {
+          box_recommandee: string
+          created_at?: string
+          email?: string | null
+          entreprise?: string | null
+          id?: string
+          note_globale?: number | null
+          scores_cohesion?: number | null
+          scores_devperso?: number | null
+          scores_orga?: number | null
+          scores_sante?: number | null
+          source?: string
+        }
+        Update: {
+          box_recommandee?: string
+          created_at?: string
+          email?: string | null
+          entreprise?: string | null
+          id?: string
+          note_globale?: number | null
+          scores_cohesion?: number | null
+          scores_devperso?: number | null
+          scores_orga?: number | null
+          scores_sante?: number | null
+          source?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           billing_address: Json | null
@@ -1033,6 +1105,66 @@ export type Database = {
           organization_id?: string | null
           red_threshold?: number | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      partners_applications: {
+        Row: {
+          categorie: string | null
+          certifications: string | null
+          charte_acceptee: boolean
+          contact_email: string
+          contact_nom: string
+          contact_tel: string | null
+          created_at: string
+          delais: string | null
+          description_courte: string | null
+          id: string
+          logistique_echantillons: string | null
+          moq: string | null
+          origine: string
+          prix_b2b: string | null
+          site_web: string | null
+          societe: string
+          type_offre: string
+        }
+        Insert: {
+          categorie?: string | null
+          certifications?: string | null
+          charte_acceptee?: boolean
+          contact_email: string
+          contact_nom: string
+          contact_tel?: string | null
+          created_at?: string
+          delais?: string | null
+          description_courte?: string | null
+          id?: string
+          logistique_echantillons?: string | null
+          moq?: string | null
+          origine: string
+          prix_b2b?: string | null
+          site_web?: string | null
+          societe: string
+          type_offre: string
+        }
+        Update: {
+          categorie?: string | null
+          certifications?: string | null
+          charte_acceptee?: boolean
+          contact_email?: string
+          contact_nom?: string
+          contact_tel?: string | null
+          created_at?: string
+          delais?: string | null
+          description_courte?: string | null
+          id?: string
+          logistique_echantillons?: string | null
+          moq?: string | null
+          origine?: string
+          prix_b2b?: string | null
+          site_web?: string | null
+          societe?: string
+          type_offre?: string
         }
         Relationships: []
       }
