@@ -33,8 +33,8 @@ const PoeticHero = () => {
           <div className="mb-12 animate-slide-in-up relative group">
             <div className="absolute inset-0 bg-primary/30 blur-xl animate-pulse-soft group-hover:blur-2xl transition-all duration-500 scale-110"></div>
             <img 
-              src="/logo-qvt.png" 
-              alt="QVT Box - Logo professionnel" 
+              src="/logo-qvt.jpeg" 
+              alt="QVT Box - Logo professionnel"
               className="relative w-40 h-40 mx-auto mb-8 animate-float drop-shadow-2xl hover:drop-shadow-[0_0_30px_rgba(139,92,246,0.5)] transition-all duration-500 group-hover:scale-105 object-contain"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';

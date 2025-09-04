@@ -31,8 +31,8 @@ const Navigation = () => {
             <div className="relative">
               <div className="absolute inset-0 bg-primary/20 rounded-full blur-md group-hover:blur-lg transition-all duration-300"></div>
               <img 
-                src="/logo-qvt.png" 
-                alt="QVT Box Logo" 
+                src="/logo-qvt.jpeg" 
+                alt="QVT Box Logo"
                 className="relative w-12 h-12 rounded-full object-cover shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-110"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';

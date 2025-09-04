@@ -10,8 +10,8 @@ const Footer = () => {
             <div className="relative group">
               <div className="absolute inset-0 bg-primary/30 rounded-full blur-lg animate-pulse-soft group-hover:blur-xl transition-all duration-500"></div>
               <img 
-                src="/logo-qvt.png" 
-                alt="QVT Box Logo" 
+                src="/logo-qvt.jpeg" 
+                alt="QVT Box Logo"
                 className="relative w-14 h-14 rounded-full object-cover shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:scale-110 animate-glow"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';

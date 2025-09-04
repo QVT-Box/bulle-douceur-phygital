@@ -26,8 +26,8 @@ const ProfessionalHero = () => {
           {/* Logo - Design original préservé */}
           <div className="mb-12">
             <img 
-              src="/logo-qvt.png" 
-              alt="QVT Box Logo" 
+              src="/logo-qvt.jpeg" 
+              alt="QVT Box Logo"
               className="w-32 h-32 mx-auto mb-8 object-contain drop-shadow-lg"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
