@@ -181,6 +181,63 @@ export type Database = {
         }
         Relationships: []
       }
+      box: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          devise: string | null
+          id: string
+          image_couverture: string | null
+          items: Json | null
+          nom: string
+          origine: Database["public"]["Enums"]["origin_enum"]
+          piliers: Database["public"]["Enums"]["pillar_enum"][]
+          prix_cents: number
+          published_at: string | null
+          seo_description: string | null
+          seo_title: string | null
+          slug: string
+          statut: Database["public"]["Enums"]["content_status_enum"] | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          devise?: string | null
+          id?: string
+          image_couverture?: string | null
+          items?: Json | null
+          nom: string
+          origine: Database["public"]["Enums"]["origin_enum"]
+          piliers: Database["public"]["Enums"]["pillar_enum"][]
+          prix_cents: number
+          published_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug: string
+          statut?: Database["public"]["Enums"]["content_status_enum"] | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          devise?: string | null
+          id?: string
+          image_couverture?: string | null
+          items?: Json | null
+          nom?: string
+          origine?: Database["public"]["Enums"]["origin_enum"]
+          piliers?: Database["public"]["Enums"]["pillar_enum"][]
+          prix_cents?: number
+          published_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug?: string
+          statut?: Database["public"]["Enums"]["content_status_enum"] | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       bubble_rewards: {
         Row: {
           bubble_type: Database["public"]["Enums"]["bubble_type"]
@@ -265,6 +322,8 @@ export type Database = {
           image_url: string | null
           is_active: boolean | null
           name: string
+          ordre: number | null
+          parent_id: string | null
           slug: string
           sort_order: number | null
           updated_at: string
@@ -276,6 +335,8 @@ export type Database = {
           image_url?: string | null
           is_active?: boolean | null
           name: string
+          ordre?: number | null
+          parent_id?: string | null
           slug: string
           sort_order?: number | null
           updated_at?: string
@@ -287,9 +348,267 @@ export type Database = {
           image_url?: string | null
           is_active?: boolean | null
           name?: string
+          ordre?: number | null
+          parent_id?: string | null
           slug?: string
           sort_order?: number | null
           updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "categories_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cms_activity_log: {
+        Row: {
+          action: string
+          created_at: string | null
+          details: Json | null
+          id: string
+          ip_address: unknown | null
+          resource_id: string | null
+          resource_type: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          ip_address?: unknown | null
+          resource_id?: string | null
+          resource_type: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          ip_address?: unknown | null
+          resource_id?: string | null
+          resource_type?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      cms_menu_items: {
+        Row: {
+          created_at: string | null
+          id: string
+          label: string
+          menu_id: string | null
+          ordre: number | null
+          url: string
+          visible: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          label: string
+          menu_id?: string | null
+          ordre?: number | null
+          url: string
+          visible?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          label?: string
+          menu_id?: string | null
+          ordre?: number | null
+          url?: string
+          visible?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cms_menu_items_menu_id_fkey"
+            columns: ["menu_id"]
+            isOneToOne: false
+            referencedRelation: "cms_menus"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cms_menus: {
+        Row: {
+          created_at: string | null
+          id: string
+          nom: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          nom: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          nom?: string
+        }
+        Relationships: []
+      }
+      cms_pages: {
+        Row: {
+          created_at: string | null
+          id: string
+          published_at: string | null
+          seo_description: string | null
+          seo_title: string | null
+          slug: string
+          statut: Database["public"]["Enums"]["content_status_enum"] | null
+          titre: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          published_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug: string
+          statut?: Database["public"]["Enums"]["content_status_enum"] | null
+          titre: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          published_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug?: string
+          statut?: Database["public"]["Enums"]["content_status_enum"] | null
+          titre?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      cms_partners: {
+        Row: {
+          categories:
+            | Database["public"]["Enums"]["category_product_enum"][]
+            | null
+          certifications: string | null
+          contact_email: string
+          contact_nom: string
+          contact_tel: string | null
+          created_at: string | null
+          delais: string | null
+          description_courte: string | null
+          docs: string[] | null
+          id: string
+          logistique_echantillons: string | null
+          moq: string | null
+          origine: Database["public"]["Enums"]["origin_enum"]
+          prix_b2b: string | null
+          site_web: string | null
+          societe: string
+          status: Database["public"]["Enums"]["partner_status_enum"] | null
+          type_offre: Database["public"]["Enums"]["partner_type_enum"]
+          updated_at: string | null
+        }
+        Insert: {
+          categories?:
+            | Database["public"]["Enums"]["category_product_enum"][]
+            | null
+          certifications?: string | null
+          contact_email: string
+          contact_nom: string
+          contact_tel?: string | null
+          created_at?: string | null
+          delais?: string | null
+          description_courte?: string | null
+          docs?: string[] | null
+          id?: string
+          logistique_echantillons?: string | null
+          moq?: string | null
+          origine: Database["public"]["Enums"]["origin_enum"]
+          prix_b2b?: string | null
+          site_web?: string | null
+          societe: string
+          status?: Database["public"]["Enums"]["partner_status_enum"] | null
+          type_offre: Database["public"]["Enums"]["partner_type_enum"]
+          updated_at?: string | null
+        }
+        Update: {
+          categories?:
+            | Database["public"]["Enums"]["category_product_enum"][]
+            | null
+          certifications?: string | null
+          contact_email?: string
+          contact_nom?: string
+          contact_tel?: string | null
+          created_at?: string | null
+          delais?: string | null
+          description_courte?: string | null
+          docs?: string[] | null
+          id?: string
+          logistique_echantillons?: string | null
+          moq?: string | null
+          origine?: Database["public"]["Enums"]["origin_enum"]
+          prix_b2b?: string | null
+          site_web?: string | null
+          societe?: string
+          status?: Database["public"]["Enums"]["partner_status_enum"] | null
+          type_offre?: Database["public"]["Enums"]["partner_type_enum"]
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      cms_settings: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          key: string
+          updated_at: string | null
+          value: Json
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          key: string
+          updated_at?: string | null
+          value: Json
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          key?: string
+          updated_at?: string | null
+          value?: Json
+        }
+        Relationships: []
+      }
+      cms_user_roles: {
+        Row: {
+          created_at: string | null
+          granted_by: string | null
+          id: string
+          role: Database["public"]["Enums"]["user_role_cms_enum"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          granted_by?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["user_role_cms_enum"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          granted_by?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["user_role_cms_enum"]
+          user_id?: string
         }
         Relationships: []
       }
@@ -816,6 +1135,39 @@ export type Database = {
         }
         Relationships: []
       }
+      media_library: {
+        Row: {
+          alt: string
+          created_at: string | null
+          fichier_url: string
+          height: number | null
+          id: string
+          type: string
+          uploaded_by: string | null
+          width: number | null
+        }
+        Insert: {
+          alt: string
+          created_at?: string | null
+          fichier_url: string
+          height?: number | null
+          id?: string
+          type: string
+          uploaded_by?: string | null
+          width?: number | null
+        }
+        Update: {
+          alt?: string
+          created_at?: string | null
+          fichier_url?: string
+          height?: number | null
+          id?: string
+          type?: string
+          uploaded_by?: string | null
+          width?: number | null
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           admin_user_id: string | null
@@ -1108,6 +1460,44 @@ export type Database = {
         }
         Relationships: []
       }
+      page_sections: {
+        Row: {
+          created_at: string | null
+          data: Json | null
+          id: string
+          ordre: number | null
+          page_id: string | null
+          type_section: Database["public"]["Enums"]["section_type_enum"]
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          data?: Json | null
+          id?: string
+          ordre?: number | null
+          page_id?: string | null
+          type_section: Database["public"]["Enums"]["section_type_enum"]
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          data?: Json | null
+          id?: string
+          ordre?: number | null
+          page_id?: string | null
+          type_section?: Database["public"]["Enums"]["section_type_enum"]
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "page_sections_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "cms_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       partners_applications: {
         Row: {
           categorie: string | null
@@ -1394,14 +1784,19 @@ export type Database = {
           cost_price: number | null
           created_at: string
           description: string | null
+          devise: string | null
           id: string
+          images: string[] | null
           inventory_quantity: number | null
           is_active: boolean | null
           is_digital: boolean | null
           is_featured: boolean | null
           name: string
           origin: string | null
+          origine: Database["public"]["Enums"]["origin_enum"] | null
           price: number
+          prix_cents: number | null
+          published_at: string | null
           requires_shipping: boolean | null
           review_count: number | null
           search_vector: unknown | null
@@ -1411,6 +1806,9 @@ export type Database = {
           short_description: string | null
           sku: string | null
           slug: string
+          statut: Database["public"]["Enums"]["content_status_enum"] | null
+          stock: number | null
+          tags: string[] | null
           track_inventory: boolean | null
           updated_at: string
           weight: number | null
@@ -1425,14 +1823,19 @@ export type Database = {
           cost_price?: number | null
           created_at?: string
           description?: string | null
+          devise?: string | null
           id?: string
+          images?: string[] | null
           inventory_quantity?: number | null
           is_active?: boolean | null
           is_digital?: boolean | null
           is_featured?: boolean | null
           name: string
           origin?: string | null
+          origine?: Database["public"]["Enums"]["origin_enum"] | null
           price: number
+          prix_cents?: number | null
+          published_at?: string | null
           requires_shipping?: boolean | null
           review_count?: number | null
           search_vector?: unknown | null
@@ -1442,6 +1845,9 @@ export type Database = {
           short_description?: string | null
           sku?: string | null
           slug: string
+          statut?: Database["public"]["Enums"]["content_status_enum"] | null
+          stock?: number | null
+          tags?: string[] | null
           track_inventory?: boolean | null
           updated_at?: string
           weight?: number | null
@@ -1456,14 +1862,19 @@ export type Database = {
           cost_price?: number | null
           created_at?: string
           description?: string | null
+          devise?: string | null
           id?: string
+          images?: string[] | null
           inventory_quantity?: number | null
           is_active?: boolean | null
           is_digital?: boolean | null
           is_featured?: boolean | null
           name?: string
           origin?: string | null
+          origine?: Database["public"]["Enums"]["origin_enum"] | null
           price?: number
+          prix_cents?: number | null
+          published_at?: string | null
           requires_shipping?: boolean | null
           review_count?: number | null
           search_vector?: unknown | null
@@ -1473,6 +1884,9 @@ export type Database = {
           short_description?: string | null
           sku?: string | null
           slug?: string
+          statut?: Database["public"]["Enums"]["content_status_enum"] | null
+          stock?: number | null
+          tags?: string[] | null
           track_inventory?: boolean | null
           updated_at?: string
           weight?: number | null
@@ -2450,7 +2864,24 @@ export type Database = {
         | "with_friends"
         | "need_help"
       bubble_type: "soin" | "inspiration" | "transformation" | "connexion"
+      category_product_enum: "physique" | "virtuel" | "evenementiel"
+      content_status_enum: "draft" | "published"
       enterprise_role_enum: "employee" | "manager" | "hr" | "admin"
+      origin_enum: "FR" | "UE" | "OCDE"
+      partner_status_enum: "pending" | "approved" | "rejected"
+      partner_type_enum: "premium_fr_local" | "standard_ocde"
+      pillar_enum: "SANTE" | "ORGA" | "COHESION" | "DEV"
+      section_type_enum:
+        | "hero"
+        | "piliers"
+        | "grid_box"
+        | "grid_produits"
+        | "partenaires"
+        | "transparence_ocde"
+        | "richtext"
+        | "cta_band"
+        | "faq"
+        | "contact_form"
       subscription_plan: "basic" | "premium" | "family"
       user_journey: "physique_only" | "saas_box"
       user_role:
@@ -2466,6 +2897,12 @@ export type Database = {
         | "tuteur"
         | "autre_referent"
         | "coach"
+      user_role_cms_enum:
+        | "admin"
+        | "editor"
+        | "catalog_manager"
+        | "partners_manager"
+        | "reader"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -2608,7 +3045,25 @@ export const Constants = {
         "need_help",
       ],
       bubble_type: ["soin", "inspiration", "transformation", "connexion"],
+      category_product_enum: ["physique", "virtuel", "evenementiel"],
+      content_status_enum: ["draft", "published"],
       enterprise_role_enum: ["employee", "manager", "hr", "admin"],
+      origin_enum: ["FR", "UE", "OCDE"],
+      partner_status_enum: ["pending", "approved", "rejected"],
+      partner_type_enum: ["premium_fr_local", "standard_ocde"],
+      pillar_enum: ["SANTE", "ORGA", "COHESION", "DEV"],
+      section_type_enum: [
+        "hero",
+        "piliers",
+        "grid_box",
+        "grid_produits",
+        "partenaires",
+        "transparence_ocde",
+        "richtext",
+        "cta_band",
+        "faq",
+        "contact_form",
+      ],
       subscription_plan: ["basic", "premium", "family"],
       user_journey: ["physique_only", "saas_box"],
       user_role: [
@@ -2624,6 +3079,13 @@ export const Constants = {
         "tuteur",
         "autre_referent",
         "coach",
+      ],
+      user_role_cms_enum: [
+        "admin",
+        "editor",
+        "catalog_manager",
+        "partners_manager",
+        "reader",
       ],
     },
   },
