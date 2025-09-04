@@ -21,6 +21,12 @@ import ConnexionPage from "./pages/ConnexionPage";
 import DashboardPage from "./pages/DashboardPage";
 import MoodDashboard from "./pages/MoodDashboard";
 import AdminPage from "./pages/AdminPage";
+import CMSLayout from "./components/cms/CMSLayout";
+import CMSIndexPage from "./pages/cms/CMSIndexPage";
+import ProductsPage from "./pages/cms/ProductsPage";
+import SettingsPage from "./pages/cms/SettingsPage";
+import CMSPartnersPage from "./pages/cms/PartnersPage";
+import MediaPage from "./pages/cms/MediaPage";
 import AuthPage from "./pages/AuthPage";
 import UserDashboard from "./pages/UserDashboard";
 import EngagementsPage from "./pages/EngagementsPage";
@@ -56,6 +62,14 @@ const App = () => (
                 <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/mood" element={<MoodDashboard />} />
                 <Route path="/admin" element={<AdminPage />} />
+                
+                {/* CMS Routes */}
+                <Route path="/cms" element={<CMSLayout><CMSIndexPage /></CMSLayout>} />
+                <Route path="/cms/products" element={<CMSLayout><ProductsPage /></CMSLayout>} />
+                <Route path="/cms/partners/applications" element={<CMSLayout><CMSPartnersPage /></CMSLayout>} />
+                <Route path="/cms/partners/approved" element={<CMSLayout><CMSPartnersPage /></CMSLayout>} />
+                <Route path="/cms/media" element={<CMSLayout><MediaPage /></CMSLayout>} />
+                <Route path="/cms/settings" element={<CMSLayout><SettingsPage /></CMSLayout>} />
                 <Route path="/auth" element={<AuthPage />} />
                 <Route path="/user-dashboard" element={<UserDashboard />} />
                 <Route path="/engagements" element={<EngagementsPage />} />

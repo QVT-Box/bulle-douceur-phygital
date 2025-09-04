@@ -223,6 +223,28 @@ const AdminPage = () => {
               </TabsTrigger>
             </TabsList>
 
+            <div className="mb-6">
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Shield className="h-5 w-5 text-blue-600" />
+                  <h3 className="font-medium text-blue-900 dark:text-blue-100">
+                    Nouveau CMS Disponible
+                  </h3>
+                </div>
+                <p className="text-blue-700 dark:text-blue-200 text-sm mb-3">
+                  Un nouveau système de gestion de contenu complet est maintenant disponible avec gestion des produits, pages, partenaires et plus.
+                </p>
+                <Button 
+                  variant="default" 
+                  size="sm"
+                  onClick={() => window.open('/cms', '_blank')}
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  Accéder au nouveau CMS
+                </Button>
+              </div>
+            </div>
+
             {/* Liste des produits */}
             <TabsContent value="products" className="space-y-4">
               <Card>

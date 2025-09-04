@@ -2809,12 +2809,20 @@ export type Database = {
         Args: { user_uuid: string }
         Returns: string
       }
+      has_cms_role: {
+        Args: { check_role: Database["public"]["Enums"]["user_role_cms_enum"] }
+        Returns: boolean
+      }
       has_feature_access: {
         Args: { feature_name: string; user_id?: string }
         Returns: boolean
       }
       is_admin: {
         Args: Record<PropertyKey, never> | { user_uuid: string }
+        Returns: boolean
+      }
+      is_cms_admin: {
+        Args: Record<PropertyKey, never>
         Returns: boolean
       }
       is_user_admin: {
