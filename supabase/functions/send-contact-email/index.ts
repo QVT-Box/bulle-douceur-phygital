@@ -28,7 +28,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Email to Lamia
     const emailToLamia = await resend.emails.send({
-      from: "QVT Box Contact <noreply@resend.dev>",
+      from: "QVT Box Contact <onboarding@resend.dev>",
       to: ["lamia.brechet@outlook.fr"],
       subject: `Nouvelle demande de contact - ${nom}`,
       html: `
@@ -53,7 +53,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Confirmation email to user
     const confirmationEmail = await resend.emails.send({
-      from: "QVT Box <noreply@resend.dev>",
+      from: "QVT Box <onboarding@resend.dev>",
       to: [email],
       subject: "Merci pour votre demande de contact - QVT Box",
       html: `
