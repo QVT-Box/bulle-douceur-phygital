@@ -50,6 +50,7 @@ const ContactPage = () => {
     setLoading(true);
 
     try {
+      // Sauvegarder dans la base de données
       const { error } = await supabase
         .from('leads_demo')
         .insert([{
@@ -61,6 +62,21 @@ const ContactPage = () => {
         }]);
 
       if (error) throw error;
+
+      // Envoyer l'email via l'edge function
+      const emailResponse = await supabase.functions.invoke('send-contact-email', {
+        body: {
+          nom: formData.nom,
+          email: formData.email,
+          entreprise: formData.entreprise,
+          message: formData.message
+        }
+      });
+
+      if (emailResponse.error) {
+        console.error('Error sending email:', emailResponse.error);
+        // Ne pas empêcher la soumission si l'email échoue
+      }
 
       setSubmitted(true);
       toast({
