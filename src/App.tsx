@@ -28,6 +28,11 @@ import SettingsPage from "./pages/cms/SettingsPage";
 import CMSPartnersPage from "./pages/cms/PartnersPage";
 import MediaPage from "./pages/cms/MediaPage";
 import AuthPage from "./pages/AuthPage";
+import LoginPage from "./pages/auth/LoginPage";
+import AuthCallbackPage from "./pages/auth/AuthCallbackPage";
+import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
+import LogoutPage from "./pages/auth/LogoutPage";
+import SimulateurPage from "./pages/SimulateurPage";
 import UserDashboard from "./pages/UserDashboard";
 import EngagementsPage from "./pages/EngagementsPage";
 import PartnersPage from "./pages/PartnersPage";
@@ -70,7 +75,15 @@ const App = () => (
                 <Route path="/cms/partners/approved" element={<CMSLayout><CMSPartnersPage /></CMSLayout>} />
                 <Route path="/cms/media" element={<CMSLayout><MediaPage /></CMSLayout>} />
                 <Route path="/cms/settings" element={<CMSLayout><SettingsPage /></CMSLayout>} />
+                
+                {/* Auth Routes */}
                 <Route path="/auth" element={<AuthPage />} />
+                <Route path="/auth/login" element={<LoginPage />} />
+                <Route path="/auth/callback" element={<AuthCallbackPage />} />
+                <Route path="/auth/logout" element={<LogoutPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
+                <Route path="/simulateur" element={<SimulateurPage />} />
+                
                 <Route path="/user-dashboard" element={<UserDashboard />} />
                 <Route path="/engagements" element={<EngagementsPage />} />
                 <Route path="/partenaires" element={<PartnersPage />} />

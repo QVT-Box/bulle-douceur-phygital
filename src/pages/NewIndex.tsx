@@ -1,6 +1,7 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import SpectacularHero from "@/components/SpectacularHero";
+import ValuesMindMap from "@/components/ValuesMindMap";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -89,6 +90,9 @@ const NewIndex = () => {
       
       {/* Hero spectaculaire */}
       <SpectacularHero />
+
+      {/* Values Mind Map */}
+      <ValuesMindMap />
 
       {/* Chiffres clés */}
       <section className="py-16 px-6 bg-background" ref={statsRef}>
