@@ -40,6 +40,7 @@ import NotFound from "./pages/NotFound";
 import MentionsLegalesPage from "./pages/MentionsLegalesPage";
 import PolitiqueConfidentialitePage from "./pages/PolitiqueConfidentialitePage";
 import CGVPage from "./pages/CGVPage";
+import MobilePage from "./pages/MobilePage";
 import AboutPage from "./pages/AboutPage";
 
 const queryClient = new QueryClient();
@@ -59,6 +60,7 @@ const App = () => (
                 <Route path="/box" element={<NewBoxPage />} />
                 <Route path="/saas" element={<ProfessionalSaasPage />} />
                 <Route path="/boutique" element={<BoutiquePage />} />
+                <Route path="/mobile" element={<MobilePage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
                 <Route path="/checkout/cancel" element={<CheckoutCancelPage />} />
