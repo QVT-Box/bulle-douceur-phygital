@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Heart, Users, Lightbulb, Shield, Award, Target } from "lucide-react";
 import { SEOHead } from "@/components/SEOHead";
-import { motion } from "framer-motion";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const VALUES = [
   {
@@ -69,14 +69,13 @@ const MILESTONES = [
   },
 ] as const;
 
-const fadeUp = {
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.5, ease: "easeOut" },
-};
-
 const AboutPage = () => {
+  const [heroRef, heroVisible] = useScrollReveal();
+  const [missionRef, missionVisible] = useScrollReveal();
+  const [valuesRef, valuesVisible] = useScrollReveal();
+  const [timelineRef, timelineVisible] = useScrollReveal();
+  const [ctaRef, ctaVisible] = useScrollReveal();
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -109,12 +108,22 @@ const AboutPage = () => {
 
         <main id="main" role="main" className="pt-24 relative z-10">
           {/* Hero Section */}
-          <section className="container mx-auto px-6 py-16" aria-labelledby="about-hero-title">
-            <motion.div className="max-w-4xl mx-auto text-center mb-16" {...fadeUp}>
-              <Badge className="mb-6 bg-primary/10 text-primary border-primary/20" aria-label="Section: Notre histoire">
+          <section
+            className={`container mx-auto px-6 py-16 scroll-reveal ${heroVisible ? 'visible' : ''}`}
+            aria-labelledby="about-hero-title"
+            ref={heroRef}
+          >
+            <div className="max-w-4xl mx-auto text-center mb-16">
+              <Badge
+                className="mb-6 bg-primary/10 text-primary border-primary/20"
+                aria-label="Section: Notre histoire"
+              >
                 Notre Histoire
               </Badge>
-              <h1 id="about-hero-title" className="text-4xl md:text-6xl font-bold text-foreground mb-6 font-kalam">
+              <h1
+                id="about-hero-title"
+                className="text-4xl md:text-6xl font-bold text-foreground mb-6 font-kalam"
+              >
                 Réinventer le
                 <span className="text-gradient"> bien-être au travail</span>
               </h1>
@@ -122,14 +131,21 @@ const AboutPage = () => {
                 QVT Box est née en 2025 de la conviction que chaque entreprise mérite des collaborateurs épanouis
                 et que chaque collaborateur mérite un environnement de travail bienveillant.
               </p>
-            </motion.div>
+            </div>
           </section>
 
           {/* Mission Section */}
-          <section className="container mx-auto px-6 py-16" aria-labelledby="mission-title">
+          <section
+            className={`container mx-auto px-6 py-16 scroll-reveal ${missionVisible ? 'visible' : ''}`}
+            aria-labelledby="mission-title"
+            ref={missionRef}
+          >
             <div className="grid md:grid-cols-2 gap-12 items-center">
-              <motion.div {...fadeUp}>
-                <h2 id="mission-title" className="text-3xl md:text-4xl font-bold text-foreground mb-6 font-kalam">
+              <div>
+                <h2
+                  id="mission-title"
+                  className="text-3xl md:text-4xl font-bold text-foreground mb-6 font-kalam"
+                >
                   Notre Mission
                 </h2>
                 <p className="text-lg text-foreground/80 mb-6 leading-relaxed">
@@ -162,9 +178,8 @@ const AboutPage = () => {
                     Découvrir nos Box
                   </Link>
                 </div>
-              </motion.div>
-
-              <motion.div {...fadeUp} className="relative">
+              </div>
+              <div className="relative">
                 <Card className="card-professional">
                   <CardContent className="p-8">
                     <div className="text-center">
@@ -179,14 +194,21 @@ const AboutPage = () => {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
             </div>
           </section>
 
           {/* Values Section */}
-          <section className="container mx-auto px-6 py-16" aria-labelledby="values-title">
+          <section
+            className={`container mx-auto px-6 py-16 scroll-reveal ${valuesVisible ? 'visible' : ''}`}
+            aria-labelledby="values-title"
+            ref={valuesRef}
+          >
             <div className="text-center mb-12">
-              <h2 id="values-title" className="text-3xl md:text-4xl font-bold text-foreground mb-6 font-kalam">
+              <h2
+                id="values-title"
+                className="text-3xl md:text-4xl font-bold text-foreground mb-6 font-kalam"
+              >
                 Nos Valeurs
               </h2>
               <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
@@ -196,26 +218,31 @@ const AboutPage = () => {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {VALUES.map(({ icon: Icon, title, description }) => (
-                <motion.div key={title} {...fadeUp}>
-                  <Card className="card-professional transition-transform duration-300 will-change-transform hover:scale-[1.03]">
-                    <CardContent className="p-6 text-center">
-                      <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Icon className="w-6 h-6 text-white" aria-hidden="true" />
-                        <span className="sr-only">{title}</span>
-                      </div>
-                      <h3 className="text-xl font-semibold text-foreground mb-3">{title}</h3>
-                      <p className="text-foreground/70">{description}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+                <Card key={title} className="card-professional transition-transform duration-300 will-change-transform hover:scale-[1.03]">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Icon className="w-6 h-6 text-white" aria-hidden="true" />
+                      <span className="sr-only">{title}</span>
+                    </div>
+                    <h3 className="text-xl font-semibold text-foreground mb-3">{title}</h3>
+                    <p className="text-foreground/70">{description}</p>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </section>
 
           {/* Timeline Section */}
-          <section className="container mx-auto px-6 py-16" aria-labelledby="timeline-title">
+          <section
+            className={`container mx-auto px-6 py-16 scroll-reveal ${timelineVisible ? 'visible' : ''}`}
+            aria-labelledby="timeline-title"
+            ref={timelineRef}
+          >
             <div className="text-center mb-12">
-              <h2 id="timeline-title" className="text-3xl md:text-4xl font-bold text-foreground mb-6 font-kalam">
+              <h2
+                id="timeline-title"
+                className="text-3xl md:text-4xl font-bold text-foreground mb-6 font-kalam"
+              >
                 Notre Parcours
               </h2>
               <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
@@ -226,7 +253,7 @@ const AboutPage = () => {
             <div className="max-w-4xl mx-auto">
               <ol className="relative border-l border-primary/20 pl-6">
                 {MILESTONES.map(({ year, title, description }) => (
-                  <motion.li key={`${year}-${title}`} className="mb-10 ml-4" {...fadeUp}>
+                  <li key={`${year}-${title}`} className="mb-10 ml-4">
                     <span className="absolute -left-2 mt-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary"></span>
                     <Card className="card-professional">
                       <CardContent className="p-6">
@@ -237,35 +264,43 @@ const AboutPage = () => {
                         <p className="text-foreground/70">{description}</p>
                       </CardContent>
                     </Card>
-                  </motion.li>
+                  </li>
                 ))}
               </ol>
             </div>
           </section>
 
           {/* CTA Section */}
-          <section className="container mx-auto px-6 py-16" aria-labelledby="cta-title">
-            <motion.div {...fadeUp}>
-              <Card className="card-professional text-center">
-                <CardContent className="p-12">
-                  <h2 id="cta-title" className="text-3xl md:text-4xl font-bold text-foreground mb-6 font-kalam">
-                    Prêt à transformer votre entreprise ?
-                  </h2>
-                  <p className="text-lg text-foreground/80 mb-8 max-w-2xl mx-auto">
-                    Rejoignez les entreprises qui ont déjà fait le choix du bien-être
-                    et découvrez comment QVT Box peut vous accompagner.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Link to="/contact" className="btn-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary">
-                      Nous contacter
-                    </Link>
-                    <Link to="/box" className="btn-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary">
-                      Découvrir nos Box
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+          <section
+            className={`container mx-auto px-6 py-16 scroll-reveal ${ctaVisible ? 'visible' : ''}`}
+            aria-labelledby="cta-title"
+            ref={ctaRef}
+          >
+            <Card className="card-professional text-center">
+              <CardContent className="p-12">
+                <h2 id="cta-title" className="text-3xl md:text-4xl font-bold text-foreground mb-6 font-kalam">
+                  Prêt à transformer votre entreprise ?
+                </h2>
+                <p className="text-lg text-foreground/80 mb-8 max-w-2xl mx-auto">
+                  Rejoignez les entreprises qui ont déjà fait le choix du bien-être
+                  et découvrez comment QVT Box peut vous accompagner.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link
+                    to="/contact"
+                    className="btn-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+                  >
+                    Nous contacter
+                  </Link>
+                  <Link
+                    to="/box"
+                    className="btn-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+                  >
+                    Découvrir nos Box
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
           </section>
         </main>
 
