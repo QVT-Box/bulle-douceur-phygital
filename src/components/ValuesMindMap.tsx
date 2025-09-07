@@ -15,6 +15,19 @@ import {
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
+// Import des images
+import valuesHeroMain from "@/assets/values-hero-main.jpg";
+import valuesPurchasingPower from "@/assets/values-purchasing-power.jpg";
+import valuesRedirectExpenses from "@/assets/values-redirect-expenses.jpg";
+import valuesRecognition from "@/assets/values-recognition.jpg";
+import valuesListening from "@/assets/values-listening.jpg";
+import valuesReactivity from "@/assets/values-reactivity.jpg";
+import valuesTransparency from "@/assets/values-transparency.jpg";
+import valuesHumanCentered from "@/assets/values-human-centered.jpg";
+import valuesBuildingTogether from "@/assets/values-building-together.jpg";
+import valuesConcreteImpact from "@/assets/values-concrete-impact.jpg";
+import valuesMutualSupport from "@/assets/values-mutual-support.jpg";
+
 interface ValueBubble {
   title: string;
   description: string;
@@ -22,11 +35,12 @@ interface ValueBubble {
   category: 'physical' | 'saas' | 'common';
   color: string;
   bgColor: string;
+  image: string;
 }
 
 const ValuesMindMap = () => {
   const [titleRef, titleVisible] = useScrollReveal();
-  const [bubblesRef, bubblesVisible] = useStaggeredReveal(9, 100);
+  const [bubblesRef, bubblesVisible] = useStaggeredReveal(10, 100);
 
   const values: ValueBubble[] = [
     // Box Physique (3 valeurs) 🟢
@@ -36,7 +50,8 @@ const ValuesMindMap = () => {
       icon: Heart,
       category: 'physical',
       color: "text-green-700",
-      bgColor: "bg-green-100"
+      bgColor: "bg-green-100",
+      image: valuesPurchasingPower
     },
     {
       title: "Réorienter la dépense",
@@ -44,7 +59,8 @@ const ValuesMindMap = () => {
       icon: ShoppingBag,
       category: 'physical',
       color: "text-green-700",
-      bgColor: "bg-green-100"
+      bgColor: "bg-green-100",
+      image: valuesRedirectExpenses
     },
     {
       title: "Reconnaissance",
@@ -52,7 +68,8 @@ const ValuesMindMap = () => {
       icon: Handshake,
       category: 'physical',
       color: "text-green-700", 
-      bgColor: "bg-green-100"
+      bgColor: "bg-green-100",
+      image: valuesRecognition
     },
     
     // Application SaaS (3 valeurs) 🔵
@@ -62,7 +79,8 @@ const ValuesMindMap = () => {
       icon: Ear,
       category: 'saas',
       color: "text-blue-700",
-      bgColor: "bg-blue-100"
+      bgColor: "bg-blue-100",
+      image: valuesListening
     },
     {
       title: "Réactivité",
@@ -70,7 +88,8 @@ const ValuesMindMap = () => {
       icon: Zap,
       category: 'saas', 
       color: "text-blue-700",
-      bgColor: "bg-blue-100"
+      bgColor: "bg-blue-100",
+      image: valuesReactivity
     },
     {
       title: "Transparence",
@@ -78,17 +97,19 @@ const ValuesMindMap = () => {
       icon: Eye,
       category: 'saas',
       color: "text-blue-700",
-      bgColor: "bg-blue-100"
+      bgColor: "bg-blue-100",
+      image: valuesTransparency
     },
 
-    // Valeurs communes (3 bulles) 🫧
+    // Valeurs communes (4 bulles) 🫧
     {
       title: "Mettre l'humain au centre",
       description: "attention et respect du quotidien de chacun",
       icon: User,
       category: 'common',
       color: "text-primary",
-      bgColor: "bg-primary/10"
+      bgColor: "bg-primary/10",
+      image: valuesHumanCentered
     },
     {
       title: "Construire ensemble", 
@@ -96,7 +117,8 @@ const ValuesMindMap = () => {
       icon: Building,
       category: 'common',
       color: "text-primary",
-      bgColor: "bg-primary/10"
+      bgColor: "bg-primary/10",
+      image: valuesBuildingTogether
     },
     {
       title: "Un impact concret",
@@ -104,7 +126,17 @@ const ValuesMindMap = () => {
       icon: Target,
       category: 'common',
       color: "text-primary",
-      bgColor: "bg-primary/10"
+      bgColor: "bg-primary/10",
+      image: valuesConcreteImpact
+    },
+    {
+      title: "Se soutenir les uns les autres",
+      description: "entraide et solidarité au sein de l'équipe",
+      icon: Users,
+      category: 'common',
+      color: "text-primary",
+      bgColor: "bg-primary/10",
+      image: valuesMutualSupport
     }
   ];
 
@@ -124,16 +156,24 @@ const ValuesMindMap = () => {
   }, {} as Record<string, ValueBubble[]>);
 
   return (
-    <section className="py-20 px-6 section-professional">
-      <div className="container mx-auto">
+    <section 
+      className="py-20 px-6 section-professional relative"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${valuesHeroMain})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      <div className="container mx-auto relative z-10">
         <div 
           ref={titleRef}
           className={`text-center mb-16 scroll-reveal ${titleVisible ? 'visible' : ''}`}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 font-inter">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-inter">
             Du <span className="text-secondary">local</span>, de l'<span className="text-primary">écoute</span>, du <span className="text-accent-foreground">concret</span>
           </h2>
-          <p className="text-xl text-foreground/70 max-w-3xl mx-auto font-lato">
+          <p className="text-xl text-white/90 max-w-3xl mx-auto font-lato">
             QVT Box – Une attention particulière, chaque jour
           </p>
         </div>
@@ -147,10 +187,10 @@ const ValuesMindMap = () => {
                 </h3>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              <div className={`grid ${category === 'common' ? 'md:grid-cols-4' : 'md:grid-cols-3'} gap-8 max-w-6xl mx-auto`}>
                 {groupedValues[category]?.map((value, index) => {
                   const IconComponent = value.icon;
-                  const bubbleIndex = categoryIndex * 3 + index + 1;
+                  const bubbleIndex = categoryIndex * (category === 'common' ? 4 : 3) + index + 1;
                   
                   return (
                     <Card 
@@ -172,10 +212,19 @@ const ValuesMindMap = () => {
                       </div>
 
                       <CardContent className="space-y-6 relative z-10">
+                        {/* Image de fond de la carte */}
+                        <div 
+                          className="w-full h-32 rounded-lg mb-4 bg-cover bg-center relative"
+                          style={{ backgroundImage: `url(${value.image})` }}
+                        >
+                          <div className="absolute inset-0 bg-black/20 rounded-lg"></div>
+                        </div>
+                        
                         <div className="flex justify-center mb-4">
                           <div className={`
                             w-20 h-20 ${value.bgColor} rounded-full flex items-center justify-center
                             transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg
+                            border-4 border-white shadow-lg
                           `}>
                             <IconComponent className={`w-10 h-10 ${value.color}`} />
                           </div>
