@@ -31,6 +31,14 @@ const ValuesMindMap = () => {
   const values: ValueBubble[] = [
     // Box Physique (3 valeurs) 🟢
     {
+      title: "Un petit coup de pouce au pouvoir d'achat",
+      description: "la box peut être ce petit cadeau en fin du mois (négociation entreprise, salarié)",
+      icon: Heart,
+      category: 'physical',
+      color: "text-green-700",
+      bgColor: "bg-green-100"
+    },
+    {
       title: "Réorienter la dépense",
       description: "transformer les budgets cadeaux / consommables en soutien au marché français",
       icon: ShoppingBag,
@@ -39,19 +47,11 @@ const ValuesMindMap = () => {
       bgColor: "bg-green-100"
     },
     {
-      title: "Soutien éthique & local",
-      description: "mettre en avant nos producteurs et artisans",
+      title: "Reconnaissance",
+      description: "une attention particulière aux salariés (promotion, mariage, deuil, cohésion d'équipe...)",
       icon: Handshake,
       category: 'physical',
       color: "text-green-700", 
-      bgColor: "bg-green-100"
-    },
-    {
-      title: "Reconnaissance moments de vie",
-      description: "une attention particulière aux salariés (naissance, mariage, retraite, deuil)",
-      icon: Heart,
-      category: 'physical',
-      color: "text-green-700",
       bgColor: "bg-green-100"
     },
     
