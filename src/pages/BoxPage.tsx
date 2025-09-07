@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-aimport { SEOHead } from "@/components/SEOHead";
+import { SEOHead } from "@/components/SEOHead";
 import { useScrollReveal, useStaggeredReveal } from '@/hooks/useScrollReveal';
 import {
   Package,
