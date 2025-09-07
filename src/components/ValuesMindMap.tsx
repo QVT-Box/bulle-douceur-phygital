@@ -11,22 +11,26 @@ import {
   Target,
   ShoppingBag,
   Handshake,
-  Globe
+  Globe,
+  Lightbulb,
+  Leaf,
+  GraduationCap,
+  Shield
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
-// Import des images
-import valuesHeroMain from "@/assets/values-hero-main.jpg";
-import valuesPurchasingPower from "@/assets/values-purchasing-power.jpg";
-import valuesRedirectExpenses from "@/assets/values-redirect-expenses.jpg";
-import valuesRecognition from "@/assets/values-recognition.jpg";
-import valuesListening from "@/assets/values-listening.jpg";
-import valuesReactivity from "@/assets/values-reactivity.jpg";
-import valuesTransparency from "@/assets/values-transparency.jpg";
-import valuesHumanCentered from "@/assets/values-human-centered.jpg";
-import valuesBuildingTogether from "@/assets/values-building-together.jpg";
-import valuesConcreteImpact from "@/assets/values-concrete-impact.jpg";
-import valuesMutualSupport from "@/assets/values-mutual-support.jpg";
+// Import des vraies images
+import heroWorkplaceTeam from "@/assets/hero-workplace-team.jpg";
+import purchasingPowerReal from "@/assets/purchasing-power-real.jpg";
+import localProductsReal from "@/assets/local-products-real.jpg";
+import recognitionReal from "@/assets/recognition-real.jpg";
+import listeningReal from "@/assets/listening-real.jpg";
+import reactivityReal from "@/assets/reactivity-real.jpg";
+import transparencyReal from "@/assets/transparency-real.jpg";
+import humanCenteredReal from "@/assets/human-centered-real.jpg";
+import buildingTogetherReal from "@/assets/building-together-real.jpg";
+import concreteImpactReal from "@/assets/concrete-impact-real.jpg";
+import mutualSupportReal from "@/assets/mutual-support-real.jpg";
 
 interface ValueBubble {
   title: string;
@@ -40,10 +44,10 @@ interface ValueBubble {
 
 const ValuesMindMap = () => {
   const [titleRef, titleVisible] = useScrollReveal();
-  const [bubblesRef, bubblesVisible] = useStaggeredReveal(10, 100);
+  const [bubblesRef, bubblesVisible] = useStaggeredReveal(14, 100);
 
   const values: ValueBubble[] = [
-    // Box Physique (3 valeurs) 🟢
+    // Box Physique (4 valeurs) 🟢
     {
       title: "Un petit coup de pouce au pouvoir d'achat",
       description: "la box peut être ce petit cadeau en fin du mois (négociation entreprise, salarié)",
@@ -51,7 +55,7 @@ const ValuesMindMap = () => {
       category: 'physical',
       color: "text-green-700",
       bgColor: "bg-green-100",
-      image: valuesPurchasingPower
+      image: purchasingPowerReal
     },
     {
       title: "Réorienter la dépense",
@@ -60,7 +64,7 @@ const ValuesMindMap = () => {
       category: 'physical',
       color: "text-green-700",
       bgColor: "bg-green-100",
-      image: valuesRedirectExpenses
+      image: localProductsReal
     },
     {
       title: "Reconnaissance",
@@ -69,10 +73,19 @@ const ValuesMindMap = () => {
       category: 'physical',
       color: "text-green-700", 
       bgColor: "bg-green-100",
-      image: valuesRecognition
+      image: recognitionReal
+    },
+    {
+      title: "Durabilité",
+      description: "des produits éco-responsables pour un impact environnemental positif",
+      icon: Leaf,
+      category: 'physical',
+      color: "text-green-700", 
+      bgColor: "bg-green-100",
+      image: localProductsReal
     },
     
-    // Application SaaS (3 valeurs) 🔵
+    // Application SaaS (4 valeurs) 🔵
     {
       title: "Écoute réelle",
       description: "prendre en compte le ressenti et la parole des salariés",
@@ -80,7 +93,7 @@ const ValuesMindMap = () => {
       category: 'saas',
       color: "text-blue-700",
       bgColor: "bg-blue-100",
-      image: valuesListening
+      image: listeningReal
     },
     {
       title: "Réactivité",
@@ -89,7 +102,7 @@ const ValuesMindMap = () => {
       category: 'saas', 
       color: "text-blue-700",
       bgColor: "bg-blue-100",
-      image: valuesReactivity
+      image: reactivityReal
     },
     {
       title: "Transparence",
@@ -98,10 +111,19 @@ const ValuesMindMap = () => {
       category: 'saas',
       color: "text-blue-700",
       bgColor: "bg-blue-100",
-      image: valuesTransparency
+      image: transparencyReal
+    },
+    {
+      title: "Innovation",
+      description: "des outils technologiques modernes et intuitifs",
+      icon: Lightbulb,
+      category: 'saas',
+      color: "text-blue-700",
+      bgColor: "bg-blue-100",
+      image: reactivityReal
     },
 
-    // Valeurs communes (4 bulles) 🫧
+    // Valeurs communes (6 bulles) 🫧
     {
       title: "Mettre l'humain au centre",
       description: "attention et respect du quotidien de chacun",
@@ -109,7 +131,7 @@ const ValuesMindMap = () => {
       category: 'common',
       color: "text-primary",
       bgColor: "bg-primary/10",
-      image: valuesHumanCentered
+      image: humanCenteredReal
     },
     {
       title: "Construire ensemble", 
@@ -118,7 +140,7 @@ const ValuesMindMap = () => {
       category: 'common',
       color: "text-primary",
       bgColor: "bg-primary/10",
-      image: valuesBuildingTogether
+      image: buildingTogetherReal
     },
     {
       title: "Un impact concret",
@@ -127,7 +149,7 @@ const ValuesMindMap = () => {
       category: 'common',
       color: "text-primary",
       bgColor: "bg-primary/10",
-      image: valuesConcreteImpact
+      image: concreteImpactReal
     },
     {
       title: "Se soutenir les uns les autres",
@@ -136,7 +158,25 @@ const ValuesMindMap = () => {
       category: 'common',
       color: "text-primary",
       bgColor: "bg-primary/10",
-      image: valuesMutualSupport
+      image: mutualSupportReal
+    },
+    {
+      title: "Formation continue",
+      description: "développement des compétences et accompagnement personnel",
+      icon: GraduationCap,
+      category: 'common',
+      color: "text-primary",
+      bgColor: "bg-primary/10",
+      image: buildingTogetherReal
+    },
+    {
+      title: "Sécurité et bien-être",
+      description: "protection et prévention pour un environnement de travail sain",
+      icon: Shield,
+      category: 'common',
+      color: "text-primary",
+      bgColor: "bg-primary/10",
+      image: humanCenteredReal
     }
   ];
 
@@ -146,6 +186,24 @@ const ValuesMindMap = () => {
       case 'saas': return '🔵 Application SaaS'; 
       case 'common': return '🫧 Valeurs Communes';
       default: return '';
+    }
+  };
+
+  const getGridCols = (category: string) => {
+    switch(category) {
+      case 'physical': return 'md:grid-cols-4';
+      case 'saas': return 'md:grid-cols-4'; 
+      case 'common': return 'md:grid-cols-3';
+      default: return 'md:grid-cols-3';
+    }
+  };
+
+  const getCategoryItemCount = (category: string) => {
+    switch(category) {
+      case 'physical': return 4;
+      case 'saas': return 4; 
+      case 'common': return 6;
+      default: return 3;
     }
   };
 
@@ -159,7 +217,7 @@ const ValuesMindMap = () => {
     <section 
       className="py-20 px-6 section-professional relative"
       style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${valuesHeroMain})`,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${heroWorkplaceTeam})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed'
@@ -187,10 +245,13 @@ const ValuesMindMap = () => {
                 </h3>
               </div>
 
-              <div className={`grid ${category === 'common' ? 'md:grid-cols-4' : 'md:grid-cols-3'} gap-8 max-w-6xl mx-auto`}>
+              <div className={`grid ${getGridCols(category)} gap-8 max-w-6xl mx-auto`}>
                 {groupedValues[category]?.map((value, index) => {
                   const IconComponent = value.icon;
-                  const bubbleIndex = categoryIndex * (category === 'common' ? 4 : 3) + index + 1;
+                  const categoryItemCount = getCategoryItemCount(category);
+                  const previousCategoriesTotal = category === 'physical' ? 0 : 
+                                                 category === 'saas' ? 4 : 8;
+                  const bubbleIndex = previousCategoriesTotal + index + 1;
                   
                   return (
                     <Card 
