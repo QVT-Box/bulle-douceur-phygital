@@ -73,7 +73,7 @@ const PLANS = [
       "Recommandations IA",
       "Support prioritaire",
     ],
-    highlight: true,
+    
     cta: { label: "Demander une démo", to: "/contact" },
   },
   {
@@ -148,7 +148,7 @@ const SaaSPage: React.FC = () => {
         <div className="container mx-auto">
           <div className="max-w-3xl">
             <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">Plateforme SaaS</Badge>
-            <h1 id="saas-hero-title" className="text-4xl md:text-6xl font-bold text-foreground mb-6 font-kalam">
+            <h1 id="saas-hero-title" className="text-4xl md:text-6xl font-bold text-foreground mb-6 font-inter">
               Le cockpit QVT qui veille sur vos équipes
             </h1>
             <p className="text-lg text-foreground/80 max-w-2xl mb-8">
@@ -174,7 +174,7 @@ const SaaSPage: React.FC = () => {
         ref={featRef}
       >
         <div className="container mx-auto">
-          <h2 id="features-title" className="text-3xl md:text-4xl font-bold text-foreground mb-10 font-kalam">
+          <h2 id="features-title" className="text-3xl md:text-4xl font-bold text-foreground mb-10 font-inter">
             Ce que le SaaS vous apporte
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -240,14 +240,14 @@ const SaaSPage: React.FC = () => {
         ref={plansRef}
       >
         <div className="container mx-auto">
-          <h2 id="plans-title" className="text-3xl md:text-4xl font-bold mb-10 font-kalam">Des offres simples et évolutives</h2>
+          <h2 id="plans-title" className="text-3xl md:text-4xl font-bold mb-10 font-inter">Des offres simples et évolutives</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {PLANS.map((plan) => (
-              <Card key={plan.name} className={`card-professional ${plan.highlight ? "ring-2 ring-primary" : ""}`}>
+              <Card key={plan.name} className={`card-professional ${plan.name === "Plus" ? "ring-2 ring-primary" : ""}`}>
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                    <Badge className={plan.highlight ? "bg-primary text-white" : "bg-primary/10 text-primary"}>{plan.badge}</Badge>
+                    <Badge className={plan.name === "Plus" ? "bg-primary text-white" : "bg-primary/10 text-primary"}>{plan.badge}</Badge>
                   </div>
                 </CardHeader>
                 <CardContent className="p-6">
@@ -261,7 +261,7 @@ const SaaSPage: React.FC = () => {
                     ))}
                   </ul>
                   <Link to={plan.cta.to}>
-                    <Button className={plan.highlight ? "btn-primary w-full" : "btn-secondary w-full"}>{plan.cta.label}</Button>
+                    <Button className={plan.name === "Plus" ? "btn-primary w-full" : "btn-secondary w-full"}>{plan.cta.label}</Button>
                   </Link>
                 </CardContent>
               </Card>
@@ -277,7 +277,7 @@ const SaaSPage: React.FC = () => {
         ref={securityRef}
       >
         <div className="container mx-auto">
-          <h2 id="security-title" className="text-3xl md:text-4xl font-bold mb-10 font-kalam">Sécurité & conformité</h2>
+          <h2 id="security-title" className="text-3xl md:text-4xl font-bold mb-10 font-inter">Sécurité & conformité</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {SECURITY.map(({ icon: Icon, title, desc }) => (
               <Card key={title} className="card-professional">
@@ -301,7 +301,7 @@ const SaaSPage: React.FC = () => {
         ref={faqRef}
       >
         <div className="container mx-auto">
-          <h2 id="faq-title" className="text-3xl md:text-4xl font-bold mb-10 font-kalam">FAQ</h2>
+          <h2 id="faq-title" className="text-3xl md:text-4xl font-bold mb-10 font-inter">FAQ</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {FAQ.map(({ q, a }) => (
               <Card key={q} className="card-professional">

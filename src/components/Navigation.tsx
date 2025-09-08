@@ -53,7 +53,7 @@ const Navigation = () => {
               <li key={item.name}>
                 <Link
                   to={item.path}
-                  className={`nav-link hover:scale-105 transition-all duration-300 font-poppins ${location.pathname === item.path ? 'text-primary' : ''}`}
+                  className={`nav-link hover:scale-105 transition-all duration-300 font-montserrat ${location.pathname === item.path ? 'text-primary' : ''}`}
                 >
                   {item.name}
                 </Link>
@@ -117,7 +117,7 @@ const Navigation = () => {
                     key={item.name}
                     to={item.path}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`text-lg font-poppins py-3 px-4 rounded-lg transition-all duration-300 ${
+                    className={`text-lg font-montserrat py-3 px-4 rounded-lg transition-all duration-300 ${
                       location.pathname === item.path 
                         ? 'bg-primary/10 text-primary font-semibold' 
                         : 'text-foreground hover:bg-muted'

@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { User, Package, Settings, CreditCard, MapPin, Mail, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
+import BoxPreferencesCustomizer from '@/components/BoxPreferencesCustomizer';
 
 interface UserProfile {
   user_id: string;
@@ -149,11 +150,11 @@ const UserDashboard = () => {
         {/* Header */}
         <div className="flex justify-between items-start mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">
-              Bonjour {profile?.display_name || 'Utilisateur'} ! 👋
+            <h1 className="text-3xl font-bold text-foreground mb-2 font-inter">
+              Bonjour {profile?.display_name || 'Utilisateur'} !
             </h1>
-            <p className="text-foreground/70">
-              Gérez votre profil et suivez vos commandes QVT Box
+            <p className="text-foreground/70 font-lato">
+              Gérez votre profil et personnalisez votre Box Pouvoir d'Achat
             </p>
           </div>
           <Button variant="outline" onClick={handleLogout}>
@@ -163,10 +164,14 @@ const UserDashboard = () => {
 
         {/* Dashboard Content */}
         <Tabs defaultValue="profile" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="profile">
               <User className="w-4 h-4 mr-2" />
               Profil
+            </TabsTrigger>
+            <TabsTrigger value="box">
+              <Package className="w-4 h-4 mr-2" />
+              Ma Box
             </TabsTrigger>
             <TabsTrigger value="orders">
               <Package className="w-4 h-4 mr-2" />
@@ -181,6 +186,11 @@ const UserDashboard = () => {
               Facturation
             </TabsTrigger>
           </TabsList>
+
+          {/* Box Tab */}
+          <TabsContent value="box" className="space-y-6">
+            <BoxPreferencesCustomizer />
+          </TabsContent>
 
           {/* Profile Tab */}
           <TabsContent value="profile" className="space-y-6">

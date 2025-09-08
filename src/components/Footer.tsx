@@ -22,10 +22,10 @@ const Footer = () => {
                 QVT
               </div>
             </div>
-            <span className="text-3xl font-dancing font-bold text-gradient">QVT Box</span>
+            <span className="text-3xl font-bold text-gradient font-inter">QVT Box</span>
           </div>
           
-          <p className="text-foreground/70 mb-8 font-poppins font-light max-w-2xl mx-auto animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
+          <p className="text-foreground/70 mb-8 font-lato font-light max-w-2xl mx-auto animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
             QVT Box est un compagnon professionnel du quotidien, conçu pour les salariés, les managers, les RH et les représentants du personnel. 
             Ensemble, faisons de la question "Ça va ?" un vrai levier de dialogue social et de bien-être durable.
           </p>

@@ -6,7 +6,7 @@ const Hero = () => {
     <section className="relative min-h-screen flex items-center justify-center pt-20 px-6">
       <div className="container mx-auto text-center">
         <div className="max-w-4xl mx-auto">
-          <h1 className="font-kalam text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-8 leading-relaxed">
+          <h1 className="font-inter text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-8 leading-relaxed">
             <span className="text-primary">« Salut, ça va ? »</span>
             <br />
             <span className="text-lg md:text-2xl lg:text-3xl font-montserrat font-normal text-foreground/80 mt-4 block">

@@ -20,11 +20,10 @@ export default {
 		extend: {
 			fontFamily: {
 				sans: ["Inter", "sans-serif"],
-				montserrat: ["Montserrat", "sans-serif"],
-				kalam: ["Kalam", "cursive"],
-				poppins: ["Poppins", "sans-serif"],
-				dancing: ["Dancing Script", "cursive"],
 				inter: ["Inter", "sans-serif"],
+				montserrat: ["Montserrat", "sans-serif"],
+				lato: ["Lato", "sans-serif"],
+				roboto: ["Roboto", "sans-serif"],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
