@@ -9,7 +9,7 @@ import { CartProvider } from "./hooks/useCart";
 import AppInitializer from "./components/AppInitializer";
 import GlobalSEO from "./components/GlobalSEO";
 import Index from "./pages/Index";
-import NewBoxPage from "./pages/NewBoxPage";
+import BoxPage from "./pages/BoxPage";
 import ProfessionalSaasPage from "./pages/ProfessionalSaasPage";
 import BoutiquePage from "./pages/BoutiquePage";
 import CheckoutPage from "./pages/CheckoutPage";
@@ -57,7 +57,7 @@ const App = () => (
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Index />} />
-                <Route path="/box" element={<NewBoxPage />} />
+                <Route path="/box" element={<BoxPage />} />
                 <Route path="/saas" element={<ProfessionalSaasPage />} />
                 <Route path="/boutique" element={<BoutiquePage />} />
                 <Route path="/mobile" element={<MobilePage />} />
