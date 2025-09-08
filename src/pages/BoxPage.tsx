@@ -22,6 +22,12 @@ import {
 import qvtBoxImage from "@/assets/qvt-box-products.jpg";
 import professionalTeam from "@/assets/professional-team-meeting.jpg";
 
+// >>> Images de la mini-galerie (depuis src/assets)
+import imgAlimentaire from "@/assets/products-alimentaire.jpg";
+import imgHygiene from "@/assets/products-hygiene.jpg";
+import imgCosmetique from "@/assets/products-cosmetique.jpg";
+import imgSurprise from "@/assets/products-surprise.jpg";
+
 // --- Mise en avant : Box Pouvoir d'Achat (standard mensuelle)
 const FEATURED_BOX = {
   name: "Box Pouvoir d'Achat",
@@ -113,8 +119,7 @@ const EVENT_BOXES = [
   },
   {
     event: "Promotion / Évolution",
-    description:
-      "Reconnaissance des efforts et accompagnement du changement",
+    description: "Reconnaissance des efforts et accompagnement du changement",
     icon: Award,
     customization: "Adapté au nouveau poste et aux défis à venir",
   },
@@ -322,10 +327,10 @@ const NewBoxPage: React.FC = () => {
                     aria-label="Aperçu du contenu typique"
                   >
                     {[
-                      { label: "Alimentaire", img: "/images/boxes/alimentaire.jpg" },
-                      { label: "Hygiène", img: "/images/boxes/hygiene.jpg" },
-                      { label: "Cosmétique", img: "/images/boxes/cosmetique.jpg" },
-                      { label: "Surprise", img: "/images/boxes/surprise.jpg" },
+                      { label: "Alimentaire", img: imgAlimentaire },
+                      { label: "Hygiène", img: imgHygiene },
+                      { label: "Cosmétique", img: imgCosmetique },
+                      { label: "Surprise", img: imgSurprise },
                     ].map(({ label, img }) => (
                       <figure key={label} className="rounded-lg overflow-hidden border">
                         <img
@@ -532,7 +537,7 @@ const NewBoxPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto">
             {PROCESS_STEPS.map((step, index) => (
               <div key={step.step} className="flex items-center gap-8 mb-12 last:mb-0">
                 <div className="flex-shrink-0 w-20 h-20 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold font-inter">
