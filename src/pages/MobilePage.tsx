@@ -21,6 +21,7 @@ import {
   PlayCircle
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import mobileAppHero from '@/assets/mobile-app-hero.jpg';
 
 const MobilePage = () => {
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -41,6 +42,14 @@ const MobilePage = () => {
       title: "Installation en cours...",
       description: "Suivez les instructions de votre navigateur pour installer l'app",
     });
+  };
+
+  const handleiOSDownload = () => {
+    window.open('https://apps.apple.com/app/qvt-box/id123456789', '_blank');
+  };
+
+  const handleAndroidDownload = () => {
+    window.open('https://play.google.com/store/apps/details?id=com.qvtbox.app', '_blank');
   };
 
   if (showOnboarding) {
@@ -67,31 +76,43 @@ const MobilePage = () => {
         <main className="pt-24 relative z-10">
           {/* Hero Section Mobile */}
           <section className="container mx-auto px-6 py-16 text-center">
-            <Badge className="mb-6 bg-primary/10 text-primary border-primary/20">
-              Application Mobile
-            </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 font-kalam">
-              QVT Box 
-              <span className="text-gradient"> sur Mobile</span>
-            </h1>
-            <p className="text-xl text-foreground/80 max-w-3xl mx-auto mb-8 leading-relaxed">
-              Emportez votre bien-être partout avec vous. Application native pour iPhone et Android 
-              avec notifications intelligentes, simulateur avancé et suivi personnalisé.
-            </p>
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                <Badge className="mb-6 bg-primary/10 text-primary border-primary/20">
+                  Application Mobile
+                </Badge>
+                <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 font-kalam text-left">
+                  QVT Box 
+                  <span className="text-gradient"> sur Mobile</span>
+                </h1>
+                <p className="text-xl text-foreground/80 mb-8 leading-relaxed text-left">
+                  Emportez votre bien-être partout avec vous. Application native pour iPhone et Android 
+                  avec notifications intelligentes, simulateur avancé et suivi personnalisé.
+                </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button onClick={handleInstallPWA} className="bg-black text-white hover:bg-gray-800">
-                <Apple className="w-5 h-5 mr-2" />
-                Installer sur iOS
-              </Button>
-              <Button onClick={handleInstallPWA} className="bg-green-600 text-white hover:bg-green-700">
-                <PlayCircle className="w-5 h-5 mr-2" />
-                Installer sur Android
-              </Button>
+                <div className="flex flex-col sm:flex-row gap-4 justify-start mb-12">
+                  <Button onClick={handleiOSDownload} className="bg-black text-white hover:bg-gray-800">
+                    <Apple className="w-5 h-5 mr-2" />
+                    Télécharger sur App Store
+                  </Button>
+                  <Button onClick={handleAndroidDownload} className="bg-green-600 text-white hover:bg-green-700">
+                    <PlayCircle className="w-5 h-5 mr-2" />
+                    Obtenir sur Google Play
+                  </Button>
+                </div>
+              </div>
+              
+              <div className="relative">
+                <img 
+                  src={mobileAppHero} 
+                  alt="Application mobile QVT Box sur smartphone" 
+                  className="w-full h-auto rounded-2xl shadow-2xl"
+                />
+              </div>
             </div>
 
             {/* Navigation avec AlertSystem intégré */}
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-8 mt-12">
               <div className="flex items-center gap-4">
                 <span className="text-sm text-muted-foreground">Notifications en temps réel :</span>
                 <AlertSystem />
