@@ -18,7 +18,10 @@ import {
   CheckCircle,
   BarChart3,
   FileCheck,
-  ArrowRight
+  ArrowRight,
+  Smartphone,
+  Gift,
+  Heart
 } from "lucide-react";
 
 const NewIndex = () => {
@@ -68,17 +71,17 @@ const NewIndex = () => {
 
   const testimonials = [
     {
-      quote: "QVT Box nous aide à concrétiser notre politique de bien-être. Les salariés apprécient la démarche participative.",
+      quote: "L'app a détecté que notre équipe était stressée après une réorganisation. On a immédiatement envoyé une box bien-être personnalisée. L'impact a été immédiat !",
       author: "Marie Dubois, DRH",
       company: "TechCorp (240 salariés)"
     },
     {
-      quote: "L'outil SaaS nous permet de suivre les RPS de façon anonyme et conforme. Très utile pour le DUERP.",
+      quote: "Grâce au duo Box + App, on anticipe les besoins et on agit concrètement. Nos salariés se sentent écoutés ET soutenus financièrement.",
       author: "Pierre Martin, CSE",
       company: "IndustrieXX (450 salariés)"
     },
     {
-      quote: "Enfin une solution qui associe bien-être des équipes et soutien à l'économie locale !",
+      quote: "Enfin une solution qui ne se contente pas de mesurer, mais qui apporte un vrai soutien. Le pouvoir d'achat + le suivi, c'est parfait !",
       author: "Sophie Laurent, Dirigeante",
       company: "Services+ (85 salariés)"
     }
@@ -90,8 +93,108 @@ const NewIndex = () => {
       
       {/* Hero spectaculaire */}
       <SpectacularHero />
+      
+      {/* Section Comment ça marche */}
+      <section className="py-20 px-6 bg-gradient-to-br from-background to-secondary/5">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 font-inter">
+              Comment ça marche ?
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-lato">
+              Une solution complète qui combine surveillance du bien-être et soutien concret
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <Card className="text-center p-8 hover:shadow-lg transition-shadow card-professional">
+              <CardContent className="space-y-6">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                  <Smartphone className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-2xl font-bold mb-4 font-inter">1. L'App prend des nouvelles</h3>
+                <p className="text-muted-foreground font-lato">
+                  Mood tracking, alertes RPS, suivi du bien-être en temps réel pour détecter les besoins de vos équipes.
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="text-center p-8 hover:shadow-lg transition-shadow card-professional">
+              <CardContent className="space-y-6">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                  <Gift className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-2xl font-bold mb-4 font-inter">2. La Box apporte le soutien</h3>
+                <p className="text-muted-foreground font-lato">
+                  Pouvoir d'achat personnalisé, produits locaux, soutien financier concret adapté aux besoins détectés.
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="text-center p-8 hover:shadow-lg transition-shadow card-professional">
+              <CardContent className="space-y-6">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                  <TrendingUp className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-2xl font-bold mb-4 font-inter">3. Impact mesurable</h3>
+                <p className="text-muted-foreground font-lato">
+                  Les deux solutions se complètent pour un impact durable et mesurable sur la QVT.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
 
-      {/* Values Mind Map */}
+      {/* Section Pourquoi les deux ensemble */}
+      <section className="py-20 px-6 bg-primary/5">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 font-inter">
+              Pourquoi les deux ensemble ?
+            </h2>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <Card className="p-8 text-center card-professional">
+              <CardContent className="space-y-6">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+                  <Smartphone className="w-8 h-8 text-red-600" />
+                </div>
+                <h3 className="text-xl font-bold mb-4 text-red-600 font-inter">L'app seule</h3>
+                <p className="text-muted-foreground font-lato">
+                  Détecte les besoins et les problèmes, mais ne les satisfait pas concrètement.
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="p-8 text-center card-professional">
+              <CardContent className="space-y-6">
+                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto">
+                  <Gift className="w-8 h-8 text-orange-600" />
+                </div>
+                <h3 className="text-xl font-bold mb-4 text-orange-600 font-inter">La box seule</h3>
+                <p className="text-muted-foreground font-lato">
+                  Apporte du soutien ponctuel, mais sans suivi ni personnalisation basée sur les données.
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="p-8 text-center border-2 border-primary card-professional">
+              <CardContent className="space-y-6">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                  <Heart className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-xl font-bold mb-4 text-primary font-inter">Ensemble</h3>
+                <p className="text-muted-foreground font-lato">
+                  <strong>Solution complète et mesurable :</strong> détection des besoins + soutien personnalisé + suivi d'impact.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+      
       <ValuesMindMap />
 
       {/* Chiffres clés */}

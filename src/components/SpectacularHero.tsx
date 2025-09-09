@@ -93,23 +93,25 @@ const SpectacularHero = () => {
             <div className="space-y-6">
               <h1 className="text-5xl lg:text-7xl font-bold leading-tight text-center lg:text-left">
                 <span className="text-gradient bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-pulse-soft">
-                  QVT Box
+                  Box + App
+                </span>
+                <br />
+                <span className="text-3xl lg:text-4xl font-light text-foreground">
+                  Le duo gagnant
                 </span>
               </h1>
               
               <div className="glass-effect p-8 rounded-3xl shadow-floating backdrop-blur-xl border border-white/20">
                 <p className="text-xl lg:text-2xl text-foreground leading-relaxed font-lato">
-                  <span className="text-primary font-semibold">Transformez</span> le stress en sérénité,
+                  <span className="text-primary font-semibold">Prenez des nouvelles</span> de vos équipes
                   <br />
-                  <span className="text-secondary font-semibold">La pénibilité</span> en confort,
-                  <br />
-                  <span className="text-accent-foreground font-semibold">L'isolement</span> en reconnaissance.
+                  <span className="text-secondary font-semibold">ET offrez-leur</span> un coup de pouce financier
                 </p>
               </div>
 
               <p className="text-lg text-foreground/80 font-light leading-relaxed text-center lg:text-left">
-                Une solution <span className="text-primary font-medium">phygitale révolutionnaire</span> qui prend soin 
-                de vos équipes avec des effets mesurables et durables.
+                Notre <span className="text-primary font-medium">app suit le bien-être</span> en temps réel, tandis que nos 
+                <span className="text-secondary font-medium"> box apportent un soutien concret</span> avec du pouvoir d'achat personnalisé.
               </p>
             </div>
 
@@ -119,16 +121,16 @@ const SpectacularHero = () => {
                 <Button className="btn-primary text-lg px-10 py-6 font-inter shadow-floating hover:shadow-bubble transform hover:scale-105 transition-all duration-300 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                   <Users className="w-6 h-6 mr-3" /> 
-                  Découvrir nos Solutions
+                  Découvrir le duo Box + App
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
               
-              <Link to="/boutique" className="group">
+              <Link to="/saas" className="group">
                 <Button className="btn-secondary text-lg px-8 py-6 font-inter shadow-floating hover:shadow-bubble transform hover:scale-105 transition-all duration-300 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                  <Package className="w-6 h-6 mr-3" /> 
-                  Boutique Locale
+                  <BarChart3 className="w-6 h-6 mr-3" /> 
+                  Voir une démo complète
                 </Button>
               </Link>
             </div>
