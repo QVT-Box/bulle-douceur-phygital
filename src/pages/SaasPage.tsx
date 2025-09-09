@@ -159,9 +159,12 @@ const SaaSPage: React.FC = () => {
               <Link to="/contact">
                 <Button className="btn-primary">Demander une démo</Button>
               </Link>
-              <a href="#plans" className="inline-flex items-center gap-2 text-primary font-medium">
+              <button 
+                onClick={() => document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth' })}
+                className="inline-flex items-center gap-2 text-primary font-medium hover:text-primary/80 transition-colors"
+              >
                 Voir les offres <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </a>
+              </button>
             </div>
           </div>
         </div>

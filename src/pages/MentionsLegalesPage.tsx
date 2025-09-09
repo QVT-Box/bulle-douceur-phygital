@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SEOHead } from "@/components/SEOHead";
+import { Link } from "react-router-dom";
 
 const MentionsLegalesPage = () => {
   return (
@@ -84,7 +85,7 @@ const MentionsLegalesPage = () => {
                 </CardHeader>
                 <CardContent className="space-y-4 text-foreground/80">
                   <p>Le site collecte des informations personnelles uniquement dans le cadre de ses services (commandes, contact, newsletter). Ces données sont traitées conformément au RGPD.</p>
-                  <p>Pour plus d'informations sur le traitement de vos données personnelles, consultez notre <a href="/politique-confidentialite" className="text-primary hover:underline">Politique de Confidentialité</a>.</p>
+                  <p>Pour plus d'informations sur le traitement de vos données personnelles, consultez notre <Link to="/politique-confidentialite" className="text-primary hover:underline">Politique de Confidentialité</Link>.</p>
                 </CardContent>
               </Card>
             </div>

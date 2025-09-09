@@ -47,11 +47,16 @@ const ContactPage = () => {
       return;
     }
 
+    console.log("Formulaire soumis avec les données :", formData);
+    
     setLoading(true);
 
     try {
+      console.log("1. Début de la soumission du formulaire");
+      
       // Sauvegarder dans la base de données
-      const { error } = await supabase
+      console.log("2. Sauvegarde en base de données...");
+      const { data: insertData, error } = await supabase
         .from('leads_demo')
         .insert([{
           nom: formData.nom,
@@ -61,9 +66,15 @@ const ContactPage = () => {
           source_page: '/contact'
         }]);
 
-      if (error) throw error;
+      if (error) {
+        console.error("Erreur lors de la sauvegarde en base :", error);
+        throw error;
+      }
+      
+      console.log("3. Données sauvegardées avec succès :", insertData);
 
       // Envoyer l'email via l'edge function
+      console.log("4. Envoi de l'email via edge function...");
       const emailResponse = await supabase.functions.invoke('send-contact-email', {
         body: {
           nom: formData.nom,
@@ -73,12 +84,18 @@ const ContactPage = () => {
         }
       });
 
+      console.log("5. Réponse de l'edge function :", emailResponse);
+
       if (emailResponse.error) {
-        console.error('Error sending email:', emailResponse.error);
+        console.error('Erreur lors de l\'envoi de l\'email:', emailResponse.error);
         // Ne pas empêcher la soumission si l'email échoue
+      } else {
+        console.log("6. Email envoyé avec succès !");
       }
 
       setSubmitted(true);
+      console.log("7. Formulaire traité avec succès");
+      
       toast({
         title: "Message envoyé !",
         description: "Merci ! Nous revenons vers vous sous 24-48h.",
