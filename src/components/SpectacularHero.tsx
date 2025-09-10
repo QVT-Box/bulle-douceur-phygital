@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Users, Package, BarChart3, ArrowRight, Sparkles } from "lucide-react";
-import heroImage from "@/assets/hero-spectacular-new.jpg";
+import heroImage from "@/assets/hero-spectacular-impact.jpg";
 import { useEffect, useRef } from "react";
 
 const SpectacularHero = () => {
@@ -72,14 +72,25 @@ const SpectacularHero = () => {
           
           {/* Contenu textuel avec effets */}
           <div className="space-y-8 animate-fade-in">
-            {/* Logo avec effet spectaculaire - Design original préservé */}
+            {/* Logo avec effet spectaculaire */}
             <div className="relative mb-8 group">
               <div className="absolute inset-0 bg-primary/40 blur-2xl animate-pulse-soft group-hover:blur-3xl transition-all duration-700 scale-110"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-secondary/30 to-accent/30 blur-xl animate-glow scale-105"></div>
-              <div className="w-36 h-36 mx-auto lg:mx-0 mb-8 flex items-center justify-center bg-gradient-to-br from-primary via-secondary to-accent rounded-full text-white font-inter font-bold text-xl shadow-floating hover:shadow-bubble transition-all duration-700 group-hover:scale-110 animate-float relative">
-                <div className="absolute inset-0 bg-primary/40 blur-2xl animate-pulse-soft group-hover:blur-3xl transition-all duration-700 scale-110"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-secondary/30 to-accent/30 blur-xl animate-glow scale-105"></div>
-                <span className="relative z-10">QVT BOX</span>
+              <div className="w-36 h-36 mx-auto lg:mx-0 mb-8 flex items-center justify-center rounded-full shadow-floating hover:shadow-bubble transition-all duration-700 group-hover:scale-110 animate-float relative overflow-hidden">
+                <img 
+                  src="https://2d181cb9-4143-4c90-9e92-77eb836ddc8b.lovableproject.com/qvt-box-logo.png" 
+                  alt="QVT Box Logo"
+                  className="relative z-10 w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.currentTarget as HTMLImageElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent) {
+                      parent.innerHTML = '<span class="relative z-10 text-white font-inter font-bold text-xl">QVT BOX</span>';
+                      parent.className += ' bg-gradient-to-br from-primary via-secondary to-accent';
+                    }
+                  }}
+                />
               </div>
             </div>
 
