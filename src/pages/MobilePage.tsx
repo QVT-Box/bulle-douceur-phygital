@@ -45,11 +45,17 @@ const MobilePage = () => {
   };
 
   const handleiOSDownload = () => {
-    window.open('https://apps.apple.com/app/qvt-box/id123456789', '_blank');
+    toast({
+      title: "Bientôt disponible !",
+      description: "L'application iOS QVT Box sera bientôt sur l'App Store.",
+    });
   };
 
   const handleAndroidDownload = () => {
-    window.open('https://play.google.com/store/apps/details?id=com.qvtbox.app', '_blank');
+    toast({
+      title: "Bientôt disponible !",
+      description: "L'application Android QVT Box sera bientôt sur Google Play.",
+    });
   };
 
   if (showOnboarding) {

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Users, Package, BarChart3, ArrowRight, Sparkles } from "lucide-react";
-import heroImage from "@/assets/hero-spectacular.jpg";
+import heroImage from "@/assets/hero-spectacular-new.jpg";
 import { useEffect, useRef } from "react";
 
 const SpectacularHero = () => {
@@ -76,17 +76,10 @@ const SpectacularHero = () => {
             <div className="relative mb-8 group">
               <div className="absolute inset-0 bg-primary/40 blur-2xl animate-pulse-soft group-hover:blur-3xl transition-all duration-700 scale-110"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-secondary/30 to-accent/30 blur-xl animate-glow scale-105"></div>
-              <img 
-                src="https://2d181cb9-4143-4c90-9e92-77eb836ddc8b.lovableproject.com/logo-qvt.jpeg" 
-                alt="QVT Box - Logo professionnel"
-                className="relative w-36 h-36 mx-auto lg:mx-0 mb-8 drop-shadow-2xl hover:drop-shadow-[0_0_40px_rgba(139,92,246,0.6)] transition-all duration-700 group-hover:scale-110 animate-float shadow-floating object-contain"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                }}
-              />
-              <div className="hidden w-36 h-36 mx-auto lg:mx-0 mb-8 flex items-center justify-center bg-gradient-to-br from-primary via-secondary to-accent rounded-full text-white font-inter font-bold text-xl shadow-floating hover:shadow-bubble transition-all duration-700 group-hover:scale-110 animate-float">
-                QVT BOX
+              <div className="w-36 h-36 mx-auto lg:mx-0 mb-8 flex items-center justify-center bg-gradient-to-br from-primary via-secondary to-accent rounded-full text-white font-inter font-bold text-xl shadow-floating hover:shadow-bubble transition-all duration-700 group-hover:scale-110 animate-float relative">
+                <div className="absolute inset-0 bg-primary/40 blur-2xl animate-pulse-soft group-hover:blur-3xl transition-all duration-700 scale-110"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-secondary/30 to-accent/30 blur-xl animate-glow scale-105"></div>
+                <span className="relative z-10">QVT BOX</span>
               </div>
             </div>
 

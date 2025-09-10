@@ -107,6 +107,7 @@ const CMSLayout: React.FC<CMSLayoutProps> = ({ children }) => {
           { icon: FileText, label: 'Pages', href: '/cms/pages' },
           { icon: Layout, label: 'Sections', href: '/cms/sections' },
           { icon: Menu, label: 'Menus', href: '/cms/menus' },
+          { icon: Image, label: 'Images', href: '/cms/images' },
           { icon: Image, label: 'Médias', href: '/cms/media' }
         ] : [])
       ]

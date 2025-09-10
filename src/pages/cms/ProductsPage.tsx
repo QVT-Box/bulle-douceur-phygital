@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -43,6 +44,7 @@ interface Product {
 }
 
 const ProductsPage = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -186,7 +188,7 @@ const ProductsPage = () => {
           <Package className="h-6 w-6" />
           <h1 className="text-3xl font-bold">Gestion des produits</h1>
         </div>
-        <Button>
+        <Button onClick={() => navigate('/cms/products/new')}>
           <Plus className="h-4 w-4 mr-2" />
           Nouveau produit
         </Button>
@@ -315,13 +317,25 @@ const ProductsPage = () => {
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex items-center gap-2 justify-end">
-                          <Button variant="ghost" size="sm">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => navigate(`/product/${product.slug}`)}
+                          >
                             <Eye className="h-4 w-4" />
                           </Button>
-                          <Button variant="ghost" size="sm">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => navigate(`/cms/products/edit/${product.id}`)}
+                          >
                             <Edit className="h-4 w-4" />
                           </Button>
-                          <Button variant="ghost" size="sm">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => navigate(`/cms/products/new?copy=${product.id}`)}
+                          >
                             <Copy className="h-4 w-4" />
                           </Button>
                           <Button 

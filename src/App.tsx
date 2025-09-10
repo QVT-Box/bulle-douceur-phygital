@@ -24,6 +24,8 @@ import AdminPage from "./pages/AdminPage";
 import CMSLayout from "./components/cms/CMSLayout";
 import CMSIndexPage from "./pages/cms/CMSIndexPage";
 import ProductsPage from "./pages/cms/ProductsPage";
+import ProductFormPage from "./pages/cms/ProductFormPage";
+import ImagesPage from "./pages/cms/ImagesPage";
 import SettingsPage from "./pages/cms/SettingsPage";
 import CMSPartnersPage from "./pages/cms/PartnersPage";
 import MediaPage from "./pages/cms/MediaPage";
@@ -75,6 +77,9 @@ const App = () => (
                 {/* CMS Routes */}
                 <Route path="/cms" element={<CMSLayout><CMSIndexPage /></CMSLayout>} />
                 <Route path="/cms/products" element={<CMSLayout><ProductsPage /></CMSLayout>} />
+                <Route path="/cms/products/new" element={<CMSLayout><ProductFormPage /></CMSLayout>} />
+                <Route path="/cms/products/edit/:id" element={<CMSLayout><ProductFormPage /></CMSLayout>} />
+                <Route path="/cms/images" element={<CMSLayout><ImagesPage /></CMSLayout>} />
                 <Route path="/cms/partners/applications" element={<CMSLayout><CMSPartnersPage /></CMSLayout>} />
                 <Route path="/cms/partners/approved" element={<CMSLayout><CMSPartnersPage /></CMSLayout>} />
                 <Route path="/cms/media" element={<CMSLayout><MediaPage /></CMSLayout>} />
