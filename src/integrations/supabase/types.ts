@@ -612,6 +612,36 @@ export type Database = {
         }
         Relationships: []
       }
+      contact_messages: {
+        Row: {
+          created_at: string | null
+          email: string
+          entreprise: string | null
+          id: string
+          message: string
+          nom: string
+          status: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          entreprise?: string | null
+          id?: string
+          message: string
+          nom: string
+          status?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          entreprise?: string | null
+          id?: string
+          message?: string
+          nom?: string
+          status?: string | null
+        }
+        Relationships: []
+      }
       conversations: {
         Row: {
           created_at: string
@@ -789,6 +819,42 @@ export type Database = {
           start_date?: string | null
           updated_at?: string | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      employee_wellness_scores: {
+        Row: {
+          created_at: string | null
+          engagement_level: number | null
+          id: string
+          period_end: string
+          period_start: string
+          satisfaction_level: number | null
+          stress_level: number | null
+          user_id: string | null
+          wellbeing_score: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          engagement_level?: number | null
+          id?: string
+          period_end?: string
+          period_start?: string
+          satisfaction_level?: number | null
+          stress_level?: number | null
+          user_id?: string | null
+          wellbeing_score?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          engagement_level?: number | null
+          id?: string
+          period_end?: string
+          period_start?: string
+          satisfaction_level?: number | null
+          stress_level?: number | null
+          user_id?: string | null
+          wellbeing_score?: number | null
         }
         Relationships: []
       }
@@ -2780,6 +2846,10 @@ export type Database = {
     Functions: {
       calculate_product_rating: {
         Args: { product_uuid: string }
+        Returns: number
+      }
+      calculate_wellbeing_score: {
+        Args: { p_engagement: number; p_satisfaction: number; p_stress: number }
         Returns: number
       }
       can_manager_access_team: {
