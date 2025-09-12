@@ -41,8 +41,8 @@ const Footer = () => {
               <div className="text-center">
                 <h3 className="font-semibold text-foreground mb-2">Coordonnées QVT Box</h3>
                 <div className="space-y-1 text-sm text-foreground/70">
-                  <p>📧 Email : contact@qvtbox.fr</p>
-                  <p>📞 Téléphone : +33 (0)X XX XX XX XX</p>
+                  <p>📧 Email : contact@qvtbox.fr / lamia.brechet@outlook.fr </p>
+                  <p>📞 Téléphone : +33 (0)6 76 43 55 51 / 02 23 24 28 45 </p>
                   <p>📍 Adresse : Rennes, France</p>
                 </div>
               </div>
