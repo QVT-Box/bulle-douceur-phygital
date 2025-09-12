@@ -1,73 +1,66 @@
-# Welcome to your Lovable project
+# QVT Box - Qualité de Vie au Travail
 
-## Project info
+## À propos
 
-**URL**: https://lovable.dev/projects/2d181cb9-4143-4c90-9e92-77eb836ddc8b
+QVT Box est une plateforme dédiée à l'amélioration de la qualité de vie au travail en entreprise. Nous proposons des solutions complètes pour le bien-être des équipes, l'engagement des collaborateurs et la performance organisationnelle.
 
-## How can I edit this code?
+## Nos Services
 
-There are several ways of editing your application.
+### 🎯 Consultation QVT
+- Diagnostic personnalisé de la qualité de vie au travail
+- Analyse des besoins spécifiques de votre entreprise
+- Recommandations stratégiques sur mesure
 
-**Use Lovable**
+### 📊 Outils d'Évaluation
+- Questionnaires de bien-être au travail
+- Mesure de l'engagement des équipes
+- Suivi des indicateurs QVT
+- Tableaux de bord personnalisés
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/2d181cb9-4143-4c90-9e92-77eb836ddc8b) and start prompting.
+### 🧘 Solutions Bien-être
+- Programmes de gestion du stress
+- Activités de team building
+- Ateliers de développement personnel
+- Espaces de détente et ressources
 
-Changes made via Lovable will be committed automatically to this repo.
+### 📱 Application Mobile
+- Suivi du bien-être en temps réel
+- Notifications personnalisées
+- Modules d'auto-évaluation
+- Ressources et conseils pratiques
 
-**Use your preferred IDE**
+### 🎁 Box Thématiques (sur demande)
+- Sélection de produits français artisanaux
+- Thèmes personnalisés selon vos besoins
+- Produits de bien-être, ergonomie, énergie
+- Sourcing local et responsable
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Contact
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Toutes nos prestations sont sur mesure et adaptées à vos besoins spécifiques.
 
-Follow these steps:
+**Pour toute demande de devis ou d'information :**
+- 📧 Email : contact@qvtbox.fr
+- 📞 Téléphone : [À définir]
+- 🌐 Site web : [URL du site]
+
+## Technologies
+
+Ce site est développé avec :
+- React & TypeScript
+- Tailwind CSS
+- Supabase (authentification et base de données)
+- Vite
+
+## Développement
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Installation des dépendances
+npm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Lancement en mode développement
 npm run dev
+
+# Build de production
+npm run build
 ```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/2d181cb9-4143-4c90-9e92-77eb836ddc8b) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
