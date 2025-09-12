@@ -17,10 +17,8 @@ const Navigation = () => {
   
   const navItems = [
     { name: "Accueil", path: "/" },
-    { name: "Box", path: "/box" },
-    { name: "SaaS", path: "/saas" },
-    { name: "Boutique", path: "/boutique" },
-    { name: "Mobile", path: "/mobile" },
+    { name: "Notre Offre", path: "/box" },
+    { name: "Licence SaaS", path: "/saas" },
     { name: "À propos", path: "/about" },
     { name: "Contact", path: "/contact" },
   ];
@@ -59,17 +57,12 @@ const Navigation = () => {
               </li>
             ))}
             <li className="flex items-center gap-4">
-              <button
-                onClick={() => setIsOpen(true)}
-                className="relative bg-primary text-white px-4 py-2 rounded-lg font-medium transition-all hover:bg-primary/90 font-inter"
+              <Link
+                to="/contact"
+                className="bg-primary text-white px-6 py-2 rounded-lg font-medium transition-all hover:bg-primary/90 font-inter"
               >
-                <ShoppingBag className="w-4 h-4" />
-                {totalItems > 0 && (
-                  <Badge className="absolute -top-2 -right-2 bg-secondary text-white min-w-[20px] h-5 text-xs">
-                    {totalItems}
-                  </Badge>
-                )}
-              </button>
+                Demander un devis
+              </Link>
               <Link
                 to={user ? "/dashboard" : "/auth"}
                 className="bg-secondary text-white px-6 py-2 rounded-lg font-medium transition-all hover:bg-secondary/90 font-inter"
@@ -128,21 +121,13 @@ const Navigation = () => {
               </div>
               
               <div className="flex flex-col space-y-3 pt-4 border-t border-border">
-                <button
-                  onClick={() => {
-                    setIsOpen(true);
-                    setMobileMenuOpen(false);
-                  }}
-                  className="relative bg-primary text-white px-6 py-3 rounded-lg font-medium transition-all hover:bg-primary/90 font-inter flex items-center justify-center gap-2"
+                <Link
+                  to="/contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="bg-primary text-white px-6 py-3 rounded-lg font-medium transition-all hover:bg-primary/90 font-inter text-center"
                 >
-                  <ShoppingBag className="w-5 h-5" />
-                  Panier
-                  {totalItems > 0 && (
-                    <Badge className="bg-secondary text-white min-w-[20px] h-5 text-xs">
-                      {totalItems}
-                    </Badge>
-                  )}
-                </button>
+                  Demander un devis
+                </Link>
                 
                 <Link
                   to={user ? "/dashboard" : "/auth"}

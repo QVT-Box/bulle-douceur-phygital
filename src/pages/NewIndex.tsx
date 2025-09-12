@@ -1,19 +1,20 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import SpectacularHero from "@/components/SpectacularHero";
-import ValuesMindMap from "@/components/ValuesMindMap";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { useScrollReveal, useStaggeredReveal } from '@/hooks/useScrollReveal';
+import heroImage from "@/assets/hero-workplace.jpg";
+import saasImage from "@/assets/saas-dashboard.jpg";
+import boxImage from "@/assets/box-artisanal.jpg";
 import { 
   Users, 
   Package, 
   Shield, 
   Award, 
-  MapPin, 
-  Handshake,
+  Building2,
+  Phone,
   TrendingUp,
   CheckCircle,
   BarChart3,
@@ -21,67 +22,110 @@ import {
   ArrowRight,
   Smartphone,
   Gift,
-  Heart
+  Heart,
+  AlertTriangle,
+  UserPlus,
+  Download,
+  Euro
 } from "lucide-react";
 
 const NewIndex = () => {
-  const [statsRef, statsVisible] = useStaggeredReveal(4, 200);
-  const [piersRef, piersVisible] = useStaggeredReveal(4, 150);
+  const [heroRef, heroVisible] = useScrollReveal();
+  const [offerRef, offerVisible] = useStaggeredReveal(3, 200);
+  const [demoRef, demoVisible] = useScrollReveal();
+  const [pricingRef, pricingVisible] = useStaggeredReveal(3, 150);
   const [testimonialsRef, testimonialsVisible] = useStaggeredReveal(3, 200);
-  const [solutionsRef, solutionsVisible] = useStaggeredReveal(3, 250);
   const [ctaRef, ctaVisible] = useScrollReveal();
 
-  const stats = [
-    { value: "40%", label: "des salariés déclarent une pénibilité physique", source: "DARES 2023" },
-    { value: "33%", label: "des salariés exposés aux RPS", source: "INRS" },
-    { value: "15%", label: "seulement se sentent reconnus", source: "Gallup 2023" },
-    { value: "70%", label: "veulent des entreprises locales", source: "ADEME" }
+  const offers = [
+    {
+      title: "Box & Produits",
+      subtitle: "Solutions physiques",
+      description: "Box thématiques et événementielles, produits français artisanaux pour le soutien quotidien des équipes",
+      icon: Package,
+      features: ["Box Pouvoir d'Achat", "Box Thématiques", "Box Événementielles", "Produits Made in France"],
+      color: "primary"
+    },
+    {
+      title: "Licence SaaS Entreprise",
+      subtitle: "Outil numérique exclusif",
+      description: "Application QVT réservée aux entreprises sous forme de licence pour la prévention RPS et le suivi QVCT",
+      icon: BarChart3,
+      features: ["Tableaux de bord RH", "Alertes RPS", "Export DUERP", "Suivi anonymisé"],
+      color: "secondary"
+    },
+    {
+      title: "Boutique & Partenariats",
+      subtitle: "Réseau local",
+      description: "Sélection de partenaires locaux et boutique en ligne pour compléter votre offre bien-être",
+      icon: Building2,
+      features: ["Partenaires locaux", "Co-branding", "Commissions", "Made in France"],
+      color: "accent"
+    }
   ];
 
-  const engagements = [
+  const demoFeatures = [
     {
-      title: "Soulager",
-      action: "la pénibilité",
-      description: "Par des produits adaptés (ergonomie, récupération)",
-      icon: Users,
-      color: "text-secondary"
+      title: "Dashboard RH Global",
+      description: "Scoring QVT de 1 à 15 avec indicateurs anonymisés par équipe",
+      icon: BarChart3,
+      mockup: "Équipe Marketing: 12/15 • Équipe Vente: 8/15 • Global: 11/15"
     },
     {
-      title: "Prévenir", 
-      action: "les risques psychosociaux",
-      description: "Grâce à des alertes simples et un suivi collectif",
-      icon: Shield,
-      color: "text-primary"
+      title: "Gestion des Salariés",
+      description: "Interface simple pour ajouter et gérer vos collaborateurs",
+      icon: UserPlus,
+      mockup: "Ajouter un collaborateur • Gérer les équipes • Voir les profils"
     },
     {
-      title: "Respecter",
-      action: "le droit à la déconnexion",
-      description: "Avec des outils bienveillants",
-      icon: Package,
-      color: "text-accent-foreground"
+      title: "Alertes RPS",
+      description: "Détection automatique des signaux faibles et alertes préventives",
+      icon: AlertTriangle,
+      mockup: "🔴 Alerte stress élevé détectée dans l'équipe Support"
     },
     {
-      title: "Reconnaître",
-      action: "et valoriser les salariés",
-      description: "Par des gestes visibles et concrets",
-      icon: Award,
-      color: "text-secondary"
+      title: "Export DUERP",
+      description: "Génération automatique des documents réglementaires",
+      icon: Download,
+      mockup: "Exporter DUERP • Rapport mensuel • Synthèse annuelle"
+    }
+  ];
+
+  const pricing = [
+    {
+      type: "Box Physiques",
+      price: "39,90 €",
+      unit: "HT / box",
+      features: ["Box thématiques", "Box événementielles", "Produits français", "Personnalisation"]
+    },
+    {
+      type: "Licence SaaS Entreprise",
+      price: "3 000 €",
+      unit: "/an",
+      features: ["Dashboard RH complet", "Alertes RPS", "Export DUERP", "Support inclus"],
+      popular: true
+    },
+    {
+      type: "Box Premium Export",
+      price: "49,90 - 89,90 €",
+      unit: "HT",
+      features: ["Export international", "Produits premium", "Packaging renforcé", "Douanes incluses"]
     }
   ];
 
   const testimonials = [
     {
-      quote: "L'app a détecté que notre équipe était stressée après une réorganisation. On a immédiatement envoyé une box bien-être personnalisée. L'impact a été immédiat !",
+      quote: "La licence QVT Box nous a permis de détecter des tensions avant qu'elles ne dégénèrent. Les alertes RPS sont un vrai plus pour notre prévention.",
       author: "Marie Dubois, DRH",
       company: "TechCorp (240 salariés)"
     },
     {
-      quote: "Grâce au duo Box + App, on anticipe les besoins et on agit concrètement. Nos salariés se sentent écoutés ET soutenus financièrement.",
-      author: "Pierre Martin, CSE",
+      quote: "Les box apportent du concret à nos actions QVT. Nos salariés voient que l'entreprise s'investit vraiment pour leur bien-être.",
+      author: "Pierre Martin, Responsable CSE",
       company: "IndustrieXX (450 salariés)"
     },
     {
-      quote: "Enfin une solution qui ne se contente pas de mesurer, mais qui apporte un vrai soutien. Le pouvoir d'achat + le suivi, c'est parfait !",
+      quote: "Une solution complète qui combine prévention et action. Le ROI est mesurable et l'impact sur nos équipes est immédiat.",
       author: "Sophie Laurent, Dirigeante",
       company: "Services+ (85 salariés)"
     }
@@ -91,180 +135,271 @@ const NewIndex = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      {/* Hero spectaculaire */}
-      <SpectacularHero />
-      
-      {/* Section Comment ça marche */}
-      <section className="py-20 px-6 bg-gradient-to-br from-background to-secondary/5">
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center pt-20 px-6 bg-gradient-to-br from-background via-primary/5 to-secondary/10" ref={heroRef}>
+        <div className="container mx-auto text-center">
+          <div className={`max-w-4xl mx-auto scroll-reveal ${heroVisible ? 'visible' : ''}`}>
+            <div className="mb-8">
+              <img 
+                src="https://2d181cb9-4143-4c90-9e92-77eb836ddc8b.lovableproject.com/logo-qvt.jpeg" 
+                alt="QVT Box Logo"
+                className="w-20 h-20 mx-auto mb-6 rounded-full shadow-lg"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+              <h1 className="font-inter text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
+                <span className="text-primary">QVT Box</span>
+                <br />
+                <span className="text-lg md:text-2xl lg:text-3xl font-normal text-foreground/80 mt-4 block">
+                  « Sortez de votre bulle, on veille sur vous »
+                </span>
+              </h1>
+            </div>
+            
+            <p className="text-lg md:text-xl text-foreground/70 mb-12 font-light max-w-3xl mx-auto leading-relaxed">
+              Solutions phygitales B2B pour améliorer la Qualité de Vie au Travail. 
+              Nous combinons attention quotidienne et outils de prévention pour vos équipes.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+              <Link to="/contact" className="btn-primary">
+                <Phone className="w-5 h-5 mr-2" />
+                Demander un devis
+              </Link>
+              <Link to="/contact" className="btn-outline">
+                Être recontacté
+              </Link>
+            </div>
+
+            <div className="relative max-w-4xl mx-auto rounded-3xl overflow-hidden shadow-floating">
+              <img 
+                src={heroImage} 
+                alt="Équipe heureuse bénéficiant des solutions QVT Box" 
+                className="w-full h-[400px] md:h-[500px] object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-transparent"></div>
+              {/* Bulles flottantes décoratives */}
+              <div className="absolute top-10 left-10 w-6 h-6 bg-white/30 rounded-full animate-pulse"></div>
+              <div className="absolute top-20 right-16 w-8 h-8 bg-primary/20 rounded-full animate-bounce"></div>
+              <div className="absolute bottom-16 left-1/4 w-4 h-4 bg-secondary/30 rounded-full animate-pulse"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Notre Offre - 3 Familles */}
+      <section className="py-20 px-6 bg-background" ref={offerRef}>
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 font-inter">
-              Comment ça marche ?
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-lato">
-              Une solution complète qui combine surveillance du bien-être et soutien concret
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <Card className="text-center p-8 hover:shadow-lg transition-shadow card-professional">
-              <CardContent className="space-y-6">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                  <Smartphone className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4 font-inter">1. L'App prend des nouvelles</h3>
-                <p className="text-muted-foreground font-lato">
-                  Mood tracking, alertes RPS, suivi du bien-être en temps réel pour détecter les besoins de vos équipes.
-                </p>
-              </CardContent>
-            </Card>
-            
-            <Card className="text-center p-8 hover:shadow-lg transition-shadow card-professional">
-              <CardContent className="space-y-6">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                  <Gift className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4 font-inter">2. La Box apporte le soutien</h3>
-                <p className="text-muted-foreground font-lato">
-                  Pouvoir d'achat personnalisé, produits locaux, soutien financier concret adapté aux besoins détectés.
-                </p>
-              </CardContent>
-            </Card>
-            
-            <Card className="text-center p-8 hover:shadow-lg transition-shadow card-professional">
-              <CardContent className="space-y-6">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                  <TrendingUp className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4 font-inter">3. Impact mesurable</h3>
-                <p className="text-muted-foreground font-lato">
-                  Les deux solutions se complètent pour un impact durable et mesurable sur la QVT.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Section Pourquoi les deux ensemble */}
-      <section className="py-20 px-6 bg-primary/5">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 font-inter">
-              Pourquoi les deux ensemble ?
-            </h2>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <Card className="p-8 text-center card-professional">
-              <CardContent className="space-y-6">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
-                  <Smartphone className="w-8 h-8 text-red-600" />
-                </div>
-                <h3 className="text-xl font-bold mb-4 text-red-600 font-inter">L'app seule</h3>
-                <p className="text-muted-foreground font-lato">
-                  Détecte les besoins et les problèmes, mais ne les satisfait pas concrètement.
-                </p>
-              </CardContent>
-            </Card>
-            
-            <Card className="p-8 text-center card-professional">
-              <CardContent className="space-y-6">
-                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto">
-                  <Gift className="w-8 h-8 text-orange-600" />
-                </div>
-                <h3 className="text-xl font-bold mb-4 text-orange-600 font-inter">La box seule</h3>
-                <p className="text-muted-foreground font-lato">
-                  Apporte du soutien ponctuel, mais sans suivi ni personnalisation basée sur les données.
-                </p>
-              </CardContent>
-            </Card>
-            
-            <Card className="p-8 text-center border-2 border-primary card-professional">
-              <CardContent className="space-y-6">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                  <Heart className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold mb-4 text-primary font-inter">Ensemble</h3>
-                <p className="text-muted-foreground font-lato">
-                  <strong>Solution complète et mesurable :</strong> détection des besoins + soutien personnalisé + suivi d'impact.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-      
-      <ValuesMindMap />
-
-      {/* Chiffres clés */}
-      <section className="py-16 px-6 bg-background" ref={statsRef}>
-        <div className="container mx-auto">
-          <div className={`text-center mb-12 scroll-reveal ${statsVisible.has(0) ? 'visible' : ''}`}>
-            <h2 className="text-3xl font-bold text-foreground mb-4 font-inter">
-              Les réalités du <span className="text-primary">travail en France</span>
-            </h2>
-            <p className="text-lg text-foreground/70 font-lato">
-              Données issues des dernières études officielles
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((stat, index) => (
-              <Card key={index} className={`card-professional text-center p-6 card-hover stagger-item ${statsVisible.has(index) ? 'visible' : ''}`}>
-                <CardContent className="space-y-4">
-                  <div className="text-4xl font-bold text-primary font-inter">
-                    {stat.value}
-                  </div>
-                  <p className="text-sm text-foreground font-lato leading-tight">
-                    {stat.label}
-                  </p>
-                  <Badge variant="outline" className="text-xs">
-                    {stat.source}
-                  </Badge>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4 piliers avec visuels */}
-      <section className="py-20 px-6 section-professional" ref={piersRef}>
-        <div className="container mx-auto">
-          <div className={`text-center mb-16 scroll-reveal ${piersVisible.has(0) ? 'visible' : ''}`}>
-            <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
-              Nos 4 <span className="text-secondary">Piliers</span>
+              Notre <span className="text-primary">Offre Complète</span>
             </h2>
             <p className="text-xl text-foreground/70 max-w-3xl mx-auto font-lato">
-              Une approche complète pour répondre aux défis identifiés par les études
+              Trois familles de solutions pour répondre à tous les besoins de vos équipes
             </p>
           </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {engagements.map((engagement, index) => {
-              const IconComponent = engagement.icon;
+          
+          <div className="grid lg:grid-cols-3 gap-8 mb-12">
+            {offers.map((offer, index) => {
+              const IconComponent = offer.icon;
               return (
-                <Card key={index} className={`card-professional p-6 text-center hover:shadow-floating transition-all duration-300 card-hover stagger-item ${piersVisible.has(index) ? 'visible' : ''}`}>
-                  <CardContent className="space-y-4">
+                <Card key={index} className={`card-professional p-8 text-center hover:shadow-floating transition-all duration-300 stagger-item ${offerVisible.has(index) ? 'visible' : ''}`}>
+                  <CardContent className="space-y-6">
                     <div className="flex justify-center mb-4">
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                        <IconComponent className={`w-8 h-8 ${engagement.color}`} />
+                      <div className={`w-16 h-16 bg-${offer.color}/10 rounded-full flex items-center justify-center`}>
+                        <IconComponent className={`w-8 h-8 text-${offer.color}`} />
                       </div>
                     </div>
-                    <h3 className="font-inter font-bold text-xl text-foreground">
-                      {engagement.title}
-                    </h3>
-                    <div className="text-primary font-medium text-sm uppercase tracking-wide">
-                      {engagement.action}
+                    <h3 className="font-inter font-bold text-2xl text-foreground">{offer.title}</h3>
+                    <Badge variant="outline" className="text-xs">{offer.subtitle}</Badge>
+                    <p className="text-foreground/70 text-sm leading-relaxed font-lato">{offer.description}</p>
+                    <div className="space-y-2">
+                      {offer.features.map((feature, idx) => (
+                        <div key={idx} className="flex items-center text-sm text-foreground/60">
+                          <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0" />
+                          {feature}
+                        </div>
+                      ))}
                     </div>
-                    <p className="text-foreground/70 text-sm leading-relaxed font-lato">
-                      {engagement.description}
-                    </p>
                   </CardContent>
                 </Card>
               );
             })}
+          </div>
+
+          {/* Comparatif Physique vs Phygital */}
+          <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-8">
+            <h3 className="text-2xl font-bold text-center mb-8 font-inter">Physique Only vs Phygital</h3>
+            <div className="grid md:grid-cols-2 gap-8">
+              <Card className="p-6">
+                <CardContent className="space-y-4">
+                  <h4 className="font-semibold text-lg text-orange-600">Physique Only</h4>
+                  <ul className="space-y-2 text-sm text-foreground/70">
+                    <li>• Box thématiques et événementielles</li>
+                    <li>• Produits français artisanaux</li>
+                    <li>• Soutien ponctuel visible</li>
+                    <li>• Pas de suivi des impacts</li>
+                  </ul>
+                  <div className="text-primary font-bold">À partir de 39,90 € HT</div>
+                </CardContent>
+              </Card>
+              <Card className="p-6 border-2 border-primary">
+                <CardContent className="space-y-4">
+                  <h4 className="font-semibold text-lg text-primary">Phygital (Recommandé)</h4>
+                  <ul className="space-y-2 text-sm text-foreground/70">
+                    <li>• Licence SaaS entreprise incluse</li>
+                    <li>• Prévention RPS et alertes</li>
+                    <li>• Tableaux de bord personnalisés</li>
+                    <li>• Impact mesurable et suivi</li>
+                  </ul>
+                  <div className="text-primary font-bold">3 000 € /an + Box</div>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="text-center mt-6">
+              <p className="text-sm text-foreground/60 font-semibold">
+                ⚠️ L'application QVT Box est réservée aux entreprises sous forme de licence
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Démo Licence Entreprise */}
+      <section className="py-20 px-6 bg-gradient-to-br from-secondary/5 to-primary/5" ref={demoRef}>
+        <div className="container mx-auto">
+          <div className={`text-center mb-16 scroll-reveal ${demoVisible ? 'visible' : ''}`}>
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 font-inter">
+              Licence Entreprise – <span className="text-secondary">Démo</span>
+            </h2>
+            <p className="text-xl text-foreground/70 max-w-4xl mx-auto font-lato mb-8 leading-relaxed">
+              Chaque entreprise dispose de son propre espace sécurisé. Les RH peuvent ajouter leurs salariés, 
+              suivre les indicateurs QVT et recevoir des alertes. 
+              <span className="text-primary font-semibold"> QVT Box ne vend pas l'application aux particuliers.</span>
+            </p>
+          </div>
+          
+          <div className="grid lg:grid-cols-2 gap-12 mb-12">
+            <div className="space-y-8">
+              {demoFeatures.slice(0, 2).map((feature, index) => {
+                const IconComponent = feature.icon;
+                return (
+                  <Card key={index} className="card-professional p-6 hover:shadow-lg transition-all duration-300">
+                    <CardContent className="space-y-4">
+                      <div className="flex items-start space-x-4">
+                        <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <IconComponent className="w-6 h-6 text-primary" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-lg text-foreground mb-2">{feature.title}</h3>
+                          <p className="text-foreground/70 text-sm mb-3">{feature.description}</p>
+                          <div className="bg-muted/50 p-3 rounded-lg font-mono text-sm text-foreground/80">
+                            {feature.mockup}
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+            
+            <div className="space-y-8">
+              {demoFeatures.slice(2, 4).map((feature, index) => {
+                const IconComponent = feature.icon;
+                return (
+                  <Card key={index + 2} className="card-professional p-6 hover:shadow-lg transition-all duration-300">
+                    <CardContent className="space-y-4">
+                      <div className="flex items-start space-x-4">
+                        <div className="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <IconComponent className="w-6 h-6 text-secondary" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-lg text-foreground mb-2">{feature.title}</h3>
+                          <p className="text-foreground/70 text-sm mb-3">{feature.description}</p>
+                          <div className="bg-muted/50 p-3 rounded-lg font-mono text-sm text-foreground/80">
+                            {feature.mockup}
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="relative rounded-2xl overflow-hidden shadow-floating">
+            <img 
+              src={saasImage} 
+              alt="Interface de la licence entreprise QVT Box" 
+              className="w-full h-[300px] object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-transparent"></div>
+            <div className="absolute bottom-4 left-4 bg-white/90 p-4 rounded-lg">
+              <p className="font-semibold text-sm text-foreground">
+                Interface réelle de la licence entreprise
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link to="/contact" className="btn-primary">
+              <BarChart3 className="w-5 h-5 mr-2" />
+              Recevoir une démo de la licence
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Tarifs Indicatifs */}
+      <section className="py-20 px-6 bg-background" ref={pricingRef}>
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 font-inter">
+              Tarifs <span className="text-primary">Indicatifs</span>
+            </h2>
+            <p className="text-xl text-foreground/70 max-w-3xl mx-auto font-lato">
+              Des solutions adaptées à tous les budgets et toutes les tailles d'entreprise
+            </p>
+          </div>
+          
+          <div className="grid lg:grid-cols-3 gap-8">
+            {pricing.map((plan, index) => (
+              <Card key={index} className={`card-professional p-8 text-center hover:shadow-floating transition-all duration-300 ${plan.popular ? 'border-2 border-primary' : ''} stagger-item ${pricingVisible.has(index) ? 'visible' : ''}`}>
+                <CardContent className="space-y-6">
+                  {plan.popular && (
+                    <Badge className="bg-primary text-white">Recommandé</Badge>
+                  )}
+                  <h3 className="font-inter font-bold text-xl text-foreground">{plan.type}</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-center">
+                      <Euro className="w-5 h-5 text-primary mr-1" />
+                      <span className="text-3xl font-bold text-primary">{plan.price}</span>
+                    </div>
+                    <p className="text-sm text-foreground/60">{plan.unit}</p>
+                  </div>
+                  <div className="space-y-3">
+                    {plan.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center text-sm text-foreground/70">
+                        <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0" />
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+                  <Link to="/contact" className={plan.popular ? "btn-primary w-full" : "btn-outline w-full"}>
+                    Demander un devis
+                  </Link>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          
+          <div className="text-center mt-12">
+            <p className="text-foreground/60 text-sm">
+              Tous les prix sont personnalisables selon la taille de votre entreprise et vos besoins spécifiques.
+            </p>
           </div>
         </div>
       </section>
@@ -300,84 +435,27 @@ const NewIndex = () => {
         </div>
       </section>
 
-      {/* Solutions */}
-      <section className="py-20 px-6 section-professional" ref={solutionsRef}>
-        <div className="container mx-auto">
-          <div className={`text-center mb-16 scroll-reveal ${solutionsVisible.has(0) ? 'visible' : ''}`}>
-            <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
-              Nos <span className="text-secondary">Solutions</span>
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className={`card-professional p-8 text-center card-hover stagger-item ${solutionsVisible.has(0) ? 'visible' : ''}`}>
-              <CardContent className="space-y-6">
-                <Package className="w-16 h-16 text-primary mx-auto" />
-                <h3 className="text-2xl font-bold font-inter">Box QVT</h3>
-                <p className="text-foreground/70 font-lato">
-                  Box thématiques et événementielles co-construites avec vos équipes
-                </p>
-                <Link to="/box">
-                  <Button className="btn-outline w-full button-hover">
-                    En savoir plus <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className={`card-professional p-8 text-center card-hover stagger-item ${solutionsVisible.has(1) ? 'visible' : ''}`}>
-              <CardContent className="space-y-6">
-                <BarChart3 className="w-16 h-16 text-primary mx-auto" />
-                <h3 className="text-2xl font-bold font-inter">SaaS RH</h3>
-                <p className="text-foreground/70 font-lato">
-                  Prévention RPS, tableaux de bord anonymisés, export DUERP
-                </p>
-                <Link to="/saas">
-                  <Button className="btn-outline w-full button-hover">
-                    Demander une démo <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className={`card-professional p-8 text-center card-hover stagger-item ${solutionsVisible.has(2) ? 'visible' : ''}`}>
-              <CardContent className="space-y-6">
-                <MapPin className="w-16 h-16 text-primary mx-auto" />
-                <h3 className="text-2xl font-bold font-inter">Boutique Locale</h3>
-                <p className="text-foreground/70 font-lato">
-                  Produits 100% français pour soutenir l'économie locale
-                </p>
-                <Link to="/boutique">
-                  <Button className="btn-outline w-full button-hover">
-                    Découvrir <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
       {/* CTA final */}
       <section className="py-20 px-6 bg-primary" ref={ctaRef}>
         <div className={`container mx-auto text-center scroll-reveal-scale ${ctaVisible ? 'visible' : ''}`}>
           <h2 className="text-4xl font-bold text-white mb-6 font-inter">
-            Transformons ensemble les défis en solutions
+            Prêt à transformer votre QVCT ?
           </h2>
           <p className="text-white/90 text-lg mb-8 max-w-3xl mx-auto font-lato leading-relaxed">
-            Rejoignez les entreprises qui font de la QVCT un levier de performance 
-            et de dialogue social, avec des solutions concrètes et mesurables.
+            Rejoignez les entreprises qui font de la qualité de vie au travail un véritable levier de performance. 
+            Contactez-nous pour un devis personnalisé ou une démonstration.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/box">
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90 font-inter button-hover">
-                <Handshake className="w-5 h-5 mr-2" />
-                Devenir entreprise partenaire
+            <Link to="/contact">
+              <Button size="lg" className="bg-white text-primary hover:bg-white/90 font-inter">
+                <Phone className="w-5 h-5 mr-2" />
+                Demander un devis
               </Button>
             </Link>
-            <Link to="/engagements">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary font-inter button-hover">
-                Découvrir nos engagements
+            <Link to="/contact">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary font-inter">
+                <BarChart3 className="w-5 h-5 mr-2" />
+                Recevoir une démo
               </Button>
             </Link>
           </div>

@@ -30,13 +30,24 @@ const Footer = () => {
           </p>
           
           <div className="flex flex-wrap justify-center gap-8 mb-8 animate-slide-in-up" style={{ animationDelay: '0.4s' }}>
-            <Link to="/box" className="nav-link hover:scale-110 transition-all duration-300 font-inter">Box</Link>
-            <Link to="/saas" className="nav-link hover:scale-110 transition-all duration-300 font-inter">SaaS</Link>
-            <Link to="/boutique" className="nav-link hover:scale-110 transition-all duration-300 font-inter">Boutique</Link>
-            <Link to="/connexion" className="nav-link hover:scale-110 transition-all duration-300 font-inter">Mon Espace</Link>
+            <Link to="/box" className="nav-link hover:scale-110 transition-all duration-300 font-inter">Notre Offre</Link>
+            <Link to="/saas" className="nav-link hover:scale-110 transition-all duration-300 font-inter">Licence SaaS</Link>
+            <Link to="/about" className="nav-link hover:scale-110 transition-all duration-300 font-inter">À propos</Link>
+            <Link to="/auth" className="nav-link hover:scale-110 transition-all duration-300 font-inter">Mon Espace</Link>
           </div>
           
           <div className="border-t border-primary/10 pt-6 animate-slide-in-up" style={{ animationDelay: '0.6s' }}>
+            <div className="space-y-4 mb-6">
+              <div className="text-center">
+                <h3 className="font-semibold text-foreground mb-2">Coordonnées QVT Box</h3>
+                <div className="space-y-1 text-sm text-foreground/70">
+                  <p>📧 Email : contact@qvtbox.fr</p>
+                  <p>📞 Téléphone : +33 (0)X XX XX XX XX</p>
+                  <p>📍 Adresse : Rennes, France</p>
+                </div>
+              </div>
+            </div>
+            
             <div className="flex flex-wrap justify-center gap-6 mb-4 text-sm">
               <Link to="/cgv" className="text-foreground/60 hover:text-primary transition-colors font-inter">
                 CGV
@@ -45,14 +56,14 @@ const Footer = () => {
                 Mentions Légales
               </Link>
               <Link to="/politique-confidentialite" className="text-foreground/60 hover:text-primary transition-colors font-inter">
-                Politique de Confidentialité
+                RGPD
               </Link>
               <Link to="/contact" className="text-foreground/60 hover:text-primary transition-colors font-inter">
                 Contact
               </Link>
             </div>
-            <p className="text-sm text-foreground/50 font-inter">
-              © 2024 QVT Box - Fait avec <Heart className="inline w-4 h-4 text-red-400 animate-pulse-soft" /> en France pour le bien-être au travail
+            <p className="text-sm text-foreground/50 font-inter text-center">
+              © 2024 QVT Box - Solutions phygitales B2B pour la qualité de vie au travail - Fait avec <Heart className="inline w-4 h-4 text-red-400 animate-pulse-soft" /> en France
             </p>
           </div>
         </div>
