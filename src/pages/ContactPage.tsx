@@ -122,7 +122,7 @@ const ContactPage = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-lg text-foreground">Téléphone</h3>
-                      <p className="text-foreground/70">+33 (0)X XX XX XX XX</p>
+                      <p className="text-foreground/70">+33 (0)6 76 43 55 51/ 02 23 24 28 45</p>
                     </div>
                   </div>
                 </CardContent>
@@ -136,7 +136,7 @@ const ContactPage = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-lg text-foreground">Email</h3>
-                      <p className="text-foreground/70">contact@qvtbox.fr</p>
+                      <p className="text-foreground/70">contact@qvtbox.fr / lamia.brechet@outlook.fr</p>
                     </div>
                   </div>
                 </CardContent>
