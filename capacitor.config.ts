@@ -1,13 +1,20 @@
-import { CapacitorConfig } from '@capacitor/cli';
+// capacitor.config.ts
+import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'app.lovable.2d181cb941434c909e9277eb836ddc8b',
+  // Utilise ton domaine en reverse-DNS (ne pas laisser l'ID Lovable)
+  appId: 'com.qvtbox.app',
   appName: 'QVT Box',
+
+  // Les fichiers web packagés par `npm run build`
   webDir: 'dist',
+
+  // En production on charge les assets locaux (offline ok)
+  // => surtout PAS de server.url ici
   server: {
-    url: 'https://2d181cb9-4143-4c90-9e92-77eb836ddc8b.lovableproject.com?forceHideBadge=true',
-    cleartext: true
+    androidScheme: 'https'
   },
+
   plugins: {
     SplashScreen: {
       launchShowDuration: 2000,
