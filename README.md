@@ -1,66 +1,121 @@
-# QVT Box - Qualité de Vie au Travail
+QVT Box — Qualité de Vie et Conditions de Travail (QVCT)
+À propos
 
-## À propos
+QVT Box conçoit des solutions phygitales (physiques + digitales) pour améliorer la QVCT :
 
-QVT Box est une plateforme dédiée à l'amélioration de la qualité de vie au travail en entreprise. Nous proposons des solutions complètes pour le bien-être des équipes, l'engagement des collaborateurs et la performance organisationnelle.
+Box Pouvoir d’Achat discrète, co-personnalisée avec les salariés.
 
-## Nos Services
+Application QVCT pour prendre le pouls des équipes, détecter les signaux faibles et piloter les actions (DUERP/RPS).
 
-### 🎯 Consultation QVT
-- Diagnostic personnalisé de la qualité de vie au travail
-- Analyse des besoins spécifiques de votre entreprise
-- Recommandations stratégiques sur mesure
+Nos solutions
+Box Pouvoir d’Achat (principale)
 
-### 📊 Outils d'Évaluation
-- Questionnaires de bien-être au travail
-- Mesure de l'engagement des équipes
-- Suivi des indicateurs QVT
-- Tableaux de bord personnalisés
+Livraison discrète en fin de mois.
 
-### 🧘 Solutions Bien-être
-- Programmes de gestion du stress
-- Activités de team building
-- Ateliers de développement personnel
-- Espaces de détente et ressources
+Co-personnalisation : alimentaire, hygiène, essentiels, surprise.
 
-### 📱 Application Mobile
-- Suivi du bien-être en temps réel
-- Notifications personnalisées
-- Modules d'auto-évaluation
-- Ressources et conseils pratiques
+Sourcing responsable, partenaires locaux quand c’est possible.
 
-### 🎁 Box Thématiques (sur demande)
-- Sélection de produits français artisanaux
-- Thèmes personnalisés selon vos besoins
-- Produits de bien-être, ergonomie, énergie
-- Sourcing local et responsable
+Box thématiques & événementielles
 
-## Contact
+Focus & Performance, Mobilité & Ergonomie, Pénibilité & Récupération, Cohésion & Reconnaissance.
 
-Toutes nos prestations sont sur mesure et adaptées à vos besoins spécifiques.
+Retraite, Naissance/Adoption, Anniversaire, Promotion/Réussite, etc.
 
-**Pour toute demande de devis ou d'information :**
-- 📧 Email : contact@qvtbox.fr
-- 📞 Téléphone : [À définir]
-- 🌐 Site web : [URL du site]
+Application QVCT (SaaS)
 
-## Technologies
+Micro-question quotidienne (“Ça va ?”), alertes en cas de signaux faibles.
 
-Ce site est développé avec :
-- React & TypeScript
-- Tailwind CSS
-- Supabase (authentification et base de données)
-- Vite
+Tableaux de bord anonymisés pour RH/Managers/CSE, exports DUERP, suivi RPS.
 
-## Développement
+Intégrations : SSO, SIRH, exports avancés.
 
-```sh
-# Installation des dépendances
-npm install
+Consultation & accompagnement
 
-# Lancement en mode développement
-npm run dev
+Diagnostic participatif, ateliers, co-construction de plans d’actions.
 
-# Build de production
-npm run build
-```
+Mise en place rapide, indicateurs d’impact, amélioration continue.
+
+Conformité (France)
+
+DUERP renforcé (loi du 2 août 2021) : conservation 40 ans, dépôt dématérialisé progressif, transmission au SPST.
+
+Adossement à un programme d’actions (PAPRIPACT ≥ 50 salariés / liste d’actions < 50).
+
+L’app QVCT facilite la traçabilité, les tendances et les justificatifs (prévention RPS).
+
+
+Contact
+
+Site : https://qvtbox.com
+
+Email : contact@qvtbox.fr / lamia.brechet@outlook.fr
+
+📞 Téléphone : +33 (0)6 76 43 55 51 / 02 23 24 28 45
+
+Pile technique
+
+Front : React + TypeScript, React Router, Tailwind CSS, shadcn/ui, @tanstack/react-query
+
+Back/Services : Supabase (auth & DB), Resend (emails)
+
+Build & hébergement : Vite, Vercel
+
+Mobile / installable : PWA + Capacitor (iOS/Android)
+
+Démarrage
+npm install         # dépendances
+npm run dev         # dev server
+npm run build       # build production
+npm run preview     # prévisualisation du build
+
+Variables d’environnement (.env)
+
+Créer .env à la racine (ne pas commiter). Exemple :
+
+VITE_SUPABASE_URL=https://xxxxxxxx.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOi...
+VITE_RESEND_API_KEY=re_xxx...
+VITE_APP_BASE_URL=https://qvtbox.com
+
+
+Inclure un .env.example (sans secrets) dans le repo.
+
+Déploiement (Vercel) — SPA + redirections
+
+Crée vercel.json à la racine pour :
+
+Rediriger /international → / (pas d’offre International).
+
+Réécrire toutes les routes SPA vers index.html (évite les 404 au refresh).
+
+{
+  "redirects": [
+    { "source": "/international", "destination": "/", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
+
+Route côté React Router (optionnel mais recommandé)
+
+Ajoute une route de confort pour /international (au cas où) :
+
+// App.tsx
+import { Navigate } from "react-router-dom";
+
+// ...
+<Routes>
+  {/* ...tes routes... */}
+  <Route path="/international" element={<Navigate to="/" replace />} />
+  <Route path="*" element={<NotFound />} />
+</Routes>
+
+SEO & assets
+
+Placer les visuels OG/Twitter dans public/og/... et référencer des URLs du domaine (pas de sandbox).
+
+Exemple :
+
+<meta property="og:image" content="https://qvtbox.com/og/hero.jpg" />
