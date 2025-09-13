@@ -13,7 +13,7 @@ const BoxCatalog = () => {
       name: "Focus & Reset",
       price: "29,90 €",
       description: "Concentration, gestion du stress et clarté mentale",
-      image: "/public/products-hygiene.jpg",
+      image: "/products-hygiene.jpg",
       contents: [
         "Carnet & stylo éco-conçu",
         "Tisane bio relax premium",
@@ -29,7 +29,7 @@ const BoxCatalog = () => {
       name: "Mobilité & Terrain",
       price: "34,90 €",
       description: "Soutien pour les salariés nomades et terrain",
-      image: "/public/products-alimentaire.jpg",
+      image: "/products-alimentaire.jpg",
       contents: [
         "Gourde/mug isotherme français",
         "Lingettes biodégradables",
@@ -45,7 +45,7 @@ const BoxCatalog = () => {
       name: "Pénibilité & Récupération",
       price: "34,90 €",
       description: "Récupération après effort et soulagement",
-      image: "/public/products-cosmetique.jpg",
+      image: "/products-cosmetique.jpg",
       contents: [
         "Patch chauffant naturel",
         "Crème articulations & muscles",
@@ -61,7 +61,7 @@ const BoxCatalog = () => {
       name: "Cohésion & Reconnaissance",
       price: "89,90 €",
       description: "Créer du lien d'équipe et valoriser",
-      image: "/public/surprise.jpg",
+      image: "/surprise.jpg",
       contents: [
         "Mini-jeu collaboratif français",
         "Friandises locales artisanales",
@@ -81,7 +81,7 @@ const BoxCatalog = () => {
       name: "Box Retraite",
       price: "59,90 €",
       description: "Célébrer une carrière et souhaiter le meilleur",
-      image: "/public/surprise.jpg",
+      image: "/surprise.jpg",
       contents: [
         "Livre d'or personnalisé",
         "Produits artisanaux français",
@@ -94,7 +94,7 @@ const BoxCatalog = () => {
       name: "Box Naissance",
       price: "49,90 €",
       description: "Partager la joie d'une nouvelle vie",
-      image: "/public/surprise.jpg",
+      image: "/surprise.jpg",
       contents: [
         "Produits bio pour bébé",
         "Carte félicitations",
@@ -106,7 +106,7 @@ const BoxCatalog = () => {
       name: "Box Anniversaire",
       price: "39,90 €",
       description: "Marquer une date importante",
-      image: "/public/surprise.jpg",
+      image: "/surprise.jpg",
       contents: [
         "Friandises artisanales",
         "Carte personnalisée",
@@ -118,7 +118,7 @@ const BoxCatalog = () => {
       name: "Box Promotion/Réussite",
       price: "49,90 €",
       description: "Célébrer les succès et évolutions",
-      image: "/public/surprise.jpg",
+      image: "/surprise.jpg",
       contents: [
         "Accessoire professionnel",
         "Produits de bien-être",
@@ -130,7 +130,7 @@ const BoxCatalog = () => {
       name: "Box Mariage/Événement",
       price: "59,90 €",
       description: "Partager les moments de bonheur",
-      image: "/public/surprise.jpg",
+      image: "/surprise.jpg",
       contents: [
         "Produits raffinés français",
         "Carte personnalisée",

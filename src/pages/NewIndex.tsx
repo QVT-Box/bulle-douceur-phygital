@@ -174,21 +174,65 @@ const NewIndex = () => {
               </Link>
             </div>
 
-            <div className="relative max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-floating">
-              <img 
-                src={heroImage} 
-                alt="Équipe professionnelle bénéficiant des solutions QVT Box" 
-                className="w-full h-[450px] md:h-[550px] object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
-              <div className="absolute bottom-8 left-8 bg-white/95 backdrop-blur-sm p-6 rounded-2xl max-w-md">
-                <h3 className="text-xl font-bold text-foreground mb-2">
-                  Solutions Professionnelles QVT
-                </h3>
-                <p className="text-foreground/70 text-sm">
-                  Accompagnement complet pour le bien-être de vos équipes avec des résultats mesurables
-                </p>
+            {/* Hero visuel spectaculaire */}
+            <div className="relative max-w-6xl mx-auto">
+              {/* Image principale avec effet parallax */}
+              <div className="relative h-[500px] md:h-[650px] rounded-3xl overflow-hidden shadow-floating group">
+                <img 
+                  src={heroImage} 
+                  alt="Équipe professionnelle QVT Box - Solutions de bien-être au travail" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                
+                {/* Overlay gradient dynamique */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-secondary/30"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                
+                {/* Éléments flottants animés */}
+                <div className="absolute top-20 left-20 w-4 h-4 bg-primary rounded-full animate-pulse opacity-70"></div>
+                <div className="absolute top-32 right-24 w-6 h-6 bg-secondary/60 rounded-full animate-bounce opacity-80"></div>
+                <div className="absolute bottom-24 left-1/3 w-3 h-3 bg-white/50 rounded-full animate-pulse"></div>
+                <div className="absolute top-1/3 right-1/4 w-5 h-5 bg-primary/40 rounded-full animate-bounce delay-300"></div>
+                
+                {/* Badge flottant de qualité */}
+                <div className="absolute top-8 left-8 bg-white/95 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="font-semibold text-foreground text-sm">100% Made in France</span>
+                  </div>
+                </div>
+                
+                {/* Carte d'information principale */}
+                <div className="absolute bottom-8 left-8 right-8 bg-white/95 backdrop-blur-sm p-8 rounded-3xl shadow-2xl">
+                  <div className="grid md:grid-cols-3 gap-6">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-primary mb-1">3 000+</div>
+                      <div className="text-sm text-foreground/70">Entreprises accompagnées</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-secondary mb-1">50+</div>
+                      <div className="text-sm text-foreground/70">Pays desservis</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-accent mb-1">95%</div>
+                      <div className="text-sm text-foreground/70">Satisfaction client</div>
+                    </div>
+                  </div>
+                  <div className="mt-6 text-center">
+                    <h3 className="text-xl font-bold text-foreground mb-2">
+                      Solutions QVT Complètes & Mesurables
+                    </h3>
+                    <p className="text-foreground/70 text-sm leading-relaxed">
+                      De la box française artisanale au tableau de bord RH, 
+                      nous transformons concrètement le bien-être de vos équipes.
+                    </p>
+                  </div>
+                </div>
               </div>
+              
+              {/* Éléments décoratifs autour */}
+              <div className="absolute -top-10 -left-10 w-20 h-20 bg-primary/10 rounded-full blur-xl animate-pulse"></div>
+              <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-secondary/10 rounded-full blur-xl animate-pulse delay-500"></div>
             </div>
           </div>
         </div>

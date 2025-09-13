@@ -18,6 +18,7 @@ const translations = {
     'nav.saas': 'Licence SaaS',
     'nav.about': 'À propos',
     'nav.contact': 'Contact',
+    'nav.international': 'International',
     'nav.quote': 'Demander un devis',
     'nav.dashboard': 'Mon Tableau de Bord',
     'nav.account': 'Mon Espace',
@@ -63,6 +64,32 @@ const translations = {
     // Contact
     'contact.title': 'Contactez-nous',
     'contact.subtitle': 'Parlons de vos besoins en qualité de vie au travail',
+    'contact.form.name': 'Nom',
+    'contact.form.company': 'Entreprise',
+    'contact.form.email': 'Email',
+    'contact.form.phone': 'Téléphone',
+    'contact.form.employees': 'Nombre d\'employés',
+    'contact.form.offer': 'Type d\'offre souhaitée',
+    'contact.form.message': 'Message',
+    'contact.form.send': 'Envoyer',
+    
+    // Box Catalog
+    'boxes.title': 'Nos Box Exceptionnelles',
+    'boxes.subtitle': 'Offrez à vos équipes un cadeau exceptionnel : une box française expédiée directement dans votre entreprise',
+    'boxes.thematic': 'Box Thématiques',
+    'boxes.events': 'Box Événementielles',
+    'boxes.customization': 'Options de Personnalisation',
+    'boxes.international.title': 'Cadeau Exceptionnel International',
+    'boxes.international.description': 'Offrez l\'excellence française à vos équipes internationales. Nos box sont expédiées dans le monde entier avec le même niveau de qualité et d\'attention.',
+    'boxes.cta.quote': 'Demander un devis pour cette box',
+    'boxes.cta.order': 'Commander cette box',
+    'boxes.cta.international': 'Demander un devis international',
+    
+    // International page
+    'international.title': 'QVT Box International',
+    'international.subtitle': 'L\'excellence française exportée dans le monde entier',
+    'international.hero.title': 'Vos Équipes Internationales Méritent le Meilleur',
+    'international.hero.description': 'QVT Box étend son savoir-faire au-delà des frontières. Offrez à vos collaborateurs internationaux l\'authenticité et la qualité des produits français, avec la même attention et le même professionnalisme.',
   },
   en: {
     // Navigation
@@ -71,6 +98,7 @@ const translations = {
     'nav.saas': 'SaaS License',
     'nav.about': 'About',
     'nav.contact': 'Contact',
+    'nav.international': 'International',
     'nav.quote': 'Request Quote',
     'nav.dashboard': 'My Dashboard',
     'nav.account': 'My Account',
@@ -116,6 +144,32 @@ const translations = {
     // Contact
     'contact.title': 'Contact Us',
     'contact.subtitle': 'Let\'s talk about your workplace quality of life needs',
+    'contact.form.name': 'Name',
+    'contact.form.company': 'Company',
+    'contact.form.email': 'Email',
+    'contact.form.phone': 'Phone',
+    'contact.form.employees': 'Number of employees',
+    'contact.form.offer': 'Desired offer type',
+    'contact.form.message': 'Message',
+    'contact.form.send': 'Send',
+    
+    // Box Catalog
+    'boxes.title': 'Our Exceptional Boxes',
+    'boxes.subtitle': 'Offer your teams an exceptional gift: a French box shipped directly to your company',
+    'boxes.thematic': 'Thematic Boxes',
+    'boxes.events': 'Event Boxes',
+    'boxes.customization': 'Customization Options',
+    'boxes.international.title': 'Exceptional International Gift',
+    'boxes.international.description': 'Offer French excellence to your international teams. Our boxes are shipped worldwide with the same level of quality and attention.',
+    'boxes.cta.quote': 'Request a quote for this box',
+    'boxes.cta.order': 'Order this box',
+    'boxes.cta.international': 'Request international quote',
+    
+    // International page
+    'international.title': 'QVT Box International',
+    'international.subtitle': 'French excellence exported worldwide',
+    'international.hero.title': 'Your International Teams Deserve the Best',
+    'international.hero.description': 'QVT Box extends its expertise beyond borders. Offer your international employees the authenticity and quality of French products, with the same attention and professionalism.',
   }
 };
 

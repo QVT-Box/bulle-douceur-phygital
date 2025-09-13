@@ -45,6 +45,7 @@ import PolitiqueConfidentialitePage from "./pages/PolitiqueConfidentialitePage";
 import CGVPage from "./pages/CGVPage";
 import MobilePage from "./pages/MobilePage";
 import AboutPage from "./pages/AboutPage";
+import InternationalPage from "./pages/InternationalPage";
 
 const queryClient = new QueryClient();
 
@@ -63,6 +64,7 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/box" element={<BoxPage />} />
                 <Route path="/saas" element={<ProfessionalSaasPage />} />
+                <Route path="/international" element={<InternationalPage />} />
                 <Route path="/boutique" element={<BoutiquePage />} />
                 <Route path="/mobile" element={<MobilePage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
