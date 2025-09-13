@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./hooks/useAuth";
+import { LanguageProvider } from "./hooks/useLanguage";
 import { CartProvider } from "./hooks/useCart";
 import AppInitializer from "./components/AppInitializer";
 import GlobalSEO from "./components/GlobalSEO";
@@ -50,8 +51,9 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <AuthProvider>
-        <CartProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <CartProvider>
           <AppInitializer>
             <GlobalSEO />
             <Toaster />
@@ -104,8 +106,9 @@ const App = () => (
               </Routes>
             </BrowserRouter>
           </AppInitializer>
-        </CartProvider>
-      </AuthProvider>
+          </CartProvider>
+        </AuthProvider>
+      </LanguageProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

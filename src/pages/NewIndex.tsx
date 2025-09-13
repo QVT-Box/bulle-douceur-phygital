@@ -1,12 +1,14 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import BoxCatalog from "@/components/BoxCatalog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { useScrollReveal, useStaggeredReveal } from '@/hooks/useScrollReveal';
-import heroImage from "@/assets/hero-workplace.jpg";
-import saasImage from "@/assets/saas-dashboard.jpg";
+import { useLanguage } from '@/hooks/useLanguage';
+import heroImage from "@/assets/hero-workplace-team.jpg";
+import saasImage from "@/assets/saas-dashboard-pro.jpg";
 import boxImage from "@/assets/box-artisanal.jpg";
 import { 
   Users, 
@@ -30,6 +32,7 @@ import {
 } from "lucide-react";
 
 const NewIndex = () => {
+  const { t } = useLanguage();
   const [heroRef, heroVisible] = useScrollReveal();
   const [offerRef, offerVisible] = useStaggeredReveal(3, 200);
   const [demoRef, demoVisible] = useScrollReveal();
@@ -152,37 +155,40 @@ const NewIndex = () => {
                 <span className="text-primary">QVT Box</span>
                 <br />
                 <span className="text-lg md:text-2xl lg:text-3xl font-normal text-foreground/80 mt-4 block">
-                  « Sortez de votre bulle, on veille sur vous »
+                  {t('hero.tagline')}
                 </span>
               </h1>
             </div>
             
             <p className="text-lg md:text-xl text-foreground/70 mb-12 font-light max-w-3xl mx-auto leading-relaxed">
-              Solutions phygitales B2B pour améliorer la Qualité de Vie au Travail. 
-              Nous combinons attention quotidienne et outils de prévention pour vos équipes.
+              {t('hero.description')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
               <Link to="/contact" className="btn-primary">
                 <Phone className="w-5 h-5 mr-2" />
-                Demander un devis
+                {t('hero.cta.quote')}
               </Link>
               <Link to="/contact" className="btn-outline">
-                Être recontacté
+                {t('hero.cta.callback')}
               </Link>
             </div>
 
-            <div className="relative max-w-4xl mx-auto rounded-3xl overflow-hidden shadow-floating">
+            <div className="relative max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-floating">
               <img 
                 src={heroImage} 
-                alt="Équipe heureuse bénéficiant des solutions QVT Box" 
-                className="w-full h-[400px] md:h-[500px] object-cover"
+                alt="Équipe professionnelle bénéficiant des solutions QVT Box" 
+                className="w-full h-[450px] md:h-[550px] object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-transparent"></div>
-              {/* Bulles flottantes décoratives */}
-              <div className="absolute top-10 left-10 w-6 h-6 bg-white/30 rounded-full animate-pulse"></div>
-              <div className="absolute top-20 right-16 w-8 h-8 bg-primary/20 rounded-full animate-bounce"></div>
-              <div className="absolute bottom-16 left-1/4 w-4 h-4 bg-secondary/30 rounded-full animate-pulse"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+              <div className="absolute bottom-8 left-8 bg-white/95 backdrop-blur-sm p-6 rounded-2xl max-w-md">
+                <h3 className="text-xl font-bold text-foreground mb-2">
+                  Solutions Professionnelles QVT
+                </h3>
+                <p className="text-foreground/70 text-sm">
+                  Accompagnement complet pour le bien-être de vos équipes avec des résultats mesurables
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -193,10 +199,10 @@ const NewIndex = () => {
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 font-inter">
-              Notre <span className="text-primary">Offre Complète</span>
+              {t('offer.title')}
             </h2>
             <p className="text-xl text-foreground/70 max-w-3xl mx-auto font-lato">
-              Trois familles de solutions pour répondre à tous les besoins de vos équipes
+              {t('offer.subtitle')}
             </p>
           </div>
           
@@ -253,13 +259,13 @@ const NewIndex = () => {
                     <li>• Tableaux de bord personnalisés</li>
                     <li>• Impact mesurable et suivi</li>
                   </ul>
-                  <div className="text-primary font-bold">3 000 € /an + Box</div>
+                  <div className="text-primary font-bold">{t('pricing.saas.note')}</div>
                 </CardContent>
               </Card>
             </div>
             <div className="text-center mt-6">
               <p className="text-sm text-foreground/60 font-semibold">
-                ⚠️ L'application QVT Box est réservée aux entreprises sous forme de licence
+                {t('offer.saas.warning')}
               </p>
             </div>
           </div>
@@ -353,16 +359,27 @@ const NewIndex = () => {
         </div>
       </section>
 
+      {/* Nos Box Exceptionnelles */}
+      <BoxCatalog />
+
       {/* Tarifs Indicatifs */}
       <section className="py-20 px-6 bg-background" ref={pricingRef}>
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 font-inter">
-              Tarifs <span className="text-primary">Indicatifs</span>
+              {t('pricing.title')}
             </h2>
             <p className="text-xl text-foreground/70 max-w-3xl mx-auto font-lato">
-              Des solutions adaptées à tous les budgets et toutes les tailles d'entreprise
+              {t('pricing.subtitle')}
             </p>
+            <div className="bg-gradient-to-r from-red-50 to-red-100 border border-red-200 rounded-2xl p-6 max-w-2xl mx-auto mt-8">
+              <p className="text-red-800 font-semibold text-lg">
+                💡 Important : La licence SaaS (3 000 € /an) est SANS box
+              </p>
+              <p className="text-red-700 text-sm mt-2">
+                Le coût des box est supplémentaire et facturé séparément selon vos besoins
+              </p>
+            </div>
           </div>
           
           <div className="grid lg:grid-cols-3 gap-8">
@@ -370,7 +387,7 @@ const NewIndex = () => {
               <Card key={index} className={`card-professional p-8 text-center hover:shadow-floating transition-all duration-300 ${plan.popular ? 'border-2 border-primary' : ''} stagger-item ${pricingVisible.has(index) ? 'visible' : ''}`}>
                 <CardContent className="space-y-6">
                   {plan.popular && (
-                    <Badge className="bg-primary text-white">Recommandé</Badge>
+                    <Badge className="bg-primary text-white">{t('pricing.recommended')}</Badge>
                   )}
                   <h3 className="font-inter font-bold text-xl text-foreground">{plan.type}</h3>
                   <div className="space-y-2">

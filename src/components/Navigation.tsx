@@ -4,6 +4,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useCart } from "@/hooks/useCart";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useLanguage } from "@/hooks/useLanguage";
+import LanguageSelector from "@/components/LanguageSelector";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingBag, Settings, Menu, X } from "lucide-react";
 
@@ -12,15 +14,16 @@ const Navigation = () => {
   const { user } = useAuth();
   const { isAdmin } = useUserRole();
   const { totalItems, setIsOpen } = useCart();
+  const { language, setLanguage, t } = useLanguage();
   const isMobile = useIsMobile();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const navItems = [
-    { name: "Accueil", path: "/" },
-    { name: "Notre Offre", path: "/box" },
-    { name: "Licence SaaS", path: "/saas" },
-    { name: "À propos", path: "/about" },
-    { name: "Contact", path: "/contact" },
+    { name: t('nav.home'), path: "/" },
+    { name: t('nav.offer'), path: "/box" },
+    { name: t('nav.saas'), path: "/saas" },
+    { name: t('nav.about'), path: "/about" },
+    { name: t('nav.contact'), path: "/contact" },
   ];
 
   return (
@@ -57,17 +60,21 @@ const Navigation = () => {
               </li>
             ))}
             <li className="flex items-center gap-4">
+              <LanguageSelector 
+                currentLanguage={language} 
+                onLanguageChange={setLanguage} 
+              />
               <Link
                 to="/contact"
                 className="bg-primary text-white px-6 py-2 rounded-lg font-medium transition-all hover:bg-primary/90 font-inter"
               >
-                Demander un devis
+                {t('nav.quote')}
               </Link>
               <Link
                 to={user ? "/dashboard" : "/auth"}
                 className="bg-secondary text-white px-6 py-2 rounded-lg font-medium transition-all hover:bg-secondary/90 font-inter"
               >
-                {user ? "Mon Tableau de Bord" : "Mon Espace"}
+                {user ? t('nav.dashboard') : t('nav.account')}
               </Link>
               {user && isAdmin && (
                 <Link
@@ -121,12 +128,19 @@ const Navigation = () => {
               </div>
               
               <div className="flex flex-col space-y-3 pt-4 border-t border-border">
+                <div className="px-4 mb-2">
+                  <LanguageSelector 
+                    currentLanguage={language} 
+                    onLanguageChange={setLanguage} 
+                  />
+                </div>
+                
                 <Link
                   to="/contact"
                   onClick={() => setMobileMenuOpen(false)}
                   className="bg-primary text-white px-6 py-3 rounded-lg font-medium transition-all hover:bg-primary/90 font-inter text-center"
                 >
-                  Demander un devis
+                  {t('nav.quote')}
                 </Link>
                 
                 <Link
@@ -134,7 +148,7 @@ const Navigation = () => {
                   onClick={() => setMobileMenuOpen(false)}
                   className="bg-secondary text-white px-6 py-3 rounded-lg font-medium transition-all hover:bg-secondary/90 font-inter text-center"
                 >
-                  {user ? "Mon Tableau de Bord" : "Mon Espace"}
+                  {user ? t('nav.dashboard') : t('nav.account')}
                 </Link>
                 
                 {user && isAdmin && (
