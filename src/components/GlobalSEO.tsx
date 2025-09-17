@@ -1,67 +1,37 @@
-import { useEffect } from 'react';
+// src/components/GlobalSEO.tsx
+import { Helmet } from "react-helmet-async";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const GlobalSEO = () => {
-  useEffect(() => {
-    // Méta tags globaux pour la sécurité et l'indexation
-    const updateMeta = (name: string, content: string, property?: boolean) => {
-      const attribute = property ? 'property' : 'name';
-      let meta = document.querySelector(`meta[${attribute}="${name}"]`);
-      
-      if (!meta) {
-        meta = document.createElement('meta');
-        meta.setAttribute(attribute, name);
-        document.head.appendChild(meta);
-      }
-      
-      meta.setAttribute('content', content);
-    };
+  // Vite fournit ces flags (fiable vs process.env.*)
+  const isDev = import.meta.env.DEV || window.location.hostname === "localhost";
+  const { language } = useLanguage?.() ?? { language: "fr" as const };
 
-    // Configuration en fonction de l'environnement
-    const isDevelopment = process.env.NODE_ENV === 'development' || window.location.hostname === 'localhost';
-    
-    if (isDevelopment) {
-      // Empêcher l'indexation en développement
-      updateMeta('robots', 'noindex, nofollow, noarchive, nosnippet');
-    } else {
-      // Permettre l'indexation en production
-      updateMeta('robots', 'index, follow');
-    }
+  // og:locale selon la langue
+  const ogLocale = language === "en" ? "en_GB" : "fr_FR";
 
-    // Méta tags de sécurité
-    updateMeta('referrer', 'strict-origin-when-cross-origin');
-    updateMeta('format-detection', 'telephone=no');
-    
-    // Méta tags Open Graph globaux
-    updateMeta('og:site_name', 'QVT Box', true);
-    updateMeta('og:locale', 'fr_FR', true);
-    
-    // Méta tags Twitter
-    updateMeta('twitter:site', '@qvtbox');
-    updateMeta('twitter:creator', '@qvtbox');
+  return (
+    <Helmet>
+      {/* Indexation seulement en prod */}
+      <meta name="robots" content={isDev ? "noindex, nofollow, noarchive, nosnippet" : "index, follow"} />
 
-    // Viewport pour mobile
-    let viewport = document.querySelector('meta[name="viewport"]');
-    if (!viewport) {
-      viewport = document.createElement('meta');
-      viewport.setAttribute('name', 'viewport');
-      document.head.appendChild(viewport);
-    }
-    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+      {/* Métas sécurité/UX */}
+      <meta name="referrer" content="strict-origin-when-cross-origin" />
+      <meta name="format-detection" content="telephone=no" />
 
-    // Préconnexions pour les performances
-    const preconnectDomains = ['https://fonts.googleapis.com', 'https://fonts.gstatic.com'];
-    preconnectDomains.forEach(domain => {
-      if (!document.querySelector(`link[href="${domain}"]`)) {
-        const link = document.createElement('link');
-        link.rel = 'preconnect';
-        link.href = domain;
-        document.head.appendChild(link);
-      }
-    });
+      {/* Open Graph par défaut */}
+      <meta property="og:site_name" content="QVT Box" />
+      <meta property="og:locale" content={ogLocale} />
 
-  }, []);
+      {/* Twitter */}
+      <meta name="twitter:site" content="@qvtbox" />
+      <meta name="twitter:creator" content="@qvtbox" />
 
-  return null;
+      {/* Perfs (préconnexions) */}
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+    </Helmet>
+  );
 };
 
 export default GlobalSEO;
