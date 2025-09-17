@@ -1,24 +1,55 @@
-const FloatingBubbles = () => {
+// src/components/FloatingBubbles.tsx
+import React from "react";
+
+type Bubble = {
+  size: number;                    // en px
+  pos: React.CSSProperties;        // top/left/right/bottom en %
+  opacity: number;                 // 0–1
+  delay: string;                   // "Xs"
+  classes: string;                 // variantes d'animations
+  desktopOnly?: boolean;           // masquée en mobile
+};
+
+const BUBBLES: Bubble[] = [
+  // ---- pack “léger” (visible aussi en mobile) ----
+  { size: 24, pos: { top: "30%", right: "20%" }, opacity: 0.10, delay: "5s", classes: "animate-float animate-pulse-soft" },
+  { size: 40, pos: { bottom: "40%", left: "60%" }, opacity: 0.15, delay: "7s", classes: "animate-float animate-glow" },
+  { size: 56, pos: { top: "70%", right: "40%" }, opacity: 0.10, delay: "2.5s", classes: "animate-float animate-pulse-soft" },
+  { size: 32, pos: { top: "15%", left: "15%" }, opacity: 0.20, delay: "1s", classes: "animate-wiggle" },
+
+  // ---- bulles supplémentaires (desktop only) ----
+  { size: 48, pos: { bottom: "20%", right: "25%" }, opacity: 0.15, delay: "3s", classes: "animate-pulse-soft", desktopOnly: true },
+  { size: 64, pos: { top: "50%", left: "80%" }, opacity: 0.10, delay: "4s", classes: "animate-float animate-glow", desktopOnly: true },
+  { size: 16, pos: { top: "80%", left: "30%" }, opacity: 0.25, delay: "6s", classes: "animate-wiggle", desktopOnly: true },
+];
+
+const FloatingBubbles = React.memo(() => {
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      <div className="bubble bubble-1"></div>
-      <div className="bubble bubble-2"></div>
-      <div className="bubble bubble-3"></div>
-      <div className="bubble bubble-4"></div>
-      <div className="bubble bubble-5"></div>
-      
-      {/* Bulles additionnelles pour plus de poésie */}
-      <div className="absolute w-6 h-6 rounded-full bg-gradient-bubble opacity-10 top-[30%] right-[20%] animate-float animate-pulse-soft" style={{ animationDelay: '5s' }}></div>
-      <div className="absolute w-10 h-10 rounded-full bg-gradient-bubble opacity-15 bottom-[40%] left-[60%] animate-float animate-glow" style={{ animationDelay: '7s' }}></div>
-      <div className="absolute w-14 h-14 rounded-full bg-gradient-bubble opacity-10 top-[70%] right-[40%] animate-float animate-pulse-soft" style={{ animationDelay: '2.5s' }}></div>
-      
-      {/* Nouvelles bulles avec animations variées */}
-      <div className="absolute w-8 h-8 rounded-full bg-gradient-bubble opacity-20 top-[15%] left-[15%] animate-wiggle" style={{ animationDelay: '1s' }}></div>
-      <div className="absolute w-12 h-12 rounded-full bg-gradient-bubble opacity-15 bottom-[20%] right-[25%] animate-pulse-soft" style={{ animationDelay: '3s' }}></div>
-      <div className="absolute w-16 h-16 rounded-full bg-gradient-bubble opacity-10 top-[50%] left-[80%] animate-float animate-glow" style={{ animationDelay: '4s' }}></div>
-      <div className="absolute w-4 h-4 rounded-full bg-gradient-bubble opacity-25 top-[80%] left-[30%] animate-wiggle" style={{ animationDelay: '6s' }}></div>
+    <div
+      className="fixed inset-0 pointer-events-none overflow-hidden -z-10"
+      aria-hidden="true"
+      role="presentation"
+    >
+      {/* bulles “pilotées” */}
+      {BUBBLES.map((b, i) => (
+        <div
+          key={i}
+          className={[
+            "absolute rounded-full bg-gradient-bubble will-change-transform",
+            b.classes,
+            b.desktopOnly ? "hidden md:block" : "",
+          ].join(" ")}
+          style={{
+            width: `${b.size}px`,
+            height: `${b.size}px`,
+            opacity: b.opacity,
+            animationDelay: b.delay,
+            ...b.pos,
+          }}
+        />
+      ))}
     </div>
   );
-};
+});
 
 export default FloatingBubbles;
