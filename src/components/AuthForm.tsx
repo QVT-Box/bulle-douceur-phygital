@@ -1,141 +1,239 @@
+// src/components/AuthForm.tsx
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface AuthFormProps {
   onSuccess?: () => void;
 }
 
 export default function AuthForm({ onSuccess }: AuthFormProps) {
+  const { toast } = useToast();
+  const { language } = useLanguage();
+
+  const L = language === "en"
+    ? {
+        login: "Sign in",
+        signup: "Create account",
+        titleLogin: "Sign in",
+        titleSignup: "Create your account",
+        fullName: "Full name",
+        email: "Email",
+        password: "Password",
+        placeholderName: "Your full name",
+        placeholderEmail: "you@example.com",
+        placeholderPassword: "••••••••",
+        switchToSignup: "Create an account",
+        switchToLogin: "Already registered?",
+        okLoginTitle: "Signed in!",
+        okLoginDesc: "Welcome to your QVT Box space",
+        okSignupTitle: "Account created!",
+        okSignupDesc: "Check your email to confirm your account",
+        btnLoading: "Please wait…",
+        forgot: "Forgot password?",
+        resetSent: "Reset link sent",
+        resetNeedEmail: "Enter your email to receive a reset link",
+        error: "Error",
+      }
+    : {
+        login: "Se connecter",
+        signup: "Créer un compte",
+        titleLogin: "Connexion",
+        titleSignup: "Créer votre compte",
+        fullName: "Nom complet",
+        email: "Email",
+        password: "Mot de passe",
+        placeholderName: "Votre nom complet",
+        placeholderEmail: "vous@exemple.com",
+        placeholderPassword: "••••••••",
+        switchToSignup: "Créer un compte",
+        switchToLogin: "Déjà inscrit ?",
+        okLoginTitle: "Connexion réussie !",
+        okLoginDesc: "Bienvenue dans votre espace QVT Box",
+        okSignupTitle: "Inscription réussie !",
+        okSignupDesc: "Vérifiez vos emails pour confirmer votre compte",
+        btnLoading: "Patientez…",
+        forgot: "Mot de passe oublié ?",
+        resetSent: "Lien de réinitialisation envoyé",
+        resetNeedEmail: "Renseignez votre email pour recevoir un lien",
+        error: "Erreur",
+      };
+
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [showPwd, setShowPwd] = useState(false);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  const { toast } = useToast();
 
-  const handleAuth = async (e: React.FormEvent) => {
+  const canSubmit =
+    email.trim().length > 3 &&
+    password.trim().length >= 6 &&
+    (isLogin || fullName.trim().length >= 2);
+
+  async function handleAuth(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
+    if (!canSubmit || loading) return;
 
+    setLoading(true);
     try {
       if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        
-        toast({
-          title: "Connexion réussie !",
-          description: "Bienvenue dans votre espace QVT Box",
-        });
+
+        toast({ title: L.okLoginTitle, description: L.okLoginDesc });
+        onSuccess?.();
       } else {
+        const origin = typeof window !== "undefined" ? window.location.origin : "";
         const { error } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/`,
-            data: {
-              full_name: fullName,
-            }
-          }
+            emailRedirectTo: origin ? `${origin}/` : undefined,
+            data: { full_name: fullName },
+          },
         });
-        
         if (error) throw error;
-        
-        toast({
-          title: "Inscription réussie !",
-          description: "Vérifiez vos emails pour confirmer votre compte",
-        });
+
+        toast({ title: L.okSignupTitle, description: L.okSignupDesc });
+        onSuccess?.();
       }
-      
-      onSuccess?.();
-    } catch (error: any) {
-      toast({
-        title: "Erreur",
-        description: error.message,
-        variant: "destructive",
-      });
+    } catch (err: any) {
+      toast({ title: L.error, description: err?.message ?? String(err), variant: "destructive" });
     } finally {
       setLoading(false);
     }
-  };
+  }
+
+  async function handleResetPassword() {
+    if (!email.trim()) {
+      toast({ title: L.error, description: L.resetNeedEmail, variant: "destructive" });
+      return;
+    }
+    try {
+      const origin = typeof window !== "undefined" ? window.location.origin : "";
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: origin ? `${origin}/auth/reset` : undefined,
+      });
+      if (error) throw error;
+      toast({ title: L.resetSent });
+    } catch (err: any) {
+      toast({ title: L.error, description: err?.message ?? String(err), variant: "destructive" });
+    }
+  }
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
-        <h2 className="text-2xl font-kalam font-bold text-center mb-6 text-foreground">
-          {isLogin ? "Connexion" : "Inscription"}
+      <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
+        <h2 className="text-2xl font-bold text-center mb-6 text-gray-900">
+          {isLogin ? L.titleLogin : L.titleSignup}
         </h2>
-        
-        <form onSubmit={handleAuth} className="space-y-4">
+
+        <form onSubmit={handleAuth} className="space-y-4" noValidate>
           {!isLogin && (
             <div>
-              <Label htmlFor="fullName" className="text-foreground">
-                Nom complet
+              <Label htmlFor="fullName" className="text-gray-800">
+                {L.fullName}
               </Label>
               <Input
                 id="fullName"
                 type="text"
+                name="name"
+                autoComplete="name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 required
-                className="bg-white/20 border-white/30 text-foreground placeholder:text-foreground/60"
-                placeholder="Votre nom complet"
+                placeholder={L.placeholderName}
+                className="mt-1"
               />
             </div>
           )}
-          
+
           <div>
-            <Label htmlFor="email" className="text-foreground">
-              Email
+            <Label htmlFor="email" className="text-gray-800">
+              {L.email}
             </Label>
             <Input
               id="email"
               type="email"
+              name="email"
+              autoComplete="email"
+              inputMode="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="bg-white/20 border-white/30 text-foreground placeholder:text-foreground/60"
-              placeholder="votre@email.com"
+              placeholder={L.placeholderEmail}
+              className="mt-1"
             />
           </div>
-          
+
           <div>
-            <Label htmlFor="password" className="text-foreground">
-              Mot de passe
+            <Label htmlFor="password" className="text-gray-800">
+              {L.password}
             </Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="bg-white/20 border-white/30 text-foreground placeholder:text-foreground/60"
-              placeholder="••••••••"
-            />
+            <div className="relative mt-1">
+              <Input
+                id="password"
+                type={showPwd ? "text" : "password"}
+                name="current-password"
+                autoComplete={isLogin ? "current-password" : "new-password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder={L.placeholderPassword}
+                className="pr-10"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPwd((v) => !v)}
+                className="absolute inset-y-0 right-2 inline-flex items-center justify-center px-1 text-gray-600 hover:text-black"
+                aria-label={showPwd ? "Hide password" : "Show password"}
+                tabIndex={0}
+              >
+                {showPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
           </div>
-          
+
           <Button
             type="submit"
-            disabled={loading}
-            className="w-full bg-gradient-primary hover:opacity-90 text-white font-medium"
+            disabled={!canSubmit || loading}
+            className="w-full bg-black text-white hover:bg-black/90"
           >
-            {loading ? "..." : (isLogin ? "Se connecter" : "S'inscrire")}
+            {loading ? (
+              <span className="inline-flex items-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                {L.btnLoading}
+              </span>
+            ) : isLogin ? (
+              L.login
+            ) : (
+              L.signup
+            )}
           </Button>
         </form>
-        
-        <div className="mt-6 text-center">
+
+        <div className="mt-4 flex items-center justify-between">
           <button
-            onClick={() => setIsLogin(!isLogin)}
-            className="text-primary hover:text-primary/80 font-medium"
+            onClick={handleResetPassword}
+            className="text-sm text-gray-700 hover:text-black underline underline-offset-2"
+            type="button"
           >
-            {isLogin ? "Créer un compte" : "Déjà inscrit ?"}
+            {L.forgot}
+          </button>
+
+          <button
+            onClick={() => setIsLogin((v) => !v)}
+            className="text-sm font-medium text-primary hover:text-primary/90"
+            type="button"
+          >
+            {isLogin ? L.switchToSignup : L.switchToLogin}
           </button>
         </div>
       </div>
