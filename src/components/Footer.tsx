@@ -1,69 +1,138 @@
+// src/components/Footer.tsx
 import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Footer = () => {
+  const { language, t } = useLanguage();
+
+  // Préfixe FR/EN pour les liens
+  const root = language === "en" ? "/en" : "/fr";
+  const withLang = (p: string) =>
+    !p || p === "/" ? root : `${root}${p.startsWith("/") ? p : `/${p}`}`;
+
+  // Fallback de libellés si la clé i18n n'existe pas encore
+  const tr = (key: string, fr: string, en: string) => {
+    const s = t(key);
+    return s !== key ? s : language === "fr" ? fr : en;
+  };
+
   return (
-    <footer className="bg-foreground/5 border-t border-primary/10 py-12 px-6">
-      <div className="container mx-auto">
+    <footer className="bg-white text-gray-800 border-t border-gray-200 py-12 px-6">
+      <div className="mx-auto max-w-7xl">
         <div className="text-center">
-          <div className="flex justify-center items-center space-x-4 mb-6 animate-slide-in-up">
-            <div className="relative group">
-              <div className="absolute inset-0 bg-primary/30 rounded-full blur-lg animate-pulse-soft group-hover:blur-xl transition-all duration-500"></div>
-              <img 
-                src="https://2d181cb9-4143-4c90-9e92-77eb836ddc8b.lovableproject.com/logo-qvt.jpeg" 
-                alt="QVT Box Logo"
-                className="relative w-14 h-14 rounded-full object-cover shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:scale-110 animate-glow"
+          {/* Logo + marque (contraste fort, source locale fiable) */}
+          <div className="flex justify-center items-center gap-4 mb-6">
+            <div className="relative">
+              <img
+                src="/logo-qvt.jpeg"
+                alt="QVT Box"
+                width={56}
+                height={56}
+                className="h-14 w-14 rounded-full object-cover shadow-lg"
+                loading="lazy"
+                decoding="async"
                 onError={(e) => {
-                  e.currentTarget.style.display = 'none';
+                  (e.currentTarget as HTMLImageElement).style.display = "none";
+                  const fallback = e.currentTarget.nextElementSibling as HTMLElement | null;
+                  if (fallback) fallback.classList.remove("hidden");
                 }}
               />
-              <div className="hidden relative w-14 h-14 rounded-full bg-gradient-to-br from-primary via-secondary to-accent flex items-center justify-center text-sm font-bold text-white shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:scale-110 animate-glow">
+              {/* Fallback monogramme si le fichier n'existe pas */}
+              <div className="hidden h-14 w-14 rounded-full bg-gradient-to-br from-primary to-secondary text-white font-bold flex items-center justify-center shadow-lg">
                 QVT
               </div>
             </div>
-            <span className="text-3xl font-bold text-gradient font-inter">QVT Box</span>
+            <span className="text-3xl font-bold">QVT Box</span>
           </div>
-          
-          <p className="text-foreground/70 mb-8 font-lato font-light max-w-2xl mx-auto animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
-            QVT Box est un compagnon professionnel du quotidien, conçu pour les salariés, les managers, les RH et les représentants du personnel. 
-            Ensemble, faisons de la question "Ça va ?" un vrai levier de dialogue social et de bien-être durable.
+
+          {/* Texte (fr/en) avec contraste lisible */}
+          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+            {language === "fr"
+              ? "QVT Box est un compagnon professionnel du quotidien, conçu pour les salariés, les managers, les RH et les représentants du personnel. Ensemble, faisons de la question « Ça va ? » un vrai levier de dialogue social et de bien-être durable."
+              : "QVT Box is a daily professional companion for employees, managers, HR and employee representatives. Together, let’s turn “How are you?” into a real driver for dialogue and sustainable well-being."}
           </p>
-          
-          <div className="flex flex-wrap justify-center gap-8 mb-8 animate-slide-in-up" style={{ animationDelay: '0.4s' }}>
-            <Link to="/box" className="nav-link hover:scale-110 transition-all duration-300 font-inter">Notre Offre</Link>
-            <Link to="/saas" className="nav-link hover:scale-110 transition-all duration-300 font-inter">Licence SaaS</Link>
-            <Link to="/about" className="nav-link hover:scale-110 transition-all duration-300 font-inter">À propos</Link>
-            <Link to="/auth" className="nav-link hover:scale-110 transition-all duration-300 font-inter">Mon Espace</Link>
+
+          {/* Liens principaux (fort contraste + focus ring) */}
+          <div className="flex flex-wrap justify-center gap-8 mb-8">
+            <Link
+              to={withLang("/box")}
+              className="text-sm font-medium text-gray-700 hover:text-black focus:outline-none focus:ring-2 focus:ring-primary rounded"
+            >
+              {tr("nav.offer", "Notre Offre", "Our Offer")}
+            </Link>
+            <Link
+              to={withLang("/saas")}
+              className="text-sm font-medium text-gray-700 hover:text-black focus:outline-none focus:ring-2 focus:ring-primary rounded"
+            >
+              {tr("nav.saas", "Licence SaaS", "SaaS License")}
+            </Link>
+            <Link
+              to={withLang("/about")}
+              className="text-sm font-medium text-gray-700 hover:text-black focus:outline-none focus:ring-2 focus:ring-primary rounded"
+            >
+              {tr("nav.about", "À propos", "About")}
+            </Link>
+            <Link
+              to={withLang("/auth")}
+              className="text-sm font-medium text-gray-700 hover:text-black focus:outline-none focus:ring-2 focus:ring-primary rounded"
+            >
+              {tr("nav.account", "Mon Espace", "My Account")}
+            </Link>
           </div>
-          
-          <div className="border-t border-primary/10 pt-6 animate-slide-in-up" style={{ animationDelay: '0.6s' }}>
+
+          {/* Bloc coordonnées */}
+          <div className="border-t border-gray-200 pt-6">
             <div className="space-y-4 mb-6">
               <div className="text-center">
-                <h3 className="font-semibold text-foreground mb-2">Coordonnées QVT Box</h3>
-                <div className="space-y-1 text-sm text-foreground/70">
-                  <p>📧 Email : contact@qvtbox.fr / lamia.brechet@outlook.fr </p>
-                  <p>📞 Téléphone : +33 (0)6 76 43 55 51 / 02 23 24 28 45 </p>
-                  <p>📍 Adresse : Rennes, France</p>
+                <h3 className="font-semibold text-gray-900 mb-2">
+                  {language === "fr" ? "Coordonnées QVT Box" : "QVT Box contact details"}
+                </h3>
+                <div className="space-y-1 text-sm text-gray-600">
+                  <p>
+                    📧 Email : <a href="mailto:contact@qvtbox.fr" className="underline">contact@qvtbox.fr</a> /{" "}
+                    <a href="mailto:lamia.brechet@outlook.fr" className="underline">lamia.brechet@outlook.fr</a>
+                  </p>
+                  <p>📞 {language === "fr" ? "Téléphone" : "Phone"} : +33 (0)6 76 43 55 51 / 02 23 24 28 45</p>
+                  <p>📍 {language === "fr" ? "Adresse" : "Address"} : Rennes, France</p>
                 </div>
               </div>
             </div>
-            
+
+            {/* Liens légaux (contraste ++ + focus) */}
             <div className="flex flex-wrap justify-center gap-6 mb-4 text-sm">
-              <Link to="/cgv" className="text-foreground/60 hover:text-primary transition-colors font-inter">
+              <Link
+                to={withLang("/cgv")}
+                className="text-gray-600 hover:text-black focus:outline-none focus:ring-2 focus:ring-primary rounded"
+              >
                 CGV
               </Link>
-              <Link to="/mentions-legales" className="text-foreground/60 hover:text-primary transition-colors font-inter">
-                Mentions Légales
+              <Link
+                to={withLang("/mentions-legales")}
+                className="text-gray-600 hover:text-black focus:outline-none focus:ring-2 focus:ring-primary rounded"
+              >
+                {language === "fr" ? "Mentions Légales" : "Legal notice"}
               </Link>
-              <Link to="/politique-confidentialite" className="text-foreground/60 hover:text-primary transition-colors font-inter">
-                RGPD
+              <Link
+                to={withLang("/politique-confidentialite")}
+                className="text-gray-600 hover:text-black focus:outline-none focus:ring-2 focus:ring-primary rounded"
+              >
+                {language === "fr" ? "RGPD" : "Privacy"}
               </Link>
-              <Link to="/contact" className="text-foreground/60 hover:text-primary transition-colors font-inter">
-                Contact
+              <Link
+                to={withLang("/contact")}
+                className="text-gray-600 hover:text-black focus:outline-none focus:ring-2 focus:ring-primary rounded"
+              >
+                {tr("nav.contact", "Contact", "Contact")}
               </Link>
             </div>
-            <p className="text-sm text-foreground/50 font-inter text-center">
-              © 2024 QVT Box - Solutions phygitales B2B pour la qualité de vie au travail - Fait avec <Heart className="inline w-4 h-4 text-red-400 animate-pulse-soft" /> en France
+
+            <p className="text-sm text-gray-500 text-center">
+              © 2024 QVT Box — {language === "fr"
+                ? "Solutions phygitales B2B pour la qualité de vie au travail — Fait avec "
+                : "Phygital B2B solutions for workplace quality of life — Made with "}
+              <Heart className="inline w-4 h-4 text-red-500" />{" "}
+              {language === "fr" ? "en France" : "in France"}
             </p>
           </div>
         </div>
