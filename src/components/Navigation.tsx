@@ -1,9 +1,12 @@
+// src/components/Navigation.tsx
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useCart } from "@/hooks/useCart";
-import { useLanguage } from "@/hooks/useLanguage";
+// IMPORTANT : on importe le hook unifié. Si tu as créé src/hooks/useLanguage.ts qui réexporte,
+// tu peux aussi faire: import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSelector from "@/components/LanguageSelector";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingBag, Settings, Menu, X } from "lucide-react";
@@ -14,7 +17,16 @@ const Navigation = () => {
   const { user } = useAuth();
   const { isAdmin } = useUserRole();
   const { totalItems, setIsOpen } = useCart();
+
+  // Langue + i18n
   const { language, setLanguage, t } = useLanguage(); // "fr" | "en"
+
+  // Petit helper : si la clé i18n n'existe pas, on renvoie un libellé par défaut FR/EN
+  const tr = (key: string, frDefault: string, enDefault: string) => {
+    const s = t(key);
+    return s !== key ? s : language === "fr" ? frDefault : enDefault;
+  };
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 
@@ -83,6 +95,11 @@ const Navigation = () => {
   const isActive = (fullPath: string) =>
     location.pathname === fullPath || location.pathname.startsWith(fullPath + "/");
 
+  const cartLabel = tr("nav.cart", "Panier", "Cart");
+  const quoteLabel = tr("nav.quote", "Demander un devis", "Request Quote");
+  const dashboardLabel = tr("nav.dashboard", "Mon Tableau de Bord", "My Dashboard");
+  const accountLabel = tr("nav.account", "Mon Espace", "My Account");
+
   return (
     <nav
       className="fixed top-0 left-0 right-0 z-50 glass-effect"
@@ -94,7 +111,7 @@ const Navigation = () => {
           <Link
             to={withLang("/")}
             className="flex items-center space-x-3 hover:opacity-80 transition-all duration-300 group"
-            aria-label="Aller à l'accueil"
+            aria-label={tr("nav.home", "Accueil", "Home")}
           >
             <div className="relative">
               <div className="absolute inset-0 bg-primary/20 rounded-full blur-md group-hover:blur-lg transition-all duration-300" />
@@ -146,7 +163,7 @@ const Navigation = () => {
                 type="button"
                 onClick={() => setIsOpen(true)}
                 className="relative rounded-lg p-2 hover:bg-muted transition"
-                aria-label={t("nav.cart") ?? "Panier"}
+                aria-label={cartLabel}
               >
                 <ShoppingBag className="w-5 h-5 text-foreground" />
                 {totalItems > 0 && (
@@ -164,7 +181,7 @@ const Navigation = () => {
                 to={withLang("/contact")}
                 className="bg-primary text-white px-6 py-2 rounded-lg font-medium transition-all hover:bg-primary/90 font-inter"
               >
-                {t("nav.quote")}
+                {quoteLabel}
               </Link>
 
               {/* Compte / Dashboard */}
@@ -172,7 +189,7 @@ const Navigation = () => {
                 to={user ? withLang("/dashboard") : withLang("/auth")}
                 className="bg-secondary text-white px-6 py-2 rounded-lg font-medium transition-all hover:bg-secondary/90 font-inter"
               >
-                {user ? t("nav.dashboard") : t("nav.account")}
+                {user ? dashboardLabel : accountLabel}
               </Link>
 
               {/* Admin si admin */}
@@ -192,7 +209,7 @@ const Navigation = () => {
           <button
             className="md:hidden p-3"
             onClick={() => setMobileMenuOpen(true)}
-            aria-label="Ouvrir le menu"
+            aria-label={tr("nav.menu", "Ouvrir le menu", "Open menu")}
             aria-controls="mobile-drawer"
             aria-expanded={mobileMenuOpen}
           >
@@ -221,7 +238,7 @@ const Navigation = () => {
                   ref={closeBtnRef}
                   onClick={() => setMobileMenuOpen(false)}
                   className="p-2"
-                  aria-label="Fermer le menu"
+                  aria-label={tr("nav.close", "Fermer le menu", "Close menu")}
                 >
                   <X className="w-6 h-6 text-foreground" />
                 </button>
@@ -257,10 +274,10 @@ const Navigation = () => {
                     setIsOpen(true);
                   }}
                   className="relative rounded-lg px-4 py-3 bg-muted text-foreground font-inter flex items-center justify-center gap-2"
-                  aria-label={t("nav.cart") ?? "Panier"}
+                  aria-label={cartLabel}
                 >
                   <ShoppingBag className="w-5 h-5" />
-                  {t("nav.cart") ?? "Panier"}
+                  {cartLabel}
                   {totalItems > 0 && (
                     <Badge className="ml-2 text-[10px] h-4 px-1 bg-primary text-white" variant="default">
                       {totalItems}
@@ -273,7 +290,7 @@ const Navigation = () => {
                   onClick={() => setMobileMenuOpen(false)}
                   className="bg-primary text-white px-6 py-3 rounded-lg font-medium transition-all hover:bg-primary/90 font-inter text-center"
                 >
-                  {t("nav.quote")}
+                  {quoteLabel}
                 </Link>
 
                 <Link
@@ -281,7 +298,7 @@ const Navigation = () => {
                   onClick={() => setMobileMenuOpen(false)}
                   className="bg-secondary text-white px-6 py-3 rounded-lg font-medium transition-all hover:bg-secondary/90 font-inter text-center"
                 >
-                  {user ? t("nav.dashboard") : t("nav.account")}
+                  {user ? dashboardLabel : accountLabel}
                 </Link>
 
                 {user && isAdmin && (
