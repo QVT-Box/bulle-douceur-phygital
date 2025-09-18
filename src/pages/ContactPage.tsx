@@ -1,3 +1,4 @@
+// src/pages/ContactPage.tsx
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useState } from "react";
@@ -20,58 +21,48 @@ const ContactPage = () => {
     taille_effectif: "",
     type_offre: "",
     message: "",
-    website: "" // honeypot anti-spam (champ caché)
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.nom || !formData.email || !formData.message) {
-      toast({ title: "Champs manquants", description: "Nom, email et message sont requis.", variant: "destructive" });
-      return;
-    }
-
     setIsSubmitting(true);
+
     try {
-      // 1) Sauvegarde lead Supabase (comme avant)
-      const { error } = await supabase
-        .from("leads_demo")
-        .insert([{
+      // 1) Enregistrer le lead en base
+      const { error } = await supabase.from("leads_demo").insert([
+        {
           nom: formData.nom,
           email: formData.email,
           entreprise: formData.entreprise,
           message: formData.message,
-          source_page: "/contact"
-        }]);
+          source_page: "/contact",
+        },
+      ]);
+
       if (error) throw error;
 
-      // 2) Envoi email via la route Vercel /api/contact
+      // 2) Envoyer l'email via la route Vercel /api/contact
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.nom,
-          email: formData.email,
-          phone: formData.telephone,
-          company: formData.entreprise,
-          employees: formData.taille_effectif,
-          offer: formData.type_offre,
-          message: formData.message,
-          website: formData.website // honeypot
-        })
+        body: JSON.stringify(formData),
       });
-      const data = await res.json();
-      if (!res.ok || !data.ok) throw new Error(data?.message || "Échec d’envoi");
+
+      if (!res.ok) {
+        const details = await res.json().catch(() => ({}));
+        throw new Error(details?.error || "Contact API error");
+      }
 
       toast({
         title: "Demande envoyée !",
-        description: "Nous vous recontactons sous 48h pour votre devis ou démo."
+        description: "Nous vous recontactons sous 48h pour votre devis ou démo.",
       });
 
       setFormData({
@@ -82,13 +73,12 @@ const ContactPage = () => {
         taille_effectif: "",
         type_offre: "",
         message: "",
-        website: ""
       });
-    } catch (err: any) {
+    } catch (error: any) {
       toast({
         title: "Erreur",
-        description: err?.message || "Une erreur s'est produite. Veuillez réessayer.",
-        variant: "destructive"
+        description: error?.message || "Une erreur s'est produite. Veuillez réessayer.",
+        variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
@@ -137,7 +127,7 @@ const ContactPage = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-lg text-foreground">Téléphone</h3>
-                        <p className="text-foreground/70">+33 (0)6 76 43 55 51 / 02 23 24 28 45</p>
+                        <p className="text-foreground/70">+33 (0)6 76 43 55 51/ 02 23 24 28 45</p>
                       </div>
                     </div>
                   </CardContent>
@@ -182,45 +172,67 @@ const ContactPage = () => {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  {/* Champ piège anti-spam (caché) */}
-                  <input
-                    type="text"
-                    name="website"
-                    value={formData.website}
-                    onChange={handleInputChange}
-                    className="hidden"
-                    tabIndex={-1}
-                    autoComplete="off"
-                    aria-hidden="true"
-                  />
-
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="nom">Nom complet *</Label>
-                      <Input id="nom" name="nom" value={formData.nom} onChange={handleInputChange} required placeholder="Votre nom" />
+                      <Input
+                        id="nom"
+                        name="nom"
+                        value={formData.nom}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="Votre nom"
+                      />
                     </div>
                     <div>
                       <Label htmlFor="email">Email professionnel *</Label>
-                      <Input id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} required placeholder="nom@entreprise.com" />
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="nom@entreprise.com"
+                      />
                     </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="entreprise">Entreprise *</Label>
-                      <Input id="entreprise" name="entreprise" value={formData.entreprise} onChange={handleInputChange} required placeholder="Nom de votre entreprise" />
+                      <Input
+                        id="entreprise"
+                        name="entreprise"
+                        value={formData.entreprise}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="Nom de votre entreprise"
+                      />
                     </div>
                     <div>
                       <Label htmlFor="telephone">Téléphone</Label>
-                      <Input id="telephone" name="telephone" type="tel" value={formData.telephone} onChange={handleInputChange} placeholder="06 XX XX XX XX" />
+                      <Input
+                        id="telephone"
+                        name="telephone"
+                        type="tel"
+                        value={formData.telephone}
+                        onChange={handleInputChange}
+                        placeholder="06 XX XX XX XX"
+                      />
                     </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="taille_effectif">Taille de l'effectif</Label>
-                      <Select value={formData.taille_effectif} onValueChange={(value) => setFormData({ ...formData, taille_effectif: value })}>
-                        <SelectTrigger><SelectValue placeholder="Nombre de salariés" /></SelectTrigger>
+                      <Select
+                        value={formData.taille_effectif}
+                        onValueChange={(value) => setFormData({ ...formData, taille_effectif: value })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Nombre de salariés" />
+                        </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="1-10">1 à 10 salariés</SelectItem>
                           <SelectItem value="11-50">11 à 50 salariés</SelectItem>
@@ -232,8 +244,13 @@ const ContactPage = () => {
                     </div>
                     <div>
                       <Label htmlFor="type_offre">Type d'offre souhaitée</Label>
-                      <Select value={formData.type_offre} onValueChange={(value) => setFormData({ ...formData, type_offre: value })}>
-                        <SelectTrigger><SelectValue placeholder="Sélectionnez une offre" /></SelectTrigger>
+                      <Select
+                        value={formData.type_offre}
+                        onValueChange={(value) => setFormData({ ...formData, type_offre: value })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Sélectionnez une offre" />
+                        </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="box-physique">Box physiques uniquement</SelectItem>
                           <SelectItem value="licence-saas">Licence SaaS entreprise</SelectItem>
@@ -260,7 +277,10 @@ const ContactPage = () => {
 
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Button type="submit" className="flex-1 btn-primary" disabled={isSubmitting}>
-                      {isSubmitting ? "Envoi en cours..." : (<><Send className="w-4 h-4 mr-2" />Demander un devis</>)}
+                      {isSubmitting ? "Envoi en cours..." : <>
+                        <Send className="w-4 h-4 mr-2" />
+                        Demander un devis
+                      </>}
                     </Button>
                     <Button
                       type="button"
@@ -270,7 +290,8 @@ const ContactPage = () => {
                         setFormData({
                           ...formData,
                           type_offre: "licence-saas",
-                          message: "Je souhaite recevoir une démonstration de la licence SaaS QVT Box pour mon entreprise."
+                          message:
+                            "Je souhaite recevoir une démonstration de la licence SaaS QVT Box pour mon entreprise.",
                         })
                       }
                     >
