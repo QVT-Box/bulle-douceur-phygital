@@ -1,81 +1,137 @@
-// api/contact.ts
-import { Resend } from "resend";
+// /api/contact.ts (Edge Function - pas de dépendances)
+// Envoie un email via Resend (API HTTP) avec les données du formulaire.
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+export const config = { runtime: "edge" };
 
-function s(v?: unknown) {
-  return (typeof v === "string" ? v : "").trim();
+function json(
+  body: unknown,
+  status = 200,
+  extraHeaders: Record<string, string> = {}
+) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
+      ...extraHeaders,
+    },
+  });
 }
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: Request) {
+  // CORS/preflight — utile si jamais tu appelles depuis un autre domaine
+  if (req.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        "access-control-allow-origin": "*",
+        "access-control-allow-methods": "POST, OPTIONS",
+        "access-control-allow-headers": "content-type",
+      },
+    });
+  }
+
   if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
-    return res.status(405).json({ ok: false, message: "Method not allowed" });
+    return json({ ok: false, error: "Method not allowed" }, 405, {
+      "access-control-allow-origin": "*",
+    });
   }
 
   try {
-    const body = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
-    const name = s(body.name);
-    const email = s(body.email);
-    const phone = s(body.phone);
-    const company = s(body.company);
-    const employees = s(body.employees);
-    const offer = s(body.offer);
-    const message = s(body.message);
-    const honeypot = s(body.website); // champ anti-spam (ne pas afficher côté UI)
+    const data = await req.json();
 
-    if (honeypot) return res.status(200).json({ ok: true, message: "Thanks!" });
+    const nom = (data?.nom ?? "").toString().trim();
+    const email = (data?.email ?? "").toString().trim();
+    const entreprise = (data?.entreprise ?? "").toString().trim();
+    const telephone = (data?.telephone ?? "").toString().trim();
+    const taille = (data?.taille_effectif ?? "").toString().trim();
+    const offre = (data?.type_offre ?? "").toString().trim();
+    const message = (data?.message ?? "").toString().trim();
 
-    if (!name || !email || !message) {
-      return res.status(400).json({ ok: false, message: "Champs obligatoires manquants." });
+    if (!nom || !email || !message) {
+      return json(
+        { ok: false, error: "Champs requis manquants (nom, email, message)" },
+        400,
+        { "access-control-allow-origin": "*" }
+      );
     }
 
-    const toList = (process.env.CONTACT_TO || "")
-      .split(",").map(e => e.trim()).filter(Boolean);
-    if (toList.length === 0) {
-      return res.status(500).json({ ok: false, message: "CONTACT_TO manquant côté serveur." });
+    const RESEND_API_KEY = process.env.RESEND_API_KEY;
+    if (!RESEND_API_KEY) {
+      return json(
+        { ok: false, error: "RESEND_API_KEY manquante dans les variables d'env Vercel" },
+        500,
+        { "access-control-allow-origin": "*" }
+      );
     }
 
-    const subject = `📥 Nouveau message QVT Box — ${name}${company ? " ("+company+")" : ""}`;
+    const toList = (process.env.CONTACT_TO || "lamia.brechet@outlook.fr,contact@qvtbox.fr")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const subject = `Nouveau contact QVT Box — ${entreprise || nom}`;
+
+    const text = `
+Nouveau message de contact :
+
+Nom : ${nom}
+Email : ${email}
+Entreprise : ${entreprise || "-"}
+Téléphone : ${telephone || "-"}
+Effectif : ${taille || "-"}
+Offre : ${offre || "-"}
+
+Message :
+${message}
+`.trim();
 
     const html = `
-      <div style="font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.6;color:#111;">
-        <h2>Nouveau message depuis le site QVT Box</h2>
-        <p><strong>Nom :</strong> ${name}</p>
-        <p><strong>Email :</strong> ${email}</p>
-        ${phone ? `<p><strong>Téléphone :</strong> ${phone}</p>` : ""}
-        ${company ? `<p><strong>Entreprise :</strong> ${company}</p>` : ""}
-        ${employees ? `<p><strong>Effectif :</strong> ${employees}</p>` : ""}
-        ${offer ? `<p><strong>Offre :</strong> ${offer}</p>` : ""}
-        <hr />
-        <p style="white-space:pre-wrap">${message}</p>
-      </div>
-    `.trim();
+  <div style="font-family:Inter,Arial,sans-serif;line-height:1.6;color:#111">
+    <h2 style="margin:0 0 12px 0;">Nouveau message de contact</h2>
+    <p><strong>Nom :</strong> ${nom}</p>
+    <p><strong>Email :</strong> ${email}</p>
+    <p><strong>Entreprise :</strong> ${entreprise || "-"}</p>
+    <p><strong>Téléphone :</strong> ${telephone || "-"}</p>
+    <p><strong>Effectif :</strong> ${taille || "-"}</p>
+    <p><strong>Offre :</strong> ${offre || "-"}</p>
+    <hr/>
+    <p style="white-space:pre-wrap">${message.replace(/</g, "&lt;")}</p>
+  </div>
+`.trim();
 
-    const text =
-      `Nouveau message QVT Box\n` +
-      `Nom: ${name}\n` +
-      `Email: ${email}\n` +
-      (phone ? `Téléphone: ${phone}\n` : "") +
-      (company ? `Entreprise: ${company}\n` : "") +
-      (employees ? `Effectif: ${employees}\n` : "") +
-      (offer ? `Offre: ${offer}\n` : "") +
-      `\n---\n${message}`;
-
-    const result = await resend.emails.send({
-      from: "QVT Box <onboarding@resend.dev>", // changera en contact@qvtbox.fr après vérif domaine
-      to: toList,
-      subject,
-      html,
-      text,
-      reply_to: email,
+    // Appel API Resend (REST)
+    const r = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "QVT Box <onboarding@resend.dev>", // Remplace par un domaine vérifié quand dispo (ex: contact@qvtbox.fr)
+        to: toList,
+        subject,
+        html,
+        text,
+        reply_to: email, // pour répondre directement au prospect
+      }),
     });
 
-    if ((result as any).error) {
-      return res.status(500).json({ ok: false, message: "Échec d’envoi", details: (result as any).error });
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      return json(
+        { ok: false, error: "Resend error", details: err },
+        500,
+        { "access-control-allow-origin": "*" }
+      );
     }
-    return res.status(200).json({ ok: true, message: "Message envoyé." });
-  } catch (err: any) {
-    return res.status(500).json({ ok: false, message: err?.message || "Erreur serveur" });
+
+    return json({ ok: true }, 200, { "access-control-allow-origin": "*" });
+  } catch (e: any) {
+    return json(
+      { ok: false, error: e?.message || "Erreur inconnue" },
+      500,
+      { "access-control-allow-origin": "*" }
+    );
   }
 }
