@@ -65,7 +65,7 @@ export default async function handler(req: Request) {
       );
     }
 
-    const toList = (process.env.CONTACT_TO || "lamia.brechet@outlook.fr,contact@qvtbox.fr")
+    const toList = (process.env.CONTACT_TO || "lamia.brechet@outlook.fr,contact@qvtbox.com")
       .split(",")
       .map((s) => s.trim())
       .filter(Boolean);
