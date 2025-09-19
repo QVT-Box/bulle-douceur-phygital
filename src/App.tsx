@@ -47,6 +47,9 @@ import MobilePage from "./pages/MobilePage";
 import AboutPage from "./pages/AboutPage";
 import InternationalPage from "./pages/InternationalPage";
 
+// 👇👇👇 AJOUTE CET IMPORT (page EN que tu as créée juste avant)
+import InternationalPageEN from "@/pages/InternationalPageEN";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -55,59 +58,69 @@ const App = () => (
       <LanguageProvider>
         <AuthProvider>
           <CartProvider>
-          <AppInitializer>
-            <GlobalSEO />
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/box" element={<BoxPage />} />
-                <Route path="/saas" element={<ProfessionalSaasPage />} />
-                <Route path="/international" element={<InternationalPage />} />
-                <Route path="/boutique" element={<BoutiquePage />} />
-                <Route path="/mobile" element={<MobilePage />} />
-                <Route path="/checkout" element={<CheckoutPage />} />
-                <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
-                <Route path="/checkout/cancel" element={<CheckoutCancelPage />} />
-                <Route path="/boutique/produit/:slug" element={<ProductDetailPage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/connexion" element={<ConnexionPage />} />
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/mood" element={<MoodDashboard />} />
-                <Route path="/admin" element={<AdminPage />} />
-                
-                {/* CMS Routes */}
-                <Route path="/cms" element={<CMSLayout><CMSIndexPage /></CMSLayout>} />
-                <Route path="/cms/products" element={<CMSLayout><ProductsPage /></CMSLayout>} />
-                <Route path="/cms/products/new" element={<CMSLayout><ProductFormPage /></CMSLayout>} />
-                <Route path="/cms/products/edit/:id" element={<CMSLayout><ProductFormPage /></CMSLayout>} />
-                <Route path="/cms/images" element={<CMSLayout><ImagesPage /></CMSLayout>} />
-                <Route path="/cms/partners/applications" element={<CMSLayout><CMSPartnersPage /></CMSLayout>} />
-                <Route path="/cms/partners/approved" element={<CMSLayout><CMSPartnersPage /></CMSLayout>} />
-                <Route path="/cms/media" element={<CMSLayout><MediaPage /></CMSLayout>} />
-                <Route path="/cms/settings" element={<CMSLayout><SettingsPage /></CMSLayout>} />
-                
-                {/* Auth Routes */}
-                <Route path="/auth" element={<AuthPage />} />
-                <Route path="/auth/login" element={<LoginPage />} />
-                <Route path="/auth/callback" element={<AuthCallbackPage />} />
-                <Route path="/auth/logout" element={<LogoutPage />} />
-                <Route path="/reset-password" element={<ResetPasswordPage />} />
-                <Route path="/simulateur" element={<SimulateurPage />} />
-                
-                <Route path="/user-dashboard" element={<UserDashboard />} />
-                <Route path="/engagements" element={<EngagementsPage />} />
-                <Route path="/partenaires" element={<PartnersPage />} />
-                <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
-                <Route path="/politique-confidentialite" element={<PolitiqueConfidentialitePage />} />
-                <Route path="/cgv" element={<CGVPage />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </AppInitializer>
+            <AppInitializer>
+              <GlobalSEO />
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/box" element={<BoxPage />} />
+                  <Route path="/saas" element={<ProfessionalSaasPage />} />
+
+                  {/* FR & EN International */}
+                  <Route path="/international" element={<InternationalPage />} />
+                  {/* 👇👇👇 NOUVELLES ROUTES MULTILINGUES */}
+                  <Route path="/fr/international" element={<InternationalPage />} />
+                  <Route path="/en/international" element={<InternationalPageEN />} />
+
+                  {/* (optionnel mais pratique) même formulaire de contact côté EN/FR */}
+                  <Route path="/en/contact" element={<ContactPage />} />
+                  <Route path="/fr/contact" element={<ContactPage />} />
+
+                  <Route path="/boutique" element={<BoutiquePage />} />
+                  <Route path="/mobile" element={<MobilePage />} />
+                  <Route path="/checkout" element={<CheckoutPage />} />
+                  <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
+                  <Route path="/checkout/cancel" element={<CheckoutCancelPage />} />
+                  <Route path="/boutique/produit/:slug" element={<ProductDetailPage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/connexion" element={<ConnexionPage />} />
+                  <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/mood" element={<MoodDashboard />} />
+                  <Route path="/admin" element={<AdminPage />} />
+
+                  {/* CMS Routes */}
+                  <Route path="/cms" element={<CMSLayout><CMSIndexPage /></CMSLayout>} />
+                  <Route path="/cms/products" element={<CMSLayout><ProductsPage /></CMSLayout>} />
+                  <Route path="/cms/products/new" element={<CMSLayout><ProductFormPage /></CMSLayout>} />
+                  <Route path="/cms/products/edit/:id" element={<CMSLayout><ProductFormPage /></CMSLayout>} />
+                  <Route path="/cms/images" element={<CMSLayout><ImagesPage /></CMSLayout>} />
+                  <Route path="/cms/partners/applications" element={<CMSLayout><CMSPartnersPage /></CMSLayout>} />
+                  <Route path="/cms/partners/approved" element={<CMSLayout><CMSPartnersPage /></CMSLayout>} />
+                  <Route path="/cms/media" element={<CMSLayout><MediaPage /></CMSLayout>} />
+                  <Route path="/cms/settings" element={<CMSLayout><SettingsPage /></CMSLayout>} />
+
+                  {/* Auth Routes */}
+                  <Route path="/auth" element={<AuthPage />} />
+                  <Route path="/auth/login" element={<LoginPage />} />
+                  <Route path="/auth/callback" element={<AuthCallbackPage />} />
+                  <Route path="/auth/logout" element={<LogoutPage />} />
+                  <Route path="/reset-password" element={<ResetPasswordPage />} />
+                  <Route path="/simulateur" element={<SimulateurPage />} />
+
+                  <Route path="/user-dashboard" element={<UserDashboard />} />
+                  <Route path="/engagements" element={<EngagementsPage />} />
+                  <Route path="/partenaires" element={<PartnersPage />} />
+                  <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
+                  <Route path="/politique-confidentialite" element={<PolitiqueConfidentialitePage />} />
+                  <Route path="/cgv" element={<CGVPage />} />
+                  {/* CATCH-ALL */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </AppInitializer>
           </CartProvider>
         </AuthProvider>
       </LanguageProvider>
