@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-
+import { Analytics } from "@vercel/analytics/next"
 interface AnalyticsEvent {
   action: string;
   category: string;
