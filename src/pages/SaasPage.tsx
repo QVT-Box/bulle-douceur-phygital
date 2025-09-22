@@ -1,3 +1,4 @@
+// src/pages/ProfessionalSaasPage.tsx
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
@@ -11,7 +12,6 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 import {
   Shield,
   LineChart,
-  Sparkles,
   Users,
   Bell,
   Cpu,
@@ -73,7 +73,6 @@ const PLANS = [
       "Recommandations IA",
       "Support prioritaire",
     ],
-    
     cta: { label: "Demander une démo", to: "/contact" },
   },
   {
@@ -105,7 +104,7 @@ const FAQ = [
   },
 ] as const;
 
-const SaaSPage: React.FC = () => {
+const ProfessionalSaasPage: React.FC = () => {
   const [heroRef, heroVisible] = useScrollReveal();
   const [featRef, featVisible] = useScrollReveal();
   const [demoRef, demoVisible] = useScrollReveal();
@@ -216,7 +215,7 @@ const SaaSPage: React.FC = () => {
                   className="flex w-full max-w-xl gap-2"
                   onSubmit={(e) => {
                     e.preventDefault();
-                    window.location.href = "/contact"; // redirige vers la page contact
+                    window.location.href = "/contact";
                   }}
                 >
                   <Input
@@ -347,4 +346,4 @@ const SaaSPage: React.FC = () => {
   );
 };
 
-export default SaaSPage;
+export default ProfessionalSaasPage;
