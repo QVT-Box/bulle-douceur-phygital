@@ -14,9 +14,7 @@ import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 
 import { Phone, Mail, MapPin, MessageCircle, Send, Building2, Users, Euro, CalendarDays, Truck } from "lucide-react";
-
-// ⚠️ ON ENLÈVE emailjs et on utilise Supabase Functions
-import { supabase } from "@/integrations/supabase/client";
+import emailjs from "@emailjs/browser";
 
 type FormState = {
   nom: string;
@@ -69,9 +67,7 @@ export default function ContactPage() {
 
   const progress = useMemo(() => (step / 3) * 100, [step]);
 
-  const onChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setData((p) => ({ ...p, [name]: value }));
   };
@@ -95,10 +91,8 @@ export default function ContactPage() {
     data.budget_par_salarie.trim().length > 0 &&
     data.type_offre !== undefined;
 
-  const canSend =
-    data.objectifs.length > 0 || data.message.trim().length > 5;
+  const canSend = data.objectifs.length > 0 || data.message.trim().length > 5;
 
-  // ✅ Envoi DEVIS via Supabase Function
   async function handleSend() {
     if (!canSend) {
       toast({
@@ -110,6 +104,7 @@ export default function ContactPage() {
     }
     setSending(true);
     try {
+      const objectifsText = data.objectifs.join(", ") || "—";
       const payload = {
         site_domain: "qvtbox.com",
         nom: data.nom,
@@ -122,25 +117,17 @@ export default function ContactPage() {
         zones_livraison: data.zones_livraison,
         delai: data.delai,
         type_offre: data.type_offre,
-        objectifs: data.objectifs.join(", ") || "—",
+        objectifs: objectifsText,
         message: data.message || "—",
         request_type: "DEVIS",
       };
 
-      // 1) Enregistrer le lead (facultatif mais utile)
-      await supabase.from("leads_demo").insert([{
-        nom: payload.nom,
-        email: payload.email,
-        entreprise: payload.entreprise,
-        message: `[DEVIS] ${payload.message}`,
-        source_page: "/contact",
-      }]);
-
-      // 2) Envoyer l'email via ta fonction Edge
-      const { error } = await supabase.functions.invoke("send-contact-email", {
-        body: payload,
-      });
-      if (error) throw error;
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        payload,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
 
       toast({ title: "Demande envoyée ✅", description: "Merci ! Nous revenons sous 48h avec un devis." });
       setData(defaultState);
@@ -152,7 +139,7 @@ export default function ContactPage() {
     }
   }
 
-  // ✅ Envoi DEMO direct (sans questionnaire) via Supabase Function
+  // Envoi direct pour DEMO (sans questionnaire)
   async function handleSendDemo() {
     if (!canGoStep2) {
       toast({
@@ -175,20 +162,12 @@ export default function ContactPage() {
         request_type: "DEMO",
       };
 
-      // 1) Enregistrer le lead (facultatif)
-      await supabase.from("leads_demo").insert([{
-        nom: payload.nom,
-        email: payload.email,
-        entreprise: payload.entreprise,
-        message: `[DEMO] ${payload.message}`,
-        source_page: "/contact",
-      }]);
-
-      // 2) Envoyer l'email
-      const { error } = await supabase.functions.invoke("send-contact-email", {
-        body: payload,
-      });
-      if (error) throw error;
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        payload,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
 
       toast({ title: "Demande de démo envoyée ✅", description: "On vous recontacte très vite pour planifier la démo." });
       setData(defaultState);
@@ -320,6 +299,7 @@ export default function ContactPage() {
                         Continuer (devis guidé)
                       </Button>
 
+                      {/* Envoi direct démo (pas de questionnaire) */}
                       <Button
                         type="button"
                         variant="outline"
