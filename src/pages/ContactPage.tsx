@@ -8,13 +8,40 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 
-import { Phone, Mail, MapPin, MessageCircle, Send, Building2, Users, Euro, CalendarDays, Truck } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Send,
+  Building2,
+  Users,
+  Euro,
+  CalendarDays,
+  Truck,
+} from "lucide-react";
 import emailjs from "@emailjs/browser";
+
+type Frequency = "ponctuelle" | "1 fois/an" | "2 fois/an" | "trimestrielle";
+type Zones = "France" | "France + Europe" | "International";
+type Delay = "urgent" | "sous 1 mois" | "1-3 mois" | "à préciser";
+type Offre =
+  | "box-physique"
+  | "licence-saas"
+  | "phygital"
+  | "partenariat"
+  | "information";
 
 type FormState = {
   nom: string;
@@ -24,10 +51,10 @@ type FormState = {
 
   taille_effectif: string;
   budget_par_salarie: string;
-  frequence: "ponctuelle" | "1 fois/an" | "2 fois/an" | "trimestrielle";
-  zones_livraison: "France" | "France + Europe" | "International";
-  delai: "urgent" | "sous 1 mois" | "1-3 mois" | "à préciser";
-  type_offre: "box-physique" | "licence-saas" | "phygital" | "partenariat" | "information";
+  frequence: Frequency;
+  zones_livraison: Zones;
+  delai: Delay;
+  type_offre: Offre;
 
   objectifs: string[];
   message: string;
@@ -67,7 +94,9 @@ export default function ContactPage() {
 
   const progress = useMemo(() => (step / 3) * 100, [step]);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setData((p) => ({ ...p, [name]: value }));
   };
@@ -78,7 +107,12 @@ export default function ContactPage() {
   const toggleObjectif = (label: string) =>
     setData((p) => {
       const exists = p.objectifs.includes(label);
-      return { ...p, objectifs: exists ? p.objectifs.filter((x) => x !== label) : [...p.objectifs, label] };
+      return {
+        ...p,
+        objectifs: exists
+          ? p.objectifs.filter((x) => x !== label)
+          : [...p.objectifs, label],
+      };
     });
 
   const canGoStep2 =
@@ -93,15 +127,39 @@ export default function ContactPage() {
 
   const canSend = data.objectifs.length > 0 || data.message.trim().length > 5;
 
+  // --- helpers EmailJS (optionnel : petit check des clés pour éviter la panique)
+  const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as
+    | string
+    | undefined;
+  const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as
+    | string
+    | undefined;
+  const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as
+    | string
+    | undefined;
+  const emailEnvOK =
+    !!EMAILJS_SERVICE_ID && !!EMAILJS_TEMPLATE_ID && !!EMAILJS_PUBLIC_KEY;
+
   async function handleSend() {
     if (!canSend) {
       toast({
         title: "Détaillez un peu votre besoin",
-        description: "Sélectionnez au moins un objectif ou ajoutez un message.",
+        description:
+          "Sélectionnez au moins un objectif ou ajoutez un message.",
         variant: "destructive",
       });
       return;
     }
+    if (!emailEnvOK) {
+      toast({
+        title: "Configuration manquante",
+        description:
+          "Clés EmailJS absentes. Ajoutez-les dans Vercel: VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, VITE_EMAILJS_PUBLIC_KEY.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setSending(true);
     try {
       const objectifsText = data.objectifs.join(", ") || "—";
@@ -123,23 +181,30 @@ export default function ContactPage() {
       };
 
       await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        EMAILJS_SERVICE_ID!,
+        EMAILJS_TEMPLATE_ID!,
         payload,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        EMAILJS_PUBLIC_KEY!
       );
 
-      toast({ title: "Demande envoyée ✅", description: "Merci ! Nous revenons sous 48h avec un devis." });
+      toast({
+        title: "Demande envoyée ✅",
+        description: "Merci ! Nous revenons sous 48h avec un devis.",
+      });
       setData(defaultState);
       setStep(1);
     } catch (err: any) {
-      toast({ title: "Envoi impossible", description: err?.message || "Un problème est survenu.", variant: "destructive" });
+      toast({
+        title: "Envoi impossible",
+        description: err?.message || "Un problème est survenu.",
+        variant: "destructive",
+      });
     } finally {
       setSending(false);
     }
   }
 
-  // Envoi direct pour DEMO (sans questionnaire)
+  // Envoi direct “Demander une démo” (sans questionnaire)
   async function handleSendDemo() {
     if (!canGoStep2) {
       toast({
@@ -149,6 +214,16 @@ export default function ContactPage() {
       });
       return;
     }
+    if (!emailEnvOK) {
+      toast({
+        title: "Configuration manquante",
+        description:
+          "Clés EmailJS absentes. Ajoutez-les dans Vercel: VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, VITE_EMAILJS_PUBLIC_KEY.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setSending(true);
     try {
       const payload = {
@@ -158,22 +233,30 @@ export default function ContactPage() {
         entreprise: data.entreprise,
         telephone: data.telephone || "—",
         type_offre: "licence-saas",
-        message: data.message || "Demande de démo de la licence SaaS QVT Box.",
+        message:
+          data.message || "Demande de démo de la licence SaaS QVT Box.",
         request_type: "DEMO",
       };
 
       await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        EMAILJS_SERVICE_ID!,
+        EMAILJS_TEMPLATE_ID!,
         payload,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        EMAILJS_PUBLIC_KEY!
       );
 
-      toast({ title: "Demande de démo envoyée ✅", description: "On vous recontacte très vite pour planifier la démo." });
+      toast({
+        title: "Demande de démo envoyée ✅",
+        description: "On vous recontacte très vite pour planifier la démo.",
+      });
       setData(defaultState);
       setStep(1);
     } catch (err: any) {
-      toast({ title: "Envoi impossible", description: err?.message || "Un problème est survenu.", variant: "destructive" });
+      toast({
+        title: "Envoi impossible",
+        description: err?.message || "Un problème est survenu.",
+        variant: "destructive",
+      });
     } finally {
       setSending(false);
     }
@@ -190,11 +273,13 @@ export default function ContactPage() {
               Demandez votre <span className="text-primary">devis personnalisé</span>
             </h1>
             <p className="text-lg text-foreground/70 max-w-3xl mx-auto font-lato">
-              Box phygitales 🇫🇷 + Licence SaaS entreprise. Pour une démo rapide, utilisez le bouton dédié.
+              Box phygitales 🇫🇷 + Licence SaaS entreprise. Pour une démo rapide,
+              utilisez le bouton dédié.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-10">
+            {/* Colonne infos contact */}
             <div className="space-y-6">
               <Card className="card-professional">
                 <CardHeader>
@@ -204,7 +289,9 @@ export default function ContactPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-foreground/80">+33 (0)6 76 43 55 51 / 02 23 24 28 45</p>
+                  <p className="text-foreground/80">
+                    +33 (0)6 76 43 55 51 / 02 23 24 28 45
+                  </p>
                 </CardContent>
               </Card>
 
@@ -239,12 +326,15 @@ export default function ContactPage() {
               </div>
             </div>
 
+            {/* Colonne formulaire */}
             <Card className="card-professional">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <MessageCircle className="w-5 h-5 text-primary" />
                   Demande de devis / Démo
-                  <Badge variant="secondary" className="ml-2">Étape {step}/3</Badge>
+                  <Badge variant="secondary" className="ml-2">
+                    Étape {step}/3
+                  </Badge>
                 </CardTitle>
                 <div className="mt-2">
                   <Progress value={progress} className="h-2 w-full" />
@@ -258,11 +348,26 @@ export default function ContactPage() {
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
                         <Label htmlFor="nom">Nom complet *</Label>
-                        <Input id="nom" name="nom" value={data.nom} onChange={onChange} placeholder="Votre nom" required />
+                        <Input
+                          id="nom"
+                          name="nom"
+                          value={data.nom}
+                          onChange={onChange}
+                          placeholder="Votre nom"
+                          required
+                        />
                       </div>
                       <div>
                         <Label htmlFor="email">Email professionnel *</Label>
-                        <Input id="email" name="email" type="email" value={data.email} onChange={onChange} placeholder="nom@entreprise.com" required />
+                        <Input
+                          id="email"
+                          name="email"
+                          type="email"
+                          value={data.email}
+                          onChange={onChange}
+                          placeholder="nom@entreprise.com"
+                          required
+                        />
                       </div>
                     </div>
 
@@ -271,12 +376,26 @@ export default function ContactPage() {
                         <Label htmlFor="entreprise">Entreprise *</Label>
                         <div className="flex items-center gap-2">
                           <Building2 className="w-4 h-4 text-muted-foreground" />
-                          <Input id="entreprise" name="entreprise" value={data.entreprise} onChange={onChange} placeholder="Nom de votre entreprise" required />
+                          <Input
+                            id="entreprise"
+                            name="entreprise"
+                            value={data.entreprise}
+                            onChange={onChange}
+                            placeholder="Nom de votre entreprise"
+                            required
+                          />
                         </div>
                       </div>
                       <div>
                         <Label htmlFor="telephone">Téléphone</Label>
-                        <Input id="telephone" name="telephone" type="tel" value={data.telephone} onChange={onChange} placeholder="06 XX XX XX XX" />
+                        <Input
+                          id="telephone"
+                          name="telephone"
+                          type="tel"
+                          value={data.telephone}
+                          onChange={onChange}
+                          placeholder="06 XX XX XX XX"
+                        />
                       </div>
                     </div>
 
@@ -288,7 +407,8 @@ export default function ContactPage() {
                           if (!canGoStep2) {
                             toast({
                               title: "Complétez vos coordonnées",
-                              description: "Nom, email pro et entreprise sont requis.",
+                              description:
+                                "Nom, email pro et entreprise sont requis.",
                               variant: "destructive",
                             });
                             return;
@@ -299,7 +419,7 @@ export default function ContactPage() {
                         Continuer (devis guidé)
                       </Button>
 
-                      {/* Envoi direct démo (pas de questionnaire) */}
+                      {/* Envoi direct démo */}
                       <Button
                         type="button"
                         variant="outline"
@@ -320,7 +440,10 @@ export default function ContactPage() {
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
                         <Label>Taille de l’effectif *</Label>
-                        <Select value={data.taille_effectif} onValueChange={(v) => setField("taille_effectif", v)}>
+                        <Select
+                          value={data.taille_effectif}
+                          onValueChange={(v) => setField("taille_effectif", v as FormState["taille_effectif"])}
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder="Nombre de salariés" />
                           </SelectTrigger>
@@ -351,7 +474,10 @@ export default function ContactPage() {
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
                         <Label>Fréquence</Label>
-                        <Select value={data.frequence} onValueChange={(v: any) => setField("frequence", v)}>
+                        <Select
+                          value={data.frequence}
+                          onValueChange={(v) => setField("frequence", v as Frequency)}
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder="Fréquence" />
                           </SelectTrigger>
@@ -366,7 +492,10 @@ export default function ContactPage() {
 
                       <div>
                         <Label>Zones de livraison</Label>
-                        <Select value={data.zones_livraison} onValueChange={(v: any) => setField("zones_livraison", v)}>
+                        <Select
+                          value={data.zones_livraison}
+                          onValueChange={(v) => setField("zones_livraison", v as Zones)}
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder="Zones" />
                           </SelectTrigger>
@@ -384,7 +513,10 @@ export default function ContactPage() {
                         <Label>Échéance / Délai</Label>
                         <div className="flex items-center gap-2">
                           <CalendarDays className="w-4 h-4 text-muted-foreground" />
-                          <Select value={data.delai} onValueChange={(v: any) => setField("delai", v)}>
+                          <Select
+                            value={data.delai}
+                            onValueChange={(v) => setField("delai", v as Delay)}
+                          >
                             <SelectTrigger>
                               <SelectValue placeholder="Quand ?" />
                             </SelectTrigger>
@@ -400,16 +532,29 @@ export default function ContactPage() {
 
                       <div>
                         <Label>Type d’offre</Label>
-                        <Select value={data.type_offre} onValueChange={(v: any) => setField("type_offre", v)}>
+                        <Select
+                          value={data.type_offre}
+                          onValueChange={(v) => setField("type_offre", v as Offre)}
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder="Sélectionnez une offre" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="box-physique">Box physiques uniquement</SelectItem>
-                            <SelectItem value="licence-saas">Licence SaaS entreprise</SelectItem>
-                            <SelectItem value="phygital">Solution phygitale (Box + SaaS)</SelectItem>
-                            <SelectItem value="partenariat">Partenariat local</SelectItem>
-                            <SelectItem value="information">Demande d’information</SelectItem>
+                            <SelectItem value="box-physique">
+                              Box physiques uniquement
+                            </SelectItem>
+                            <SelectItem value="licence-saas">
+                              Licence SaaS entreprise
+                            </SelectItem>
+                            <SelectItem value="phygital">
+                              Solution phygitale (Box + SaaS)
+                            </SelectItem>
+                            <SelectItem value="partenariat">
+                              Partenariat local
+                            </SelectItem>
+                            <SelectItem value="information">
+                              Demande d’information
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -426,7 +571,8 @@ export default function ContactPage() {
                           if (!canGoStep3) {
                             toast({
                               title: "Complétez le devis",
-                              description: "Taille d’effectif et budget / salarié sont requis.",
+                              description:
+                                "Taille d’effectif et budget / salarié sont requis.",
                               variant: "destructive",
                             });
                             return;
@@ -442,10 +588,14 @@ export default function ContactPage() {
 
                 {step === 3 && (
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">3) Objectifs & précisions</h3>
+                    <h3 className="text-lg font-semibold">
+                      3) Objectifs & précisions
+                    </h3>
 
                     <div>
-                      <Label className="mb-2 block">Objectifs principaux (choisir 1+)</Label>
+                      <Label className="mb-2 block">
+                        Objectifs principaux (choisir 1+)
+                      </Label>
                       <div className="flex flex-wrap gap-2">
                         {objectifsList.map((o) => {
                           const active = data.objectifs.includes(o);
@@ -466,7 +616,9 @@ export default function ContactPage() {
                     </div>
 
                     <div>
-                      <Label htmlFor="message">Contexte / attentes (facultatif)</Label>
+                      <Label htmlFor="message">
+                        Contexte / attentes (facultatif)
+                      </Label>
                       <Textarea
                         id="message"
                         name="message"
@@ -479,10 +631,22 @@ export default function ContactPage() {
 
                     <div className="bg-muted/40 rounded-lg p-4 text-sm">
                       <div className="grid md:grid-cols-2 gap-3">
-                        <p><Users className="inline w-4 h-4 mr-1" /> Effectif : <b>{data.taille_effectif || "—"}</b></p>
-                        <p><Euro className="inline w-4 h-4 mr-1" /> Budget/Salarié : <b>{data.budget_par_salarie || "—"}</b></p>
-                        <p><Truck className="inline w-4 h-4 mr-1" /> Zones : <b>{data.zones_livraison}</b></p>
-                        <p><CalendarDays className="inline w-4 h-4 mr-1" /> Délai : <b>{data.delai}</b></p>
+                        <p>
+                          <Users className="inline w-4 h-4 mr-1" /> Effectif :{" "}
+                          <b>{data.taille_effectif || "—"}</b>
+                        </p>
+                        <p>
+                          <Euro className="inline w-4 h-4 mr-1" /> Budget/Salarié :{" "}
+                          <b>{data.budget_par_salarie || "—"}</b>
+                        </p>
+                        <p>
+                          <Truck className="inline w-4 h-4 mr-1" /> Zones :{" "}
+                          <b>{data.zones_livraison}</b>
+                        </p>
+                        <p>
+                          <CalendarDays className="inline w-4 h-4 mr-1" /> Délai :{" "}
+                          <b>{data.delai}</b>
+                        </p>
                       </div>
                     </div>
 
@@ -490,8 +654,15 @@ export default function ContactPage() {
                       <Button variant="outline" type="button" onClick={() => setStep(2)}>
                         Retour
                       </Button>
-                      <Button className="btn-primary" type="button" disabled={sending} onClick={handleSend}>
-                        {sending ? "Envoi…" : (
+                      <Button
+                        className="btn-primary"
+                        type="button"
+                        disabled={sending}
+                        onClick={handleSend}
+                      >
+                        {sending ? (
+                          "Envoi…"
+                        ) : (
                           <>
                             <Send className="w-4 h-4 mr-2" />
                             Envoyer la demande de devis
