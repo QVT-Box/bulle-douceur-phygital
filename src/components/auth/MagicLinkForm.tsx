@@ -1,4 +1,5 @@
-import { useState } from "react";
+// src/components/auth/MagicLinkForm.tsx
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +11,8 @@ interface MagicLinkFormProps {
   onSuccess?: () => void;
 }
 
+const EMAIL_RE = /^\S+@\S+\.\S+$/;
+
 const MagicLinkForm = ({ onSuccess }: MagicLinkFormProps) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,12 +21,21 @@ const MagicLinkForm = ({ onSuccess }: MagicLinkFormProps) => {
   const [emailSent, setEmailSent] = useState(false);
   const { toast } = useToast();
 
+  // refs pour pouvoir nettoyer les timers à l’unmount
+  const armingIntervalRef = useRef<number | null>(null);
+  const cooldownIntervalRef = useRef<number | null>(null);
+
+  const emailNormalized = useMemo(() => email.trim().toLowerCase(), [email]);
+  const emailValid = EMAIL_RE.test(emailNormalized);
+
   const startArming = () => {
     setArmingCount(8);
-    const interval = setInterval(() => {
-      setArmingCount(count => {
+    if (armingIntervalRef.current) window.clearInterval(armingIntervalRef.current);
+    armingIntervalRef.current = window.setInterval(() => {
+      setArmingCount((count) => {
         if (count <= 1) {
-          clearInterval(interval);
+          if (armingIntervalRef.current) window.clearInterval(armingIntervalRef.current);
+          armingIntervalRef.current = null;
           return 0;
         }
         return count - 1;
@@ -33,10 +45,12 @@ const MagicLinkForm = ({ onSuccess }: MagicLinkFormProps) => {
 
   const startCooldown = () => {
     setCooldownCount(60);
-    const interval = setInterval(() => {
-      setCooldownCount(count => {
+    if (cooldownIntervalRef.current) window.clearInterval(cooldownIntervalRef.current);
+    cooldownIntervalRef.current = window.setInterval(() => {
+      setCooldownCount((count) => {
         if (count <= 1) {
-          clearInterval(interval);
+          if (cooldownIntervalRef.current) window.clearInterval(cooldownIntervalRef.current);
+          cooldownIntervalRef.current = null;
           return 0;
         }
         return count - 1;
@@ -44,15 +58,23 @@ const MagicLinkForm = ({ onSuccess }: MagicLinkFormProps) => {
     }, 1000);
   };
 
+  useEffect(() => {
+    // cleanup à l’unmount
+    return () => {
+      if (armingIntervalRef.current) window.clearInterval(armingIntervalRef.current);
+      if (cooldownIntervalRef.current) window.clearInterval(cooldownIntervalRef.current);
+    };
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading || armingCount > 0 || cooldownCount > 0) return;
 
-    if (!email) {
+    if (!emailValid) {
       toast({
-        title: "Email requis",
-        description: "Veuillez saisir votre adresse email.",
-        variant: "destructive"
+        title: "Email invalide",
+        description: "Veuillez saisir une adresse email professionnelle valide.",
+        variant: "destructive",
       });
       return;
     }
@@ -62,24 +84,25 @@ const MagicLinkForm = ({ onSuccess }: MagicLinkFormProps) => {
 
     try {
       const { error } = await supabase.auth.signInWithOtp({
-        email,
+        email: emailNormalized,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`
-        }
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+          // shouldCreateUser: true, // (par défaut true) active si tu veux forcer la création
+        },
       });
 
       if (error) {
-        if (error.message.includes("rate limit") || error.message.includes("too many")) {
+        if (error.message.toLowerCase().includes("rate limit") || error.message.toLowerCase().includes("too many")) {
           toast({
             title: "Limite atteinte",
             description: "Trop de demandes rapprochées. Réessayez dans une minute.",
-            variant: "destructive"
+            variant: "destructive",
           });
         } else {
           toast({
             title: "Erreur",
             description: error.message || "Impossible d'envoyer l'email. Réessayez.",
-            variant: "destructive"
+            variant: "destructive",
           });
         }
         return;
@@ -91,12 +114,12 @@ const MagicLinkForm = ({ onSuccess }: MagicLinkFormProps) => {
         title: "Lien envoyé !",
         description: "Ouvrez l'email depuis cet appareil pour vous connecter.",
       });
-
-    } catch (error: any) {
+      onSuccess?.();
+    } catch (err: any) {
       toast({
         title: "Erreur réseau",
         description: "Problème de connexion. Vérifiez votre internet.",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setLoading(false);
@@ -112,7 +135,7 @@ const MagicLinkForm = ({ onSuccess }: MagicLinkFormProps) => {
         </>
       );
     }
-    
+
     if (loading) {
       return (
         <>
@@ -121,7 +144,7 @@ const MagicLinkForm = ({ onSuccess }: MagicLinkFormProps) => {
         </>
       );
     }
-    
+
     if (cooldownCount > 0) {
       return (
         <>
@@ -148,7 +171,7 @@ const MagicLinkForm = ({ onSuccess }: MagicLinkFormProps) => {
     );
   };
 
-  const isButtonDisabled = armingCount > 0 || loading || cooldownCount > 0;
+  const isButtonDisabled = armingCount > 0 || loading || cooldownCount > 0 || !emailValid;
 
   return (
     <div className="max-w-md mx-auto">
@@ -158,22 +181,17 @@ const MagicLinkForm = ({ onSuccess }: MagicLinkFormProps) => {
             {emailSent ? "Email envoyé !" : "Connexion par lien magique"}
           </CardTitle>
           <CardDescription>
-            {emailSent 
-              ? "Vérifiez votre boîte email (et les spams)" 
-              : "Pas de mot de passe, juste votre email"
-            }
+            {emailSent ? "Vérifiez votre boîte email (et les spams)" : "Pas de mot de passe, juste votre email"}
           </CardDescription>
         </CardHeader>
-        
+
         <CardContent>
           {emailSent && (
             <div className="mb-6 p-4 bg-secondary/10 border border-secondary/20 rounded-lg">
               <div className="flex items-start gap-3">
                 <CheckCircle className="w-5 h-5 text-secondary mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-sm font-medium text-secondary">
-                    Lien envoyé à {email}
-                  </p>
+                  <p className="text-sm font-medium text-secondary">Lien envoyé à {emailNormalized}</p>
                   <p className="text-xs text-foreground/60 mt-1">
                     Cliquez sur le lien depuis cet appareil pour vous connecter automatiquement.
                   </p>
@@ -192,14 +210,12 @@ const MagicLinkForm = ({ onSuccess }: MagicLinkFormProps) => {
                 required
                 disabled={loading}
                 className="text-center"
+                aria-label="Adresse email"
+                autoComplete="email"
               />
             </div>
-            
-            <Button
-              type="submit"
-              className="w-full btn-primary"
-              disabled={isButtonDisabled}
-            >
+
+            <Button type="submit" className="w-full btn-primary" disabled={isButtonDisabled}>
               {getButtonContent()}
             </Button>
           </form>
