@@ -1,14 +1,29 @@
-import { useState } from "react";
+// src/components/auth/ResetRequestForm.tsx
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Loader2, Clock, CheckCircle, AlertTriangle } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Mail,
+  Loader2,
+  Clock,
+  CheckCircle,
+  AlertTriangle,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
 interface ResetRequestFormProps {
   onSuccess?: () => void;
 }
+
+const EMAIL_RE = /^\S+@\S+\.\S+$/;
 
 const ResetRequestForm = ({ onSuccess }: ResetRequestFormProps) => {
   const [email, setEmail] = useState("");
@@ -17,12 +32,20 @@ const ResetRequestForm = ({ onSuccess }: ResetRequestFormProps) => {
   const [emailSent, setEmailSent] = useState(false);
   const { toast } = useToast();
 
+  const cooldownIntervalRef = useRef<number | null>(null);
+
+  const emailNormalized = useMemo(() => email.trim().toLowerCase(), [email]);
+  const emailValid = EMAIL_RE.test(emailNormalized);
+
   const startCooldown = () => {
     setCooldownCount(60);
-    const interval = setInterval(() => {
-      setCooldownCount(count => {
+    if (cooldownIntervalRef.current) window.clearInterval(cooldownIntervalRef.current);
+    cooldownIntervalRef.current = window.setInterval(() => {
+      setCooldownCount((count) => {
         if (count <= 1) {
-          clearInterval(interval);
+          if (cooldownIntervalRef.current)
+            window.clearInterval(cooldownIntervalRef.current);
+          cooldownIntervalRef.current = null;
           return 0;
         }
         return count - 1;
@@ -30,15 +53,22 @@ const ResetRequestForm = ({ onSuccess }: ResetRequestFormProps) => {
     }, 1000);
   };
 
+  useEffect(() => {
+    return () => {
+      if (cooldownIntervalRef.current)
+        window.clearInterval(cooldownIntervalRef.current);
+    };
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading || cooldownCount > 0) return;
 
-    if (!email) {
+    if (!emailValid) {
       toast({
-        title: "Email requis",
-        description: "Veuillez saisir votre adresse email.",
-        variant: "destructive"
+        title: "Email invalide",
+        description: "Veuillez saisir une adresse email valide.",
+        variant: "destructive",
       });
       return;
     }
@@ -46,15 +76,19 @@ const ResetRequestForm = ({ onSuccess }: ResetRequestFormProps) => {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`
-      });
+      const { error } = await supabase.auth.resetPasswordForEmail(
+        emailNormalized,
+        {
+          redirectTo: `${window.location.origin}/reset-password`,
+        }
+      );
 
       if (error) {
         toast({
           title: "Erreur",
-          description: error.message || "Impossible d'envoyer l'email. Réessayez.",
-          variant: "destructive"
+          description:
+            error.message || "Impossible d'envoyer l'email. Réessayez.",
+          variant: "destructive",
         });
         return;
       }
@@ -63,14 +97,15 @@ const ResetRequestForm = ({ onSuccess }: ResetRequestFormProps) => {
       startCooldown();
       toast({
         title: "Email envoyé !",
-        description: "Email de réinitialisation envoyé — vérifiez votre boîte (et les spams).",
+        description:
+          "Lien de réinitialisation envoyé — vérifiez votre boîte (et les spams).",
       });
-
+      onSuccess?.();
     } catch (error: any) {
       toast({
         title: "Erreur réseau",
         description: "Problème de connexion. Vérifiez votre internet.",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setLoading(false);
@@ -86,7 +121,7 @@ const ResetRequestForm = ({ onSuccess }: ResetRequestFormProps) => {
         </>
       );
     }
-    
+
     if (cooldownCount > 0) {
       return (
         <>
@@ -113,7 +148,7 @@ const ResetRequestForm = ({ onSuccess }: ResetRequestFormProps) => {
     );
   };
 
-  const isButtonDisabled = loading || cooldownCount > 0;
+  const isButtonDisabled = loading || cooldownCount > 0 || !emailValid;
 
   return (
     <div className="max-w-md mx-auto">
@@ -123,13 +158,12 @@ const ResetRequestForm = ({ onSuccess }: ResetRequestFormProps) => {
             {emailSent ? "Email envoyé !" : "Mot de passe oublié ?"}
           </CardTitle>
           <CardDescription>
-            {emailSent 
-              ? "Vérifiez votre boîte email (et les spams)" 
-              : "Saisissez votre email pour recevoir un lien de réinitialisation"
-            }
+            {emailSent
+              ? "Vérifiez votre boîte email (et les spams)"
+              : "Saisissez votre email pour recevoir un lien de réinitialisation"}
           </CardDescription>
         </CardHeader>
-        
+
         <CardContent>
           {emailSent && (
             <div className="mb-6 p-4 bg-secondary/10 border border-secondary/20 rounded-lg">
@@ -137,10 +171,10 @@ const ResetRequestForm = ({ onSuccess }: ResetRequestFormProps) => {
                 <CheckCircle className="w-5 h-5 text-secondary mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-sm font-medium text-secondary">
-                    Email envoyé à {email}
+                    Email envoyé à {emailNormalized}
                   </p>
                   <p className="text-xs text-foreground/60 mt-1">
-                    Cliquez sur le lien dans l'email pour créer votre nouveau mot de passe.
+                    Cliquez sur le lien pour créer votre nouveau mot de passe.
                   </p>
                 </div>
               </div>
@@ -157,9 +191,11 @@ const ResetRequestForm = ({ onSuccess }: ResetRequestFormProps) => {
                 required
                 disabled={loading}
                 className="text-center"
+                aria-label="Adresse email"
+                autoComplete="email"
               />
             </div>
-            
+
             <Button
               type="submit"
               className="w-full btn-primary"
@@ -174,7 +210,8 @@ const ResetRequestForm = ({ onSuccess }: ResetRequestFormProps) => {
               <div className="flex items-start gap-2">
                 <AlertTriangle className="w-4 h-4 text-accent-foreground mt-0.5 flex-shrink-0" />
                 <p className="text-xs text-accent-foreground">
-                  <strong>Rien reçu ?</strong> Vérifiez vos spams ou contactez le support si le problème persiste.
+                  <strong>Rien reçu ?</strong> Vérifiez vos spams ou essayez
+                  avec une autre adresse email.
                 </p>
               </div>
             </div>
